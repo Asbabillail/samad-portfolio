@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Abdul Samad | Enterprise IT Portfolio",
-  description: "Executive Portfolio of Abdul Samad - Head of IT",
+  title: "SAMAD-OS v3.0 | Portfolio",
+  description: "Personal Command Center & Portfolio",
 };
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased bg-zinc-950 text-zinc-100">
+      <body className="antialiased font-sans">
         {children}
       </body>
     </html>
