@@ -1,5 +1,5 @@
 'use client';
-
+import InteractiveInfrastructureSuite from "@/components/InteractiveInfrastructureSuite";
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import {
