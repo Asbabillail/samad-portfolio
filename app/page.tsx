@@ -1,4 +1,7 @@
 'use client';
+
+import ProtectedContainer from '@/components/security/ProtectedContainer';
+import YrefMatrixViewer from '@/components/ui/YrefMatrixViewer';
 import InteractiveInfrastructureSuite from "@/components/InteractiveInfrastructureSuite";
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
@@ -15,7 +18,14 @@ import {
   Activity,
   Server,
   Layers,
-  Cpu
+  Cpu,
+  ShieldCheck,
+  CheckCircle2,
+  Wifi,
+  Bot,
+  Building2,
+  Award,
+  FileText
 } from 'lucide-react';
 
 // --- SOUND EFFECT GENERATOR ---
@@ -103,6 +113,49 @@ const FluidSmokeBackground = () => {
   );
 };
 
+// --- CASE STUDY DETAIL DATA MAP ---
+const CASE_STUDY_DETAILS: Record<string, {
+  title: string;
+  tagline: string;
+  strategy: string;
+  security: string;
+  scalability: string;
+  highlights: string[];
+}> = {
+  'Apple Enterprise': {
+    title: 'Apple Enterprise Architecture & Jamf MDM',
+    tagline: 'Zero-Touch macOS & 350+ iPad Fleet Management',
+    strategy: 'Leveraged Apple School Manager (ASM) linked directly to Jamf Pro to orchestrate zero-touch deployment for 350+ iPads (300+ Student 1:1, ~50 Faculty) and macOS workstations.',
+    security: 'Enforced FileVault full-disk encryption, automated compliance posture checks, web filtering, and scheduled iOS/macOS update rings.',
+    scalability: 'Structured dynamic device groups supporting seamless annual student handovers and automated identity syncing.',
+    highlights: ['ASM & Jamf Pro Zero-Touch Pipeline', '350+ Managed Apple Endpoints', 'Automated Profile & Licensing Provisioning']
+  },
+  'Microsoft 365 & Azure': {
+    title: 'Microsoft 365 Enterprise Identity & Licensing',
+    tagline: '1,050+ Seat Cloud Identity & Endpoint Governance',
+    strategy: 'Engineered M365 A3 tenant architecture managing 1,000 Student A3, 25+ Faculty A3, and 25 Business licenses across Entra ID.',
+    security: 'Conditional Access policies enforcing MFA, role-based identity access control, and Intune security baselines across 80+ Windows PCs.',
+    scalability: 'Automated user onboarding/offboarding workflows integrated with active directory identity sync.',
+    highlights: ['1,050+ M365 Active Licensing Scope', 'Intune Endpoint Policy Management', 'Entra ID MFA & Conditional Access']
+  },
+  'SMART Tech Displays': {
+    title: 'SMART Display Interactive Ecosystem',
+    tagline: '53-Unit Smart Board Governance & EdTech Infrastructure',
+    strategy: 'Centralized governance of 53 SMART MX075-V5 interactive displays through SMART Admin console for OTA firmware and configuration push.',
+    security: 'Isolated display network VLANs coupled with strict kiosk-mode profile permissions and remote screen lock capability.',
+    scalability: 'Standardized room deployment templates supporting seamless screen mirroring, Lumio integration, and campus-wide broadcasting.',
+    highlights: ['53 SMART Board MX075-V5 Deployment', 'SMART Admin Centralized Console', 'Lumio Cloud Content Platform']
+  },
+  'Innovation Labs & STEM': {
+    title: 'Robotics, Brain & STEM Innovation Labs',
+    tagline: '380+ Tracked Advanced Lab Infrastructure Assets',
+    strategy: 'Designed and deployed multi-lab infrastructure comprising 108 Robotics Kits (Weemake/UBTECH), 93 Brain Lab units (Muse 2 Headbands), and 26 STEM VR/Drone kits.',
+    security: 'Implemented hardware inventory audits (YREF v1.0), charging cart safety protocols, and asset tagging across all lab assets.',
+    scalability: 'Standardized curriculum kit provisioning and continuous maintenance framework for 630+ active daily lab users.',
+    highlights: ['108 Robotics & AI Learning Kits', '93 Muse 2 Brainwave Headbands', '26 STEM VR & Drone Ecosystems']
+  }
+};
+
 export default function Home() {
   const { scrollYProgress } = useScroll();
   const [soundEnabled, setSoundEnabled] = useState(true);
@@ -126,28 +179,39 @@ export default function Home() {
 
     switch (cleanCmd) {
       case 'help':
-        response = 'Available commands: help, skills, architecture, status, clear';
+        response = 'Available commands: help, title, scale, labs, network, certs, status, clear';
         break;
-      case 'skills':
-        response = 'Jamf Pro, Apple Business Manager, Entra ID, Microsoft Intune, SMART Admin, WAN Infrastructure, Robotics';
+      case 'title':
+        response = 'Role: Head of Tech & Innovation Department | Focus: Enterprise MDM, Cloud Identity & Infrastructure';
         break;
-      case 'architecture':
-        response = 'Hybrid Enterprise Architecture: Apple ABM/Jamf + Azure Entra ID + SMART Display Fleet Sync.';
+      case 'scale':
+        response = 'Users: 630+ Daily | iPads: 350+ (Jamf) | Windows PCs: 80+ | M365 Seats: 1,050+ | Aruba APs: 60';
+        break;
+      case 'labs':
+        response = 'Assets: 380+ | SMART Boards: 53 | Robotics Kits: 108 | Brain Lab: 93 | STEM VR/Drones: 26';
+        break;
+      case 'network':
+        response = 'Firewall: FortiGate 200F | Core Switch: Cisco SG350 | Wireless: 60 Aruba AP25 | CCTV: 100+ | Access: 32';
+        break;
+      case 'certs':
+        response = 'CCNA (Simplilearn #4489483), Python Data Science (#4464651), SMART MX-V5 Display Tech, SAP Consulting';
         break;
       case 'status':
-        response = 'Nodes Active: 500+ | MDM Compliance: 100% | Uptime: 99.99%';
+        response = 'Location: Dammam-Khobar, KSA | Work Status: Transferable Status | Uptime: 99.99%';
         break;
       case 'clear':
         setCommandHistory([]);
         setInputVal('');
         return;
       default:
-        response = `Command not recognized: "${cleanCmd}". Type "help" for options.`;
+        response = `Command not recognized: "${cleanCmd}". Type "help" for available commands.`;
     }
 
     setCommandHistory((prev) => [...prev, { cmd: inputVal, result: response }]);
     setInputVal('');
   };
+
+  const currentModalData = selectedCaseStudy ? CASE_STUDY_DETAILS[selectedCaseStudy] : null;
 
   return (
     <div className="min-h-screen text-zinc-100 font-sans selection:bg-emerald-500 selection:text-black relative overflow-hidden bg-zinc-950">
@@ -162,7 +226,7 @@ export default function Home() {
           onMouseEnter={() => playHoverSound(soundEnabled)}
           animate={{ y: [0, -10, 0] }} 
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-12 left-8 w-36 h-36 rounded-3xl border border-white/20 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center p-7 shadow-2xl pointer-events-auto cursor-pointer"
+          className="absolute top-12 left-8 w-36 h-36 rounded-3xl border border-white/20 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center p-7 shadow-2xl pointer-events-auto cursor-pointer hover:border-emerald-500/50 transition-colors"
         >
           <img src="https://cdn.simpleicons.org/apple/white" alt="Apple" className="w-full h-full object-contain filter drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]" />
         </motion.div>
@@ -172,7 +236,7 @@ export default function Home() {
           onMouseEnter={() => playHoverSound(soundEnabled)}
           animate={{ y: [0, 10, 0] }} 
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-12 right-8 w-36 h-36 rounded-3xl border border-white/20 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center p-7 shadow-2xl pointer-events-auto cursor-pointer"
+          className="absolute top-12 right-8 w-36 h-36 rounded-3xl border border-white/20 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center p-7 shadow-2xl pointer-events-auto cursor-pointer hover:border-sky-500/50 transition-colors"
         >
           <svg className="w-full h-full object-contain" viewBox="0 0 23 23">
             <rect x="1" y="1" width="10" height="10" fill="#F25022"/>
@@ -187,7 +251,7 @@ export default function Home() {
           onMouseEnter={() => playHoverSound(soundEnabled)}
           animate={{ y: [0, -8, 0] }} 
           transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-[18%] right-[22%] px-6 py-3 rounded-2xl border border-white/20 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center shadow-xl pointer-events-auto cursor-pointer"
+          className="absolute top-[18%] right-[22%] px-6 py-3 rounded-2xl border border-white/20 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center shadow-xl pointer-events-auto cursor-pointer hover:border-emerald-400/50 transition-colors"
         >
           <span className="text-white font-extrabold text-2xl tracking-tight font-sans">SMART<span className="text-sky-400">.</span></span>
         </motion.div>
@@ -336,6 +400,8 @@ export default function Home() {
           <div className="hidden md:flex items-center gap-6 text-sm text-zinc-300 font-medium">
             <a href="#about" className="hover:text-emerald-400 transition-colors">About</a>
             <a href="#metrics" className="hover:text-emerald-400 transition-colors">Metrics</a>
+            <a href="#suite" className="hover:text-emerald-400 transition-colors">Architecture Suite</a>
+            <a href="#labs" className="hover:text-emerald-400 transition-colors">Labs & Networks</a>
             <a href="#ecosystem" className="hover:text-emerald-400 transition-colors">Ecosystem</a>
             <a href="#contact" className="hover:text-emerald-400 transition-colors">Contact</a>
           </div>
@@ -387,7 +453,7 @@ export default function Home() {
                   type="text" 
                   value={inputVal}
                   onChange={(e) => setInputVal(e.target.value)}
-                  placeholder="Type 'help' for available commands..."
+                  placeholder="Type 'help' for available commands (title, scale, labs, network, certs)..."
                   className="bg-transparent text-emerald-300 focus:outline-none w-full font-mono"
                   autoFocus
                 />
@@ -398,7 +464,7 @@ export default function Home() {
       </AnimatePresence>
 
       {/* HERO SECTION */}
-      <section className="min-h-screen flex flex-col justify-center items-center text-center px-6 relative z-20 pt-20 pointer-events-none">
+      <section id="about" className="min-h-screen flex flex-col justify-center items-center text-center px-6 relative z-20 pt-20 pointer-events-none">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -407,27 +473,31 @@ export default function Home() {
         >
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900/90 border border-zinc-800 text-xs text-emerald-400 mb-6 pointer-events-auto backdrop-blur-md">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Head of IT & Enterprise Digital Transformation</span>
+            <span>Head of Tech & Innovation Department</span>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 bg-gradient-to-b from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent leading-tight">
-            Abdul Samad
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-4 bg-gradient-to-b from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent leading-tight">
+            Abdul Samad Babillail
           </h1>
 
-          <p className="text-zinc-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-8 font-medium">
-            Strategic IT Leader specializing in Enterprise Infrastructure Architecture, RFQ/Procurement, SMART Displays, and Digital Transformation.
+          <p className="text-emerald-400 text-sm md:text-base font-mono mb-6 tracking-wide">
+            Enterprise Endpoint Management, Cloud Identity & Infrastructure Leadership
+          </p>
+
+          <p className="text-zinc-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-8 font-medium">
+            Directing technology operations for 630+ active daily users across 350+ Apple iPads (Jamf/ASM), 80+ Windows PCs, 380+ STEM/Lab hardware assets, and enterprise Fortinet/Aruba network infrastructure.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 pointer-events-auto">
             <a
               href="#ecosystem"
-              className="px-6 py-3 rounded-lg bg-emerald-500 text-black font-semibold hover:bg-emerald-400 transition-all flex items-center gap-2 shadow-lg shadow-emerald-500/20"
+              className="px-6 py-3 rounded-lg bg-emerald-500 text-black font-semibold hover:bg-emerald-400 transition-all flex items-center gap-2 shadow-lg shadow-emerald-500/20 text-sm"
             >
               Explore Ecosystem <ChevronRight className="w-4 h-4" />
             </a>
             <button
               onClick={() => setTerminalOpen(true)}
-              className="px-6 py-3 rounded-lg bg-zinc-900/80 border border-zinc-800 text-zinc-200 font-semibold hover:bg-zinc-800 backdrop-blur-md transition-all flex items-center gap-2"
+              className="px-6 py-3 rounded-lg bg-zinc-900/80 border border-zinc-800 text-zinc-200 font-semibold hover:bg-zinc-800 backdrop-blur-md transition-all flex items-center gap-2 text-sm"
             >
               <Terminal className="w-4 h-4 text-emerald-400" /> Open Terminal
             </button>
@@ -440,31 +510,121 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-xl flex items-center gap-3">
-              <Server className="w-8 h-8 text-emerald-400" />
+              <Server className="w-8 h-8 text-emerald-400 shrink-0" />
               <div>
-                <div className="text-2xl font-bold text-white">500+</div>
-                <div className="text-xs text-zinc-400 font-mono">Active MDM Nodes</div>
+                <div className="text-xl md:text-2xl font-bold text-white">630+</div>
+                <div className="text-xs text-zinc-400 font-mono">Active Daily Users</div>
               </div>
             </div>
             <div className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-xl flex items-center gap-3">
-              <Activity className="w-8 h-8 text-sky-400" />
+              <Monitor className="w-8 h-8 text-sky-400 shrink-0" />
               <div>
-                <div className="text-2xl font-bold text-white">99.99%</div>
-                <div className="text-xs text-zinc-400 font-mono">Uptime SLA</div>
+                <div className="text-xl md:text-2xl font-bold text-white">350+ iPads</div>
+                <div className="text-xs text-zinc-400 font-mono">300+ 1:1 / ~50 Faculty</div>
               </div>
             </div>
             <div className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-xl flex items-center gap-3">
-              <Layers className="w-8 h-8 text-purple-400" />
+              <Bot className="w-8 h-8 text-purple-400 shrink-0" />
               <div>
-                <div className="text-2xl font-bold text-white">100%</div>
-                <div className="text-xs text-zinc-400 font-mono">Zero-Touch Enrolled</div>
+                <div className="text-xl md:text-2xl font-bold text-white">380+ Assets</div>
+                <div className="text-xs text-zinc-400 font-mono">Lab & STEM Assets</div>
               </div>
             </div>
             <div className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-xl flex items-center gap-3">
-              <Cpu className="w-8 h-8 text-amber-400" />
+              <Cpu className="w-8 h-8 text-amber-400 shrink-0" />
               <div>
-                <div className="text-2xl font-bold text-white">Hybrid</div>
-                <div className="text-xs text-zinc-400 font-mono">Entra ID / Active Directory</div>
+                <div className="text-xl md:text-2xl font-bold text-white">1,050+ Seats</div>
+                <div className="text-xs text-zinc-400 font-mono">M365 A3 & Business</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- INTERACTIVE INFRASTRUCTURE SUITE COMPONENT --- */}
+      <section id="suite" className="py-12 px-6 relative z-20">
+        <div className="max-w-6xl mx-auto">
+          <InteractiveInfrastructureSuite />
+        </div>
+      </section>
+
+      {/* --- YREF FRAMEWORK MATRIX SECTION --- */}
+      <section id="yref-matrix" className="py-12 px-6 relative z-20">
+        <div className="max-w-6xl mx-auto">
+          <ProtectedContainer watermarkText="YREF FRAMEWORK — DARB AL-MOSTAQBAL">
+            <YrefMatrixViewer />
+          </ProtectedContainer>
+        </div>
+      </section>
+
+      {/* --- LABS & NETWORK INFRASTRUCTURE DETAIL SECTION --- */}
+      <section id="labs" className="py-16 px-6 relative z-20">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tight mb-3 text-white">
+              Campus Infrastructure & Lab Operations
+            </h2>
+            <p className="text-zinc-400 text-sm max-w-xl mx-auto">
+              Hardware distribution and network topology across live educational and administrative spaces.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* LAB HARDWARE CATALOG */}
+            <div className="p-6 rounded-2xl bg-zinc-900/70 border border-zinc-800/80 backdrop-blur-xl">
+              <h3 className="text-lg font-bold text-white flex items-center gap-2 mb-4">
+                <Layers className="w-5 h-5 text-emerald-400" /> Tracked Lab Assets & Displays
+              </h3>
+              <div className="space-y-3 text-xs md:text-sm">
+                <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
+                  <span className="font-medium text-zinc-200">SMART Board Interactive Displays (MX075-V5)</span>
+                  <span className="font-bold text-emerald-400 font-mono bg-emerald-950/50 px-2.5 py-1 rounded border border-emerald-800/50">53 Units</span>
+                </div>
+                <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
+                  <span className="font-medium text-zinc-200">Robotics & AI Kits (Weemake, UBTECH, Hiwonder)</span>
+                  <span className="font-bold text-emerald-400 font-mono bg-emerald-950/50 px-2.5 py-1 rounded border border-emerald-800/50">108 Kits</span>
+                </div>
+                <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
+                  <span className="font-medium text-zinc-200">Brain Lab Units (Muse 2 Brainwave Headbands)</span>
+                  <span className="font-bold text-emerald-400 font-mono bg-emerald-950/50 px-2.5 py-1 rounded border border-emerald-800/50">93 Units</span>
+                </div>
+                <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
+                  <span className="font-medium text-zinc-200">STEM VR & Drone Kits</span>
+                  <span className="font-bold text-emerald-400 font-mono bg-emerald-950/50 px-2.5 py-1 rounded border border-emerald-800/50">26 Kits</span>
+                </div>
+                <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
+                  <span className="font-medium text-zinc-200">ICT Lab Workstations & Peripherals</span>
+                  <span className="font-bold text-emerald-400 font-mono bg-emerald-950/50 px-2.5 py-1 rounded border border-emerald-800/50">56 PCs</span>
+                </div>
+              </div>
+            </div>
+
+            {/* NETWORK & SECURITY TOPOLOGY */}
+            <div className="p-6 rounded-2xl bg-zinc-900/70 border border-zinc-800/80 backdrop-blur-xl">
+              <h3 className="text-lg font-bold text-white flex items-center gap-2 mb-4">
+                <Wifi className="w-5 h-5 text-sky-400" /> Network & Core Security Nodes
+              </h3>
+              <div className="space-y-3 text-xs md:text-sm">
+                <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
+                  <span className="font-medium text-zinc-200">Aruba Instant On AP25 Access Points</span>
+                  <span className="font-bold text-sky-400 font-mono bg-sky-950/50 px-2.5 py-1 rounded border border-sky-800/50">60 APs</span>
+                </div>
+                <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
+                  <span className="font-medium text-zinc-200">Fortinet FortiGate 200F Firewall</span>
+                  <span className="font-bold text-sky-400 font-mono bg-sky-950/50 px-2.5 py-1 rounded border border-sky-800/50">Dual-WAN SD-WAN</span>
+                </div>
+                <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
+                  <span className="font-medium text-zinc-200">Cisco SG350 Core Switch & Managed Distribution</span>
+                  <span className="font-bold text-sky-400 font-mono bg-sky-950/50 px-2.5 py-1 rounded border border-sky-800/50">Gigabit Stack</span>
+                </div>
+                <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
+                  <span className="font-medium text-zinc-200">Surveillance & Physical Door Controllers</span>
+                  <span className="font-bold text-sky-400 font-mono bg-sky-950/50 px-2.5 py-1 rounded border border-sky-800/50">100+ CCTV / 32 Access</span>
+                </div>
+                <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
+                  <span className="font-medium text-zinc-200">Grandstream PBX Voice IP Telephony</span>
+                  <span className="font-bold text-sky-400 font-mono bg-sky-950/50 px-2.5 py-1 rounded border border-sky-800/50">60 Extensions</span>
+                </div>
               </div>
             </div>
           </div>
@@ -472,18 +632,18 @@ export default function Home() {
       </section>
 
       {/* ECOSYSTEM / TECH STACK SECTION */}
-      <section id="ecosystem" className="py-24 px-6 relative z-20">
+      <section id="ecosystem" className="py-20 px-6 relative z-20">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-white">
               Enterprise Tech Ecosystem
             </h2>
-            <p className="text-zinc-400 max-w-xl mx-auto">
+            <p className="text-zinc-400 max-w-xl mx-auto text-sm">
               Integrated ecosystem bridging hardware, interactive smart displays, identity systems, and robotics frameworks.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <motion.div 
               whileHover={{ y: -4 }} 
               onClick={() => setSelectedCaseStudy('Apple Enterprise')}
@@ -495,12 +655,12 @@ export default function Home() {
                 </svg>
               </div>
               <h3 className="text-xl font-bold mb-2 text-zinc-100">Apple Enterprise</h3>
-              <p className="text-zinc-400 text-sm leading-relaxed mb-4">
-                Automated device enrollment, Jamf MDM integration, and enterprise-wide macOS/iOS zero-touch deployment.
+              <p className="text-zinc-400 text-xs leading-relaxed mb-4">
+                Automated device enrollment, Jamf MDM integration, and 350+ iPad zero-touch deployment.
               </p>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2.5 py-1 text-xs rounded-md bg-zinc-800 text-zinc-300">Jamf Pro</span>
-                <span className="px-2.5 py-1 text-xs rounded-md bg-zinc-800 text-zinc-300">ABM</span>
+                <span className="px-2.5 py-1 text-xs rounded-md bg-zinc-800 text-zinc-300">ASM</span>
               </div>
             </motion.div>
 
@@ -518,12 +678,12 @@ export default function Home() {
                 </svg>
               </div>
               <h3 className="text-xl font-bold mb-2 text-zinc-100">Microsoft 365 & Azure</h3>
-              <p className="text-zinc-400 text-sm leading-relaxed mb-4">
-                Entra ID SSO/MFA, Intune policy suites, Active Directory schema architecture, and Defender endpoint security.
+              <p className="text-zinc-400 text-xs leading-relaxed mb-4">
+                1,050+ M365 seats, Entra ID SSO/MFA, Intune policy suites, and 80+ PC governance.
               </p>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2.5 py-1 text-xs rounded-md bg-zinc-800 text-zinc-300">Entra ID</span>
-                <span className="px-2.5 py-1 text-xs rounded-md bg-zinc-800 text-zinc-300">Azure</span>
+                <span className="px-2.5 py-1 text-xs rounded-md bg-zinc-800 text-zinc-300">Intune</span>
               </div>
             </motion.div>
 
@@ -536,12 +696,30 @@ export default function Home() {
                 <Monitor className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-bold mb-2 text-zinc-100">SMART Tech Displays</h3>
-              <p className="text-zinc-400 text-sm leading-relaxed mb-4">
-                Fleet management of SMART MX V5 panels via centralized SMART Admin console governance.
+              <p className="text-zinc-400 text-xs leading-relaxed mb-4">
+                Fleet management of 53 SMART MX075-V5 panels via SMART Admin console governance.
               </p>
               <div className="flex flex-wrap gap-2">
-                <span className="px-2.5 py-1 text-xs rounded-md bg-zinc-800 text-zinc-300">SMART MX V5</span>
+                <span className="px-2.5 py-1 text-xs rounded-md bg-zinc-800 text-zinc-300">MX075-V5</span>
                 <span className="px-2.5 py-1 text-xs rounded-md bg-zinc-800 text-zinc-300">Lumio</span>
+              </div>
+            </motion.div>
+
+            <motion.div 
+              whileHover={{ y: -4 }} 
+              onClick={() => setSelectedCaseStudy('Innovation Labs & STEM')}
+              className="p-6 rounded-2xl bg-zinc-900/80 border border-zinc-800/80 backdrop-blur-xl relative overflow-hidden group hover:border-zinc-700 transition-all cursor-pointer"
+            >
+              <div className="w-12 h-12 mb-4 rounded-xl bg-purple-500/10 border border-purple-500/20 p-3 flex items-center justify-center text-purple-400">
+                <Bot className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold mb-2 text-zinc-100">Innovation Labs</h3>
+              <p className="text-zinc-400 text-xs leading-relaxed mb-4">
+                380+ tracked assets across Robotics (108), Brain Lab (93), and STEM VR/Drone setups.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="px-2.5 py-1 text-xs rounded-md bg-zinc-800 text-zinc-300">Weemake</span>
+                <span className="px-2.5 py-1 text-xs rounded-md bg-zinc-800 text-zinc-300">Muse 2</span>
               </div>
             </motion.div>
           </div>
@@ -550,7 +728,7 @@ export default function Home() {
 
       {/* --- CASE STUDY MODAL --- */}
       <AnimatePresence>
-        {selectedCaseStudy && (
+        {selectedCaseStudy && currentModalData && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
             <motion.div 
               initial={{ scale: 0.95, opacity: 0 }}
@@ -560,17 +738,40 @@ export default function Home() {
             >
               <button 
                 onClick={() => setSelectedCaseStudy(null)}
-                className="absolute top-4 right-4 text-zinc-400 hover:text-white"
+                className="absolute top-4 right-4 text-zinc-400 hover:text-white transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
-              <h3 className="text-2xl font-bold text-white mb-2">{selectedCaseStudy}</h3>
-              <p className="text-emerald-400 font-mono text-xs mb-4">Detailed Architectural Overview</p>
+              <h3 className="text-2xl font-bold text-white mb-1">{currentModalData.title}</h3>
+              <p className="text-emerald-400 font-mono text-xs mb-4">{currentModalData.tagline}</p>
+              
               <div className="space-y-3 text-zinc-300 text-sm mb-6">
-                <p><strong>Deployment Strategy:</strong> Zero-Touch Automated Provisioning with zero end-user configuration requirement.</p>
-                <p><strong>Security Protocols:</strong> SSO MFA enforcement, continuous posture monitoring, and centralized compliance enforcement.</p>
-                <p><strong>Scalability:</strong> Designed for multi-site deployment supporting scalable network nodes and active remote fleets.</p>
+                <div>
+                  <strong className="text-zinc-100 block mb-1 text-xs">Deployment Strategy:</strong>
+                  <p className="text-zinc-400 leading-relaxed text-xs">{currentModalData.strategy}</p>
+                </div>
+                <div>
+                  <strong className="text-zinc-100 block mb-1 text-xs">Security Protocols:</strong>
+                  <p className="text-zinc-400 leading-relaxed text-xs">{currentModalData.security}</p>
+                </div>
+                <div>
+                  <strong className="text-zinc-100 block mb-1 text-xs">Scalability & Integration:</strong>
+                  <p className="text-zinc-400 leading-relaxed text-xs">{currentModalData.scalability}</p>
+                </div>
+                
+                <div className="pt-2 border-t border-zinc-800">
+                  <span className="text-xs font-semibold text-zinc-200 block mb-2">Key Architectural Highlights:</span>
+                  <div className="space-y-1">
+                    {currentModalData.highlights.map((item, idx) => (
+                      <div key={idx} className="flex items-center gap-2 text-xs text-emerald-400 font-mono">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
+
               <button 
                 onClick={() => setSelectedCaseStudy(null)}
                 className="w-full py-2.5 rounded-lg bg-emerald-500 text-black font-semibold hover:bg-emerald-400 transition-all text-xs"
@@ -587,9 +788,9 @@ export default function Home() {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold mb-2 text-white">Let's Connect & Collaborate</h2>
           <p className="text-zinc-400 text-sm mb-6">Building resilient enterprise environments and smart digital infrastructure.</p>
-          <div className="flex justify-center gap-6 text-zinc-400 text-sm">
-            <span className="flex items-center gap-2"><Mail className="w-4 h-4 text-emerald-400" /> contact@samadportfolio.com</span>
-            <span className="flex items-center gap-2"><MapPin className="w-4 h-4 text-emerald-400" /> Saudi Arabia</span>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-zinc-400 text-sm">
+            <span className="flex items-center gap-2"><Building2 className="w-4 h-4 text-emerald-400" /> Dammam – Khobar, Eastern Province, KSA</span>
+            <span className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-emerald-400" /> Transferable Status</span>
           </div>
         </div>
       </footer>
