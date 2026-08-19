@@ -2,6 +2,8 @@
 
 import YrefMatrixViewer from '@/components/ui/YrefMatrixViewer';
 import InteractiveInfrastructureSuite from "@/components/InteractiveInfrastructureSuite";
+import InfrastructureMap from '@/components/InfrastructureMap';
+import RfqDashboard from '@/components/RfqDashboard';
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import {
@@ -219,7 +221,6 @@ export default function Home() {
 
       {/* --- FLOATING LOGO MATRIX --- */}
       <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden select-none">
-        
         {/* APPLE */}
         <motion.div 
           onMouseEnter={() => playHoverSound(soundEnabled)}
@@ -371,7 +372,6 @@ export default function Home() {
         >
           <span className="text-[#004B93] font-black text-lg tracking-widest">ACEBOTT</span>
         </motion.div>
-
       </div>
 
       {/* Scroll Progress Line */}
@@ -542,8 +542,10 @@ export default function Home() {
 
       {/* --- INTERACTIVE INFRASTRUCTURE SUITE COMPONENT --- */}
       <section id="suite" className="py-12 px-6 relative z-20">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto space-y-6">
           <InteractiveInfrastructureSuite />
+          <InfrastructureMap />
+          <RfqDashboard />
         </div>
       </section>
 
