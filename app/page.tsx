@@ -550,9 +550,7 @@ export default function Home() {
       {/* --- YREF FRAMEWORK MATRIX SECTION --- */}
       <section id="yref-matrix" className="py-12 px-6 relative z-20">
         <div className="max-w-6xl mx-auto">
-          <ProtectedContainer watermarkText="YREF FRAMEWORK — DARB AL-MOSTAQBAL">
-            <YrefMatrixViewer />
-          </ProtectedContainer>
+           <YrefMatrixViewer />
         </div>
       </section>
 
