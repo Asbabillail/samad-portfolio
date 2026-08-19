@@ -1,6 +1,5 @@
 'use client';
 
-import ProtectedContainer from '@/components/security/ProtectedContainer';
 import YrefMatrixViewer from '@/components/ui/YrefMatrixViewer';
 import InteractiveInfrastructureSuite from "@/components/InteractiveInfrastructureSuite";
 import React, { useEffect, useRef, useState } from 'react';
@@ -784,7 +783,7 @@ export default function Home() {
       </AnimatePresence>
 
       {/* FOOTER */}
-      <footer id="contact" className="py-16 px-6 border-t border-zinc-900 bg-zinc-950/90 relative z-20 text-center backdrop-blur-xl">
+      <footer id="contact" className="py-16 px-6 border-t border-zinc-900 bg-zinc-950/90 relative z-20 text-center backdrop-blur-md">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold mb-2 text-white">Let's Connect & Collaborate</h2>
           <p className="text-zinc-400 text-sm mb-6">Building resilient enterprise environments and smart digital infrastructure.</p>
