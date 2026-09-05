@@ -27,7 +27,7 @@ import {
   Building2,
   Award,
   FileText,
-  Download // <-- Added
+  Download
 } from 'lucide-react';
 
 // --- SOUND EFFECT GENERATOR ---
@@ -67,9 +67,9 @@ const FluidSmokeBackground = () => {
 
   useEffect(() => {
     if (!mounted || !canvasRef.current) return;
-
+    // @ts-ignore
     import('webgl-fluid')
-      .then((webGLFluid) => {
+      .then((webGLFluid: any) => {
         const fluid = webGLFluid.default || webGLFluid;
         if (canvasRef.current && typeof fluid === 'function') {
           fluid(canvasRef.current, {
@@ -162,7 +162,7 @@ export default function Home() {
   const { scrollYProgress } = useScroll();
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [terminalOpen, setTerminalOpen] = useState(false);
-  const [isCvOpen, setIsCvOpen] = useState(false); // <-- Added state
+  const [isCvOpen, setIsCvOpen] = useState(false);
   const [inputVal, setInputVal] = useState('');
   const [commandHistory, setCommandHistory] = useState<Array<{ cmd: string; result: string }>>([
     { cmd: 'system.init', result: 'SAMAD-OS v3.0 loaded successfully. Type "help" for available commands.' }
@@ -408,31 +408,32 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-3">
-  {/* --- EXECUTIVE CV MODE TOGGLE BUTTON --- */}
-  <button 
-    onClick={() => setIsCvOpen(true)}
-    className="flex items-center gap-2 text-xs font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-full hover:bg-amber-500/20 transition-all cursor-pointer"
-  >
-    <Download className="w-3.5 h-3.5" />
-    <span className="hidden sm:inline">EXECUTIVE CV</span>
-  </button>
+            <a 
+              href="/Abdul_Samad_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-xs font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-full hover:bg-amber-500/20 transition-all cursor-pointer"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">EXECUTIVE CV</span>
+            </a>
 
-  {/* Existing Sound Toggle Button */}
-  <button 
-    onClick={() => setSoundEnabled(!soundEnabled)}
-    className="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all"
-    title={soundEnabled ? "Mute Sound FX" : "Enable Sound FX"}
-  >
-    {soundEnabled ? <Volume2 className="w-4 h-4 text-emerald-400" /> : <VolumeX className="w-4 h-4" />}
-  </button>
+            {/* Sound Toggle Button */}
+            <button 
+              onClick={() => setSoundEnabled(!soundEnabled)}
+              className="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all"
+              title={soundEnabled ? "Mute Sound FX" : "Enable Sound FX"}
+            >
+              {soundEnabled ? <Volume2 className="w-4 h-4 text-emerald-400" /> : <VolumeX className="w-4 h-4" />}
+            </button>
 
-  <a 
-    href="#contact" 
-    className="px-4 py-2 text-xs font-semibold rounded-full bg-emerald-500 text-black hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20"
-  >
-    Connect 
-  </a> 
-</div>
+            <a 
+              href="#contact" 
+              className="px-4 py-2 text-xs font-semibold rounded-full bg-emerald-500 text-black hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20"
+            >
+              Connect 
+            </a> 
+          </div>
         </div>
       </nav>
 
@@ -804,76 +805,84 @@ export default function Home() {
             <span className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-emerald-400" /> Transferable Status</span>
           </div>
         </div>
-        {/* --- EXECUTIVE CV / ATS SUMMARY MODAL --- */}
-      {isCvOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-[#0b0f17] border border-amber-500/30 rounded-2xl max-w-4xl w-full p-8 space-y-6 shadow-2xl relative text-slate-200 my-8">
-            
-            {/* Header Controls */}
-            <div className="flex justify-between items-center border-b border-slate-800 pb-4">
-              <div>
-                <span className="text-xs font-mono text-amber-400 uppercase tracking-widest">Executive Summary // ATS Ready</span>
-                <h2 className="text-2xl font-serif text-white">Abdul Samad Babillail</h2>
-              </div>
-              <div className="flex items-center gap-3">
-                <button 
-                  onClick={() => window.print()} 
-                  className="px-4 py-1.5 rounded-lg bg-amber-500 text-slate-950 font-semibold text-xs hover:bg-amber-400 transition-all flex items-center gap-2"
-                >
-                  <Download className="w-3.5 h-3.5" /> Print / Export PDF
-                </button>
-                <button 
-                  onClick={() => setIsCvOpen(false)} 
-                  className="text-slate-400 hover:text-white text-sm font-mono px-3 py-1 rounded border border-slate-800"
-                >
-                  ✕ ESC
-                </button>
-              </div>
-            </div>
-
-            {/* CV Content Grid */}
-            <div className="space-y-6 text-sm font-light">
-              
-              {/* Status Bar */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-xl bg-slate-900/50 border border-slate-800 text-xs font-mono">
-                <div><span className="text-slate-500">ROLE:</span> Head of IT & Innovation</div>
-                <div><span className="text-slate-500">LOCATION:</span> Eastern Province, KSA</div>
-                <div><span className="text-slate-500">TRANSFER:</span> Immediate Qiwa Transfer</div>
-                <div><span className="text-slate-500">CONTACT:</span> asbabillail@gmail.com</div>
-              </div>
-
-              {/* Core Competencies */}
-              <div className="space-y-2">
-                <h3 className="text-xs font-mono text-amber-400 uppercase tracking-wider">Core Leadership Competencies</h3>
-                <p className="text-slate-300 leading-relaxed">
-                  Enterprise IT Infrastructure Architecture • Apple & Microsoft MDM Governance (Jamf Pro, Intune, ASM) • IT Budget & Vendor RFQ Optimization • Network & Physical Security Design (FortiGate, Dual 5G, CCTV) • Accreditation Compliance (Cognia & ADS)
-                </p>
-              </div>
-
-              {/* Verified High-Impact Metrics */}
-              <div className="space-y-3">
-                <h3 className="text-xs font-mono text-amber-400 uppercase tracking-wider">Key Executive Directives</h3>
-                <ul className="space-y-2 text-slate-300">
-                  <li className="flex items-start gap-2">
-                    <span className="text-amber-400 font-bold">•</span>
-                    <span><strong>MDM & Device Lifecycle:</strong> Directed zero-touch deployment and central management across 445+ enterprise devices and 300 active AppleCare warranties.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-amber-400 font-bold">•</span>
-                    <span><strong>Infrastructure Optimization:</strong> Engineered load-balanced dual 5G / STC fiber connections, achieving 99.9% campus uptime and SAR 100k+ operational savings.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-amber-400 font-bold">•</span>
-                    <span><strong>Curriculum & Innovation Governance:</strong> Authored YREF v1.0 STEM progression framework covering 8 labs and 382 hardware assets with 100% audit compliance.</span>
-                  </li>
-                </ul>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      )}
       </footer>
+
+      {/* --- EXECUTIVE CV / ATS SUMMARY MODAL --- */}
+      <AnimatePresence>
+        {isCvOpen && (
+          <div className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-[#0b0f17] border border-amber-500/30 rounded-2xl max-w-4xl w-full p-8 space-y-6 shadow-2xl relative text-slate-200 my-8"
+            >
+              
+              {/* Header Controls */}
+              <div className="flex justify-between items-center border-b border-slate-800 pb-4">
+                <div>
+                  <span className="text-xs font-mono text-amber-400 uppercase tracking-widest">Executive Summary // ATS Ready</span>
+                  <h2 className="text-2xl font-serif text-white">Abdul Samad Babillail</h2>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button 
+                    onClick={() => window.print()} 
+                    className="px-4 py-1.5 rounded-lg bg-amber-500 text-slate-950 font-semibold text-xs hover:bg-amber-400 transition-all flex items-center gap-2"
+                  >
+                    <Download className="w-3.5 h-3.5" /> Print / Export PDF
+                  </button>
+                  <button 
+                    onClick={() => setIsCvOpen(false)} 
+                    className="text-slate-400 hover:text-white text-sm font-mono px-3 py-1 rounded border border-slate-800"
+                  >
+                    ✕ ESC
+                  </button>
+                </div>
+              </div>
+
+              {/* CV Content Grid */}
+              <div className="space-y-6 text-sm font-light">
+                
+                {/* Status Bar */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-xl bg-slate-900/50 border border-slate-800 text-xs font-mono">
+                  <div><span className="text-slate-500">ROLE:</span> Head of IT & Innovation</div>
+                  <div><span className="text-slate-500">LOCATION:</span> Eastern Province, KSA</div>
+                  <div><span className="text-slate-500">TRANSFER:</span> Immediate Qiwa Transfer</div>
+                  <div><span className="text-slate-500">CONTACT:</span> asbabillail@gmail.com</div>
+                </div>
+
+                {/* Core Competencies */}
+                <div className="space-y-2">
+                  <h3 className="text-xs font-mono text-amber-400 uppercase tracking-wider">Core Leadership Competencies</h3>
+                  <p className="text-slate-300 leading-relaxed">
+                    Enterprise IT Infrastructure Architecture • Apple & Microsoft MDM Governance (Jamf Pro, Intune, ASM) • IT Budget & Vendor RFQ Optimization • Network & Physical Security Design (FortiGate, Dual 5G, CCTV) • Accreditation Compliance (Cognia & ADS)
+                  </p>
+                </div>
+
+                {/* Verified High-Impact Metrics */}
+                <div className="space-y-3">
+                  <h3 className="text-xs font-mono text-amber-400 uppercase tracking-wider">Key Executive Directives</h3>
+                  <ul className="space-y-2 text-slate-300">
+                    <li className="flex items-start gap-2">
+                      <span className="text-amber-400 font-bold">•</span>
+                      <span><strong>MDM & Device Lifecycle:</strong> Directed zero-touch deployment and central management across 445+ enterprise devices and 300 active AppleCare warranties.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-amber-400 font-bold">•</span>
+                      <span><strong>Infrastructure Optimization:</strong> Engineered load-balanced dual 5G / STC fiber connections, achieving 99.9% campus uptime and SAR 100k+ operational savings.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-amber-400 font-bold">•</span>
+                      <span><strong>Curriculum & Innovation Governance:</strong> Authored YREF v1.0 STEM progression framework covering 8 labs and 382 hardware assets with 100% audit compliance.</span>
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

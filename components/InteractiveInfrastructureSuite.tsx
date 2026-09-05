@@ -8,7 +8,11 @@ import { Server, ShieldCheck, Network, Cpu, RefreshCw, Terminal, Volume2, Volume
 const playAudioFX = (type: 'hover' | 'click' | 'scan', soundEnabled: boolean) => {
   if (!soundEnabled || typeof window === 'undefined') return;
   try {
-    const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+    // @ts-ignore
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    
+    const ctx = new AudioContextClass();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
 
@@ -41,7 +45,7 @@ const playAudioFX = (type: 'hover' | 'click' | 'scan', soundEnabled: boolean) =>
       osc.stop(ctx.currentTime + 0.15);
     }
   } catch {
-    // Audio Context fallback if blocked by browser policy
+    // Audio Context fallback
   }
 };
 
@@ -74,7 +78,7 @@ const ScrambleText = ({ text, trigger }: { text: string; trigger: number }) => {
 };
 
 // --- ARCHITECTURE PRESETS ---
-type ArchKey = 'jamf' | 'mdm' | 'stc';
+type ArchKey = 'mdm' | 'network' | 'edtech';
 
 interface ArchDetail {
   title: string;
@@ -87,37 +91,37 @@ interface ArchDetail {
 }
 
 const ARCHITECTURES: Record<ArchKey, ArchDetail> = {
-  jamf: {
-    title: "Jamf Zero-Touch Provisioning",
-    subtitle: "Apple Business Manager & Automated MDM Deployment",
-    nodes: "500+ Apple Endpoints",
-    latency: "< 4 Mins Deployment",
-    security: "Entra ID / Automated MFA",
-    status: "PROVISIONED",
-    diagram: ["ABM Cloud Portal", "Jamf Pro Engine", "Target macOS Device"]
-  },
   mdm: {
-    title: "MDM Enterprise Node Topology",
-    subtitle: "Unified Endpoint Management & Fleet Compliance",
-    nodes: "500+ Active Nodes",
+    title: "Jamf Pro & ASM Provisioning",
+    subtitle: "Zero-Touch Endpoint Management & Entra ID Sync",
+    nodes: "300+ iPads, 50+ Macs/PCs",
     latency: "Real-time Telemetry",
-    security: "Zero-Trust Compliance",
+    security: "Managed Apple IDs",
     status: "ENFORCED",
-    diagram: ["Enterprise Gateway", "Policy Engine", "Endpoint Sentinel"]
+    diagram: ["Apple School Manager", "Jamf Pro Engine", "Yenepoya Endpoints"]
   },
-  stc: {
-    title: "STC WAN & Telecom Infrastructure",
-    subtitle: "High-Availability Secure WAN Routing & Site Interconnect",
-    nodes: "Multi-Region Hubs",
-    latency: "99.99% Uptime",
-    security: "Fortinet IPsec Mesh",
+  network: {
+    title: "Fortinet & Aruba Backbone",
+    subtitle: "High-Availability Dual-WAN Security & Wi-Fi 6 Mesh",
+    nodes: "1 FortiGate, 60 Aruba AP25s",
+    latency: "Gigabit Throughput",
+    security: "IPsec / Zero-Trust",
+    status: "SECURED",
+    diagram: ["FortiGate 200F", "Aruba Core Switch", "Aruba Wi-Fi 6 Nodes"]
+  },
+  edtech: {
+    title: "Interactive Classroom Grids",
+    subtitle: "SMART Boards & UBTECH Robotics AI Deployment",
+    nodes: "53 Displays, 28 AI Kits",
+    latency: "Local Subnet Mesh",
+    security: "VLAN Isolated",
     status: "OPERATIONAL",
-    diagram: ["STC Fiber Core", "Fortinet Perimeter", "Campus Branch Nodes"]
+    diagram: ["SMART MX075-V5", "Instructional VLAN", "UBTECH AI Nodes"]
   }
 };
 
 export default function InteractiveInfrastructureSuite() {
-  const [activeArch, setActiveArch] = useState<ArchKey>('jamf');
+  const [activeArch, setActiveArch] = useState<ArchKey>('mdm');
   const [simulating, setSimulating] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [scrambleTrigger, setScrambleTrigger] = useState(0);
@@ -201,18 +205,18 @@ export default function InteractiveInfrastructureSuite() {
             </div>
 
             <div className="grid grid-cols-3 gap-2 mb-6">
-              {(['jamf', 'mdm', 'stc'] as ArchKey[]).map((key) => (
+              {(['mdm', 'network', 'edtech'] as ArchKey[]).map((key) => (
                 <button
                   key={key}
                   onClick={() => selectArch(key)}
                   onMouseEnter={() => playAudioFX('hover', soundEnabled)}
-                  className={`py-2 px-3 text-xs font-mono rounded-xl transition-all border ${
+                  className={`py-2 px-3 text-xs font-mono rounded-xl transition-all border uppercase ${
                     activeArch === key
                       ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.2)]'
                       : 'bg-zinc-950/60 text-zinc-400 border-zinc-800 hover:border-zinc-700'
                   }`}
                 >
-                  {key.toUpperCase()} ARCH
+                  {key} ARCH
                 </button>
               ))}
             </div>
