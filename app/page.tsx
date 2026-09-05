@@ -26,7 +26,8 @@ import {
   Bot,
   Building2,
   Award,
-  FileText
+  FileText,
+  Download // <-- Added
 } from 'lucide-react';
 
 // --- SOUND EFFECT GENERATOR ---
@@ -161,6 +162,7 @@ export default function Home() {
   const { scrollYProgress } = useScroll();
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [terminalOpen, setTerminalOpen] = useState(false);
+  const [isCvOpen, setIsCvOpen] = useState(false); // <-- Added state
   const [inputVal, setInputVal] = useState('');
   const [commandHistory, setCommandHistory] = useState<Array<{ cmd: string; result: string }>>([
     { cmd: 'system.init', result: 'SAMAD-OS v3.0 loaded successfully. Type "help" for available commands.' }
