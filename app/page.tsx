@@ -1,33 +1,17 @@
 'use client';
 
-import YrefMatrixViewer from '@/components/ui/YrefMatrixViewer';
 import CursorOrbit from '@/components/experience/CursorOrbit';
-import InteractiveInfrastructureSuite from "@/components/InteractiveInfrastructureSuite";
-import InfrastructureMap from '@/components/InfrastructureMap';
-import RfqDashboard from '@/components/RfqDashboard';
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import {
-  Mail,
-  MapPin,
   ChevronRight,
   Terminal,
   Sparkles,
-  Monitor,
   Volume2,
   VolumeX,
   X,
-  Activity,
-  Server,
-  Layers,
-  Cpu,
   ShieldCheck,
-  CheckCircle2,
-  Wifi,
-  Bot,
   Building2,
-  Award,
-  FileText,
   Download
 } from 'lucide-react';
 
@@ -116,59 +100,14 @@ const FluidSmokeBackground = () => {
   );
 };
 
-// --- CASE STUDY DETAIL DATA MAP ---
-const CASE_STUDY_DETAILS: Record<string, {
-  title: string;
-  tagline: string;
-  strategy: string;
-  security: string;
-  scalability: string;
-  highlights: string[];
-}> = {
-  'Apple Enterprise': {
-    title: 'Apple Enterprise Architecture & Jamf MDM',
-    tagline: 'Zero-Touch macOS & 350+ iPad Fleet Management',
-    strategy: 'Leveraged Apple School Manager (ASM) linked directly to Jamf Pro to orchestrate zero-touch deployment for 350+ iPads (300+ Student 1:1, ~50 Faculty) and macOS workstations.',
-    security: 'Enforced FileVault full-disk encryption, automated compliance posture checks, web filtering, and scheduled iOS/macOS update rings.',
-    scalability: 'Structured dynamic device groups supporting seamless annual student handovers and automated identity syncing.',
-    highlights: ['ASM & Jamf Pro Zero-Touch Pipeline', '350+ Managed Apple Endpoints', 'Automated Profile & Licensing Provisioning']
-  },
-  'Microsoft 365 & Azure': {
-    title: 'Microsoft 365 Enterprise Identity & Licensing',
-    tagline: '1,050+ Seat Cloud Identity & Endpoint Governance',
-    strategy: 'Engineered M365 A3 tenant architecture managing 1,000 Student A3, 25+ Faculty A3, and 25 Business licenses across Entra ID.',
-    security: 'Conditional Access policies enforcing MFA, role-based identity access control, and Intune security baselines across 80+ Windows PCs.',
-    scalability: 'Automated user onboarding/offboarding workflows integrated with active directory identity sync.',
-    highlights: ['1,050+ M365 Active Licensing Scope', 'Intune Endpoint Policy Management', 'Entra ID MFA & Conditional Access']
-  },
-  'SMART Tech Displays': {
-    title: 'SMART Display Interactive Ecosystem',
-    tagline: '53-Unit Smart Board Governance & EdTech Infrastructure',
-    strategy: 'Centralized governance of 53 SMART MX075-V5 interactive displays through SMART Admin console for OTA firmware and configuration push.',
-    security: 'Isolated display network VLANs coupled with strict kiosk-mode profile permissions and remote screen lock capability.',
-    scalability: 'Standardized room deployment templates supporting seamless screen mirroring, Lumio integration, and campus-wide broadcasting.',
-    highlights: ['53 SMART Board MX075-V5 Deployment', 'SMART Admin Centralized Console', 'Lumio Cloud Content Platform']
-  },
-  'Innovation Labs & STEM': {
-    title: 'Robotics, Brain & STEM Innovation Labs',
-    tagline: '380+ Tracked Advanced Lab Infrastructure Assets',
-    strategy: 'Designed and deployed multi-lab infrastructure comprising 108 Robotics Kits (Weemake/UBTECH), 93 Brain Lab units (Muse 2 Headbands), and 26 STEM VR/Drone kits.',
-    security: 'Implemented hardware inventory audits (YREF v1.0), charging cart safety protocols, and asset tagging across all lab assets.',
-    scalability: 'Standardized curriculum kit provisioning and continuous maintenance framework for 630+ active daily lab users.',
-    highlights: ['108 Robotics & AI Learning Kits', '93 Muse 2 Brainwave Headbands', '26 STEM VR & Drone Ecosystems']
-  }
-};
-
 export default function Home() {
   const { scrollYProgress } = useScroll();
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [terminalOpen, setTerminalOpen] = useState(false);
-  const [isCvOpen, setIsCvOpen] = useState(false);
   const [inputVal, setInputVal] = useState('');
   const [commandHistory, setCommandHistory] = useState<Array<{ cmd: string; result: string }>>([
     { cmd: 'system.init', result: 'SAMAD-OS v3.0 loaded successfully. Type "help" for available commands.' }
   ]);
-  const [selectedCaseStudy, setSelectedCaseStudy] = useState<string | null>(null);
 
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -215,7 +154,6 @@ export default function Home() {
     setInputVal('');
   };
 
-  const currentModalData = selectedCaseStudy ? CASE_STUDY_DETAILS[selectedCaseStudy] : null;
 
   return (
     <div className="min-h-screen text-zinc-100 font-sans selection:bg-emerald-500 selection:text-black relative overflow-hidden bg-zinc-950">
@@ -571,87 +509,11 @@ export default function Home() {
           <p className="text-zinc-400 text-sm mb-6">Building resilient enterprise environments and smart digital infrastructure.</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-zinc-400 text-sm">
             <span className="flex items-center gap-2"><Building2 className="w-4 h-4 text-emerald-400" /> Dammam – Khobar, Eastern Province, KSA</span>
-            <span className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-emerald-400" /> Transferable Status</span>
+            <span className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-emerald-400" /> Professional Collaboration</span>
           </div>
         </div>
       </footer>
 
-      {/* --- EXECUTIVE CV / ATS SUMMARY MODAL --- */}
-      <AnimatePresence>
-        {isCvOpen && (
-          <div className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-[#0b0f17] border border-amber-500/30 rounded-2xl max-w-4xl w-full p-8 space-y-6 shadow-2xl relative text-slate-200 my-8"
-            >
-              
-              {/* Header Controls */}
-              <div className="flex justify-between items-center border-b border-slate-800 pb-4">
-                <div>
-                  <span className="text-xs font-mono text-amber-400 uppercase tracking-widest">Executive Summary // ATS Ready</span>
-                  <h2 className="text-2xl font-serif text-white">Abdul Samad Babillail</h2>
-                </div>
-                <div className="flex items-center gap-3">
-                  <button 
-                    onClick={() => window.print()} 
-                    className="px-4 py-1.5 rounded-lg bg-amber-500 text-slate-950 font-semibold text-xs hover:bg-amber-400 transition-all flex items-center gap-2"
-                  >
-                    <Download className="w-3.5 h-3.5" /> Print / Export PDF
-                  </button>
-                  <button 
-                    onClick={() => setIsCvOpen(false)} 
-                    className="text-slate-400 hover:text-white text-sm font-mono px-3 py-1 rounded border border-slate-800"
-                  >
-                    ✕ ESC
-                  </button>
-                </div>
-              </div>
-
-              {/* CV Content Grid */}
-              <div className="space-y-6 text-sm font-light">
-                
-                {/* Status Bar */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-xl bg-slate-900/50 border border-slate-800 text-xs font-mono">
-                  <div><span className="text-slate-500">ROLE:</span> Head of IT & Innovation</div>
-                  <div><span className="text-slate-500">LOCATION:</span> Eastern Province, KSA</div>
-                  <div><span className="text-slate-500">TRANSFER:</span> Immediate Qiwa Transfer</div>
-                  <div><span className="text-slate-500">CONTACT:</span> asbabillail@gmail.com</div>
-                </div>
-
-                {/* Core Competencies */}
-                <div className="space-y-2">
-                  <h3 className="text-xs font-mono text-amber-400 uppercase tracking-wider">Core Leadership Competencies</h3>
-                  <p className="text-slate-300 leading-relaxed">
-                    Enterprise IT Infrastructure Architecture • Apple & Microsoft MDM Governance (Jamf Pro, Intune, ASM) • IT Budget & Vendor RFQ Optimization • Network & Physical Security Design (FortiGate, Dual 5G, CCTV) • Accreditation Compliance (Cognia & ADS)
-                  </p>
-                </div>
-
-                {/* Verified High-Impact Metrics */}
-                <div className="space-y-3">
-                  <h3 className="text-xs font-mono text-amber-400 uppercase tracking-wider">Key Executive Directives</h3>
-                  <ul className="space-y-2 text-slate-300">
-                    <li className="flex items-start gap-2">
-                      <span className="text-amber-400 font-bold">•</span>
-                      <span><strong>MDM & Device Lifecycle:</strong> Directed zero-touch deployment and central management across 445+ enterprise devices and 300 active AppleCare warranties.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-amber-400 font-bold">•</span>
-                      <span><strong>Infrastructure Optimization:</strong> Engineered load-balanced dual 5G / STC fiber connections, achieving 99.9% campus uptime and SAR 100k+ operational savings.</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-amber-400 font-bold">•</span>
-                      <span><strong>Curriculum & Innovation Governance:</strong> Authored YREF v1.0 STEM progression framework covering 8 labs and 382 hardware assets with 100% audit compliance.</span>
-                    </li>
-                  </ul>
-                </div>
-
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
