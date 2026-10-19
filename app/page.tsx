@@ -1,6 +1,6 @@
 'use client';
 
-import CursorOrbit from '@/components/experience/CursorOrbit';
+import CinematicScene from '@/components/experience/CinematicScene';
 import React, { useState } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import {
@@ -40,7 +40,7 @@ export default function Home() {
 
     switch (cleanCmd) {
       case 'help':
-        response = 'Available commands: help, title, scale, labs, network, certs, status, clear';
+        response = 'Commands: help, title, scale, labs, network, certs, status, clear. Illustrative profile explorer only.';
         break;
       case 'title':
         response = 'Business and technology operations | Digital transformation | Leadership';
@@ -55,7 +55,7 @@ export default function Home() {
         response = 'Technical demonstrations are synthetic until disclosure approvals are confirmed.';
         break;
       case 'certs':
-        response = 'CCNA (Simplilearn #4489483), Python Data Science (#4464651), SMART MX-V5 Display Tech, SAP Consulting';
+        response = 'Selected training: Simplilearn networking and Python courses, SMART course completion, and SAP/Forage simulation.';
         break;
       case 'status':
         response = 'Portfolio transformation in progress. Operational metrics are under review.';
@@ -75,8 +75,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen text-zinc-100 font-sans selection:bg-emerald-500 selection:text-black relative overflow-hidden bg-zinc-950">
-      <a href="#about" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:p-3 focus:text-black">Skip to main content</a>
-      {/* Legacy fluid canvas removed from default rendering for performance. */}
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:p-3 focus:text-black">Skip to main content</a>
+      {/* Synthetic cinematic WebGL scene runs only when visible; no employer telemetry. */}
 
       {/* Scroll Progress Line */}
       <motion.div
@@ -91,7 +91,7 @@ export default function Home() {
             <button 
               onClick={() => setTerminalOpen(!terminalOpen)}
               className="p-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-emerald-400 hover:bg-emerald-500/20 transition-all flex items-center gap-2"
-              title="Toggle Command Line Terminal"
+              aria-label="Toggle portfolio command explorer" aria-expanded={terminalOpen}
             >
               <Terminal className="w-5 h-5" />
             </button>
@@ -151,7 +151,7 @@ export default function Home() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-16 left-0 right-0 z-30 bg-zinc-900/95 border-b border-emerald-500/30 backdrop-blur-2xl p-4 font-mono text-xs shadow-2xl"
+            className="fixed top-[70px] left-0 right-0 z-30 bg-zinc-900/95 border-b border-emerald-500/30 backdrop-blur-2xl p-4 font-mono text-xs shadow-2xl"
           >
             <div className="max-w-4xl mx-auto">
               <div className="flex items-center justify-between pb-2 border-b border-zinc-800 text-zinc-400 mb-3">
@@ -173,8 +173,7 @@ export default function Home() {
                   value={inputVal}
                   onChange={(e) => setInputVal(e.target.value)}
                   placeholder="Type 'help' for available commands (title, scale, labs, network, certs)..."
-                  className="bg-transparent text-emerald-300 focus:outline-none w-full font-mono"
-                  autoFocus
+                  className="bg-transparent text-emerald-300 focus-visible:outline-2 focus-visible:outline-teal-300 w-full font-mono"
                 />
               </form>
             </div>
@@ -182,33 +181,34 @@ export default function Home() {
         )}
       </AnimatePresence>
 
+      <main id="main-content">
       {/* HERO SECTION */}
-      <section id="about" aria-labelledby="samad-heading" className="min-h-screen flex flex-col justify-center items-center text-center px-6 relative z-20 pt-20 pointer-events-none">
-        <CursorOrbit />
+      <section id="about" aria-labelledby="samad-heading" className="min-h-[88svh] flex flex-col justify-center items-center text-center px-6 relative z-20 pt-28 pb-20 pointer-events-none lg:items-start lg:text-left lg:min-h-[830px]">
+        <CinematicScene />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="max-w-4xl"
+          className="max-w-6xl mx-auto w-full relative z-10"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900/90 border border-zinc-800 text-xs text-emerald-400 mb-6 pointer-events-auto backdrop-blur-md">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Business Operations · Technology Strategy · Innovation</span>
+            <span>ABDUL SAMAD BABILLAIL / BUSINESS × TECHNOLOGY</span>
           </div>
 
-          <h1 id="samad-heading" className="text-5xl md:text-7xl font-extrabold tracking-tight mb-4 bg-gradient-to-b from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent leading-tight">
-            Abdul Samad Babillail
+          <h1 id="samad-heading" className="max-w-4xl text-5xl md:text-7xl lg:text-[6.1rem] font-semibold tracking-[-0.05em] mb-6 text-white leading-[1.06]">
+            Connecting <span className="text-teal-300">strategy</span> with execution.
           </h1>
 
           <p className="text-emerald-400 text-sm md:text-base font-mono mb-6 tracking-wide">
-            Business & Technology Leadership | Digital Transformation | Operations
+            Business Operations · Technology Strategy · Digital Transformation
           </p>
 
-          <p className="text-zinc-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-8 font-medium">
+          <p className="text-zinc-300 text-base md:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed mb-8 font-medium">
             Bridging business priorities, operational execution, stakeholder coordination, and technical delivery. Exploring how strategy and technology can create practical organizational value.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 pointer-events-auto">
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pointer-events-auto">
             <a
               href="#suite"
               className="px-6 py-3 rounded-lg bg-emerald-500 text-black font-semibold hover:bg-emerald-400 transition-all flex items-center gap-2 shadow-lg shadow-emerald-500/20 text-sm"
@@ -293,6 +293,7 @@ export default function Home() {
         </div>
       </section>
 
+      </main>
       {/* FOOTER */}
       <footer id="contact" className="py-16 px-6 border-t border-zinc-900 bg-zinc-950/90 relative z-20 text-center backdrop-blur-md">
         <div className="max-w-4xl mx-auto">
