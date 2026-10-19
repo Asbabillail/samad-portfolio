@@ -1,11 +1,11 @@
 import {
   siApple, siCisco, siFortinet, siGithub,
-  siMicrosoft, siNextdotjs, siPython, siGooglecloud,
+  siMicrosoftazure, siNextdotjs, siPython, siGooglecloud,
   type SimpleIcon,
 } from 'simple-icons';
 
 const ecosystem: { name: string; icon: SimpleIcon; color: string; category: string }[] = [
-  { name: 'Microsoft', icon: siMicrosoft, color: '#69A9FF', category: 'Cloud & workplace' },
+  { name: 'Microsoft Azure', icon: siMicrosoftazure, color: '#69A9FF', category: 'Cloud & workplace' },
   { name: 'Apple', icon: siApple, color: '#EEE8F5', category: 'Device ecosystem' },
   { name: 'Cisco', icon: siCisco, color: '#4FC8F1', category: 'Networking' },
   { name: 'Fortinet', icon: siFortinet, color: '#FF776F', category: 'Network security' },
