@@ -297,7 +297,7 @@ export default function Home() {
       {/* FOOTER */}
       <footer id="contact" className="py-16 px-6 border-t border-zinc-900 bg-zinc-950/90 relative z-20 text-center backdrop-blur-md">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold mb-2 text-white">Let's Connect & Collaborate</h2>
+          <h2 className="text-2xl font-bold mb-2 text-white">Let&apos;s Connect &amp; Collaborate</h2>
           <p className="text-zinc-400 text-sm mb-6">Open to professional opportunities and thoughtful business and technology collaboration.</p><div className="mb-6 flex flex-wrap justify-center gap-3"><a href="mailto:asbabillail@gmail.com?subject=Professional%20Collaboration" className="inline-flex items-center gap-2 rounded-full bg-teal-300 px-5 py-3 font-semibold text-slate-950 hover:bg-teal-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-300">Get in touch <ArrowUpRight className="h-4 w-4"/></a><a href="https://github.com/Asbabillail" target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/20 px-5 py-3 text-white hover:border-teal-300/50">GitHub ↗</a></div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-zinc-400 text-sm">
             <span className="flex items-center gap-2"><Building2 className="w-4 h-4 text-emerald-400" /> Dammam – Khobar, Eastern Province, KSA</span>
