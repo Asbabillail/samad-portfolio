@@ -1,311 +1,63 @@
 'use client';
-
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { motion, AnimatePresence, useReducedMotion, useScroll, useSpring } from 'framer-motion';
+import { ArrowDownRight, ArrowRight, ArrowUpRight, BriefcaseBusiness, Code2, Compass, ExternalLink, Github, Mail, Menu, MoveUpRight, Network, Sparkles, Workflow, X } from 'lucide-react';
 import CinematicScene from '@/components/experience/CinematicScene';
-import React, { useState } from 'react';
-import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
-import {
-  ChevronRight,
-  Terminal,
-  Sparkles,
-  X,
-  ShieldCheck,
-  Building2,
-  Download,
-  Menu,
-  ArrowUpRight,
-  BriefcaseBusiness,
-  Users,
-  Code2
-} from 'lucide-react';
+import BrandWall from '@/components/experience/BrandWall';
 
-export default function Home() {
-  const { scrollYProgress } = useScroll();
-  const [terminalOpen, setTerminalOpen] = useState(false);
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [inputVal, setInputVal] = useState('');
-  const [commandHistory, setCommandHistory] = useState<Array<{ cmd: string; result: string }>>([
-    { cmd: 'system.init', result: 'SAMAD-OS v3.0 loaded successfully. Type "help" for available commands.' }
-  ]);
-
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001,
-  });
-
-  const handleCommandSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const cleanCmd = inputVal.trim().toLowerCase();
-    let response = '';
-
-    switch (cleanCmd) {
-      case 'help':
-        response = 'Commands: help, title, scale, labs, network, certs, status, clear. Illustrative profile explorer only.';
-        break;
-      case 'title':
-        response = 'Business and technology operations | Digital transformation | Leadership';
-        break;
-      case 'scale':
-        response = 'Business operations, technology strategy, leadership, and engineering initiatives.';
-        break;
-      case 'labs':
-        response = 'Innovation interests include robotics, automation, and learning technologies.';
-        break;
-      case 'network':
-        response = 'Technical demonstrations are synthetic until disclosure approvals are confirmed.';
-        break;
-      case 'certs':
-        response = 'Selected training: Simplilearn networking and Python courses, SMART course completion, and SAP/Forage simulation.';
-        break;
-      case 'status':
-        response = 'Portfolio transformation in progress. Operational metrics are under review.';
-        break;
-      case 'clear':
-        setCommandHistory([]);
-        setInputVal('');
-        return;
-      default:
-        response = `Command not recognized: "${cleanCmd}". Type "help" for available commands.`;
-    }
-
-    setCommandHistory((prev) => [...prev, { cmd: inputVal, result: response }]);
-    setInputVal('');
-  };
-
-
-  return (
-    <div className="min-h-screen text-zinc-100 font-sans selection:bg-emerald-500 selection:text-black relative overflow-hidden bg-zinc-950">
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:p-3 focus:text-black">Skip to main content</a>
-      {/* Synthetic cinematic WebGL scene runs only when visible; no employer telemetry. */}
-
-      {/* Scroll Progress Line */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-cyan-500 to-indigo-500 origin-left z-50 pointer-events-none"
-        style={{ scaleX }}
-      />
-
-      {/* Navigation Header */}
-      <nav className="fixed top-0 left-0 w-full z-40 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50 pointer-events-auto">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <button 
-              onClick={() => setTerminalOpen(!terminalOpen)}
-              className="p-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-emerald-400 hover:bg-emerald-500/20 transition-all flex items-center gap-2"
-              aria-label="Toggle portfolio command explorer" aria-expanded={terminalOpen}
-            >
-              <Terminal className="w-5 h-5" />
-            </button>
-            <span className="font-bold text-lg tracking-tight text-white">
-              SAMAD-OS <span className="text-xs text-emerald-400 font-mono ml-1">v3.0</span>
-            </span>
-          </div>
-
-          <div className="hidden lg:flex items-center gap-6 text-sm text-zinc-300 font-medium">
-            <a href="#about" className="hover:text-emerald-400 transition-colors">About</a>
-            <a href="#metrics" className="hover:text-emerald-400 transition-colors">Expertise</a>
-            <a href="#suite" className="hover:text-emerald-400 transition-colors">Work</a>
-            <a href="#direction" className="hover:text-emerald-400 transition-colors">Future</a>
-            <a href="#approach" className="hover:text-emerald-400 transition-colors">Approach</a>
-            <a href="#contact" className="hover:text-emerald-400 transition-colors">Contact</a>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <a 
-              href="https://www.linkedin.com/in/abdul-samad-babillail-3bb342249/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-xs font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-full hover:bg-amber-500/20 transition-all cursor-pointer"
-            >
-              <Download className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">LINKEDIN</span>
-            </a>
-
-            <button type="button" className="lg:hidden rounded-lg border border-white/20 p-2.5 text-slate-200 focus-visible:outline-2 focus-visible:outline-teal-300" aria-expanded={mobileNavOpen} aria-controls="samad-mobile-nav" aria-label={mobileNavOpen ? "Close navigation" : "Open navigation"} onClick={() => setMobileNavOpen((previous) => !previous)}>{mobileNavOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}</button>
-
-            <a 
-              href="#contact" 
-              className="px-4 py-2 text-xs font-semibold rounded-full bg-emerald-500 text-black hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20"
-            >
-              Connect 
-            </a> 
-          </div>
-        </div>
-        {mobileNavOpen && (
-          <div id="samad-mobile-nav" className="border-t border-white/10 bg-zinc-950 p-4 lg:hidden">
-            <div className="mx-auto grid max-w-6xl gap-1">
-              {[
-                ["Overview", "#about"], ["Expertise", "#metrics"], ["Selected Work", "#suite"],
-                ["Approach", "#approach"], ["Future", "#direction"], ["Contact", "#contact"]
-              ].map(([label, href]) => (
-                <a key={href} href={href} onClick={() => setMobileNavOpen(false)} className="rounded-lg px-4 py-3 text-sm text-slate-200 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-teal-300">{label}</a>
-              ))}
-            </div>
-          </div>
-        )}
-      </nav>
-
-      {/* --- INTERACTIVE TERMINAL DRAWER --- */}
-      <AnimatePresence>
-        {terminalOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed top-[70px] left-0 right-0 z-30 bg-zinc-900/95 border-b border-emerald-500/30 backdrop-blur-2xl p-4 font-mono text-xs shadow-2xl"
-          >
-            <div className="max-w-4xl mx-auto">
-              <div className="flex items-center justify-between pb-2 border-b border-zinc-800 text-zinc-400 mb-3">
-                <span className="flex items-center gap-2"><Terminal className="w-4 h-4 text-emerald-400" /> SAMAD-OS Command Line Interface</span>
-                <button onClick={() => setTerminalOpen(false)} className="hover:text-white"><X className="w-4 h-4" /></button>
-              </div>
-              <div className="max-h-40 overflow-y-auto space-y-1.5 mb-3 pr-2">
-                {commandHistory.map((item, idx) => (
-                  <div key={idx}>
-                    <div className="text-emerald-400">&gt; {item.cmd}</div>
-                    <div className="text-zinc-300 ml-3">{item.result}</div>
-                  </div>
-                ))}
-              </div>
-              <form onSubmit={handleCommandSubmit} className="flex gap-2">
-                <span className="text-emerald-400">&gt;</span>
-                <input 
-                  type="text" 
-                  value={inputVal}
-                  onChange={(e) => setInputVal(e.target.value)}
-                  placeholder="Type 'help' for available commands (title, scale, labs, network, certs)..."
-                  className="bg-transparent text-emerald-300 focus-visible:outline-2 focus-visible:outline-teal-300 w-full font-mono"
-                />
-              </form>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <main id="main-content">
-      {/* HERO SECTION */}
-      <section id="about" aria-labelledby="samad-heading" className="min-h-[88svh] flex flex-col justify-center items-center text-center px-6 relative z-20 pt-28 pb-20 pointer-events-none lg:items-start lg:text-left lg:min-h-[830px]">
-        <CinematicScene />
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-6xl mx-auto w-full relative z-10"
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900/90 border border-zinc-800 text-xs text-emerald-400 mb-6 pointer-events-auto backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>ABDUL SAMAD BABILLAIL / BUSINESS × TECHNOLOGY</span>
-          </div>
-
-          <h1 id="samad-heading" className="max-w-4xl text-5xl md:text-7xl lg:text-[6.1rem] font-semibold tracking-[-0.05em] mb-6 text-white leading-[1.06]">
-            Connecting <span className="text-teal-300">strategy</span> with execution.
-          </h1>
-
-          <p className="text-emerald-400 text-sm md:text-base font-mono mb-6 tracking-wide">
-            Business Operations · Technology Strategy · Digital Transformation
-          </p>
-
-          <p className="text-zinc-300 text-base md:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed mb-8 font-medium">
-            Bridging business priorities, operational execution, stakeholder coordination, and technical delivery. Exploring how strategy and technology can create practical organizational value.
-          </p>
-
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pointer-events-auto">
-            <a
-              href="#suite"
-              className="px-6 py-3 rounded-lg bg-emerald-500 text-black font-semibold hover:bg-emerald-400 transition-all flex items-center gap-2 shadow-lg shadow-emerald-500/20 text-sm"
-            >
-              Explore My Work <ChevronRight className="w-4 h-4" />
-            </a>
-            <button
-              onClick={() => setTerminalOpen(true)}
-              className="px-6 py-3 rounded-lg bg-zinc-900/80 border border-zinc-800 text-zinc-200 font-semibold hover:bg-zinc-800 backdrop-blur-md transition-all flex items-center gap-2 text-sm"
-            >
-              <Terminal className="w-4 h-4 text-emerald-400" /> Open Terminal
-            </button>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* --- PROFESSIONAL FOCUS: no unverified operational metrics in the public hero --- */}
-      <section id="metrics" className="py-14 px-6 relative z-20" aria-labelledby="focus-heading">
-        <div className="max-w-6xl mx-auto">
-          <p className="text-xs font-mono uppercase tracking-[0.24em] text-teal-300 mb-3">Professional Focus</p>
-          <h2 id="focus-heading" className="text-2xl md:text-4xl font-semibold mb-7 text-white">Connecting strategy with execution.</h2>
-          <div className="grid gap-4 md:grid-cols-3">
-            {[
-              { title: 'Business & Operations', description: 'Operational planning, commercial coordination, vendor evaluation, and process improvement.' },
-              { title: 'Leadership & Transformation', description: 'Stakeholder collaboration, team coordination, technology adoption, and cross-functional delivery.' },
-              { title: 'Engineering & Innovation', description: 'Enterprise systems and practical automation, supported by demonstrable technical projects.' }
-            ].map((focus) => (
-              <article key={focus.title} className="rounded-2xl border border-slate-700/70 bg-slate-900/70 p-6 backdrop-blur-sm transition-colors hover:border-teal-300/50">
-                <h3 className="mb-3 text-lg font-semibold text-slate-100">{focus.title}</h3>
-                <p className="text-sm leading-relaxed text-slate-300">{focus.description}</p>
-              </article>
-            ))}
-          </div>
-          <p className="mt-5 max-w-3xl text-xs leading-relaxed text-slate-400">Project demonstrations below are illustrative. Institution-specific figures and implementation details remain under verification and disclosure review.</p>
-        </div>
-      </section>
-
-      {/* Independent work showcase: institutional details withheld pending disclosure review. */}
-      <section id="suite" className="relative z-20 px-6 py-20" aria-labelledby="work-heading">
-        <div className="mx-auto max-w-6xl">
-          <p className="mb-3 font-mono text-xs uppercase tracking-[0.24em] text-teal-300">Selected Work</p>
-          <h2 id="work-heading" className="mb-6 text-3xl font-semibold text-white">Building solutions, not just presentations.</h2>
-          <div className="grid gap-5 md:grid-cols-2">
-            <article className="rounded-2xl border border-slate-700 bg-slate-900/70 p-7">
-              <h3 className="text-xl font-semibold text-white">Portfolio Engineering</h3>
-              <p className="mt-3 text-sm leading-relaxed text-slate-300">A Next.js and TypeScript portfolio exploring visual interactions, technical storytelling, and accessible web development.</p>
-              <a className="mt-5 inline-flex rounded-lg border border-teal-400/40 px-4 py-2 text-sm text-teal-200 hover:bg-teal-400/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-300" href="https://github.com/Asbabillail/samad-portfolio" target="_blank" rel="noopener noreferrer">Explore source code ↗</a>
-            </article>
-            <article className="rounded-2xl border border-slate-700 bg-slate-900/70 p-7">
-              <h3 className="text-xl font-semibold text-white">Business Process Automation</h3>
-              <p className="mt-3 text-sm leading-relaxed text-slate-300">Python and Streamlit application development focused on repeatable calculations and operational workflows. Source publication remains under confidentiality review.</p>
-              <p className="mt-5 text-xs text-slate-400">Detailed demonstrations will be published after disclosure and quality checks.</p>
-            </article>
-          </div>
-          <div className="mt-8 rounded-xl border border-amber-400/20 bg-amber-400/5 p-5">
-            <h3 className="font-semibold text-slate-100">Engineering Explorer — in development</h3>
-            <p className="mt-2 text-sm text-slate-300">Interactive synthetic network, cloud, and business systems simulations are planned for a future phase. No real institutional topology is displayed here.</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="approach" className="relative z-20 border-t border-white/10 px-6 py-20" aria-labelledby="samad-approach">
-        <div className="mx-auto max-w-6xl">
-          <p className="mb-3 font-mono text-xs uppercase tracking-widest text-teal-300">Strategy × execution</p>
-          <h2 id="samad-approach" className="mb-8 text-3xl font-semibold tracking-tight md:text-4xl">From business context to usable outcomes.</h2>
-          <div className="grid gap-4 md:grid-cols-3">
-            {[
-              {title:"Discover",body:"Understand priorities, stakeholders, and constraints.",Icon:BriefcaseBusiness},
-              {title:"Coordinate",body:"Align people, vendors, systems, and operating processes.",Icon:Users},
-              {title:"Deliver",body:"Build, test, document, and improve practical solutions.",Icon:Code2}
-            ].map(({title,body,Icon},index)=><article key={title} className="rounded-2xl border border-teal-300/20 bg-slate-900/70 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-300/50 motion-reduce:transform-none"><Icon className="mb-5 h-8 w-8 text-teal-300" aria-hidden="true" /><span className="mb-2 block font-mono text-xs text-amber-300">0{index+1}</span><h3 className="mb-3 text-xl font-semibold">{title}</h3><p className="text-sm leading-relaxed text-slate-300">{body}</p></article>)}
-          </div>
-        </div>
-      </section>
-      <section id="direction" className="relative z-20 border-t border-white/10 bg-[#101e28] px-6 py-20" aria-labelledby="samad-future">
-        <div className="mx-auto max-w-6xl">
-          <h2 id="samad-future" className="mb-8 text-3xl font-semibold md:text-4xl">Leadership now. Entrepreneurship ahead.</h2>
-          <div className="grid gap-5 md:grid-cols-2">
-            <article className="rounded-2xl border border-teal-400/30 bg-teal-400/5 p-7"><p className="mb-3 font-mono text-xs uppercase text-teal-300">Professional direction</p><h3 className="mb-3 text-xl font-semibold">Business & Technology Leadership</h3><p className="text-sm leading-7 text-slate-300">Business operations, stakeholder collaboration, commercial planning, technology strategy, and cross-functional delivery.</p></article>
-            <article className="rounded-2xl border border-amber-400/25 bg-amber-400/5 p-7"><p className="mb-3 font-mono text-xs uppercase text-amber-300">Future ambition</p><h3 className="mb-3 text-xl font-semibold">Entrepreneurship & Consulting</h3><p className="text-sm leading-7 text-slate-300">Developing toward a future technology and business consulting venture, not an existing consulting practice.</p></article>
-          </div>
-        </div>
-      </section>
-
-      </main>
-      {/* FOOTER */}
-      <footer id="contact" className="py-16 px-6 border-t border-zinc-900 bg-zinc-950/90 relative z-20 text-center backdrop-blur-md">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold mb-2 text-white">Let&apos;s Connect &amp; Collaborate</h2>
-          <p className="text-zinc-400 text-sm mb-6">Open to professional opportunities and thoughtful business and technology collaboration.</p><div className="mb-6 flex flex-wrap justify-center gap-3"><a href="mailto:asbabillail@gmail.com?subject=Professional%20Collaboration" className="inline-flex items-center gap-2 rounded-full bg-teal-300 px-5 py-3 font-semibold text-slate-950 hover:bg-teal-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-300">Get in touch <ArrowUpRight className="h-4 w-4"/></a><a href="https://github.com/Asbabillail" target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/20 px-5 py-3 text-white hover:border-teal-300/50">GitHub ↗</a></div>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-zinc-400 text-sm">
-            <span className="flex items-center gap-2"><Building2 className="w-4 h-4 text-emerald-400" /> Dammam – Khobar, Eastern Province, KSA</span>
-            <span className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-emerald-400" /> Business × Operations × Technology</span>
-          </div>
-        </div>
-      </footer>
-
+const links=[['Home','#home'],['Expertise','#expertise'],['Work','#work'],['Vision','#vision'],['Contact','#contact']];
+const features=[
+  {n:'01',icon:BriefcaseBusiness,title:'Business & Strategy',tag:'THE BIG PICTURE',body:'Connecting organizational goals with smart decisions, practical planning, and commercial thinking.'},
+  {n:'02',icon:Workflow,title:'Operations & Leadership',tag:'THE EXECUTION',body:'Bringing people, processes, and systems together to make complex work run better.'},
+  {n:'03',icon:Network,title:'Technology Transformation',tag:'THE FOUNDATION',body:'Building and improving digital environments with hands-on enterprise technology experience.'},
+  {n:'04',icon:Code2,title:'Products & Automation',tag:'THE BUILD',body:'Turning real problems into useful software, streamlined workflows, and thoughtful digital experiences.'}
+];
+function Fade({children,delay=0,className=''}:{children:ReactNode;delay?:number;className?:string}){const reduce=useReducedMotion();return <motion.div className={className} initial={reduce?false:{opacity:0,y:35}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.1}} transition={{duration:reduce?0:.8,delay,ease:[.2,.8,.2,1]}}>{children}</motion.div>}
+function MagneticLink({href,children,secondary=false}:{href:string;children:ReactNode;secondary?:boolean}){const ref=useRef<HTMLAnchorElement>(null);const reduce=useReducedMotion();const [shift,setShift]=useState({x:0,y:0});const move=(event:React.MouseEvent<HTMLAnchorElement>)=>{if(reduce||!ref.current)return;const bounds=ref.current.getBoundingClientRect();setShift({x:(event.clientX-bounds.left-bounds.width/2)*.14,y:(event.clientY-bounds.top-bounds.height/2)*.14})};return <motion.a ref={ref} href={href} onMouseMove={move} onMouseLeave={()=>setShift({x:0,y:0})} animate={{x:shift.x,y:shift.y}} transition={{type:'spring',stiffness:160,damping:14,mass:.22}} className={secondary?'inline-flex min-h-14 items-center gap-3 rounded-full border border-white/20 bg-white/[.045] px-7 text-sm font-medium text-white backdrop-blur-xl transition-colors hover:border-[#c7acff]/60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c7acff]':'inline-flex min-h-14 items-center gap-3 rounded-full bg-[#d0b6ff] px-7 text-sm font-semibold text-[#161024] shadow-[0_10px_45px_rgba(171,120,255,.24)] transition-colors hover:bg-[#ede1ff] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#d0b6ff]'}>{children}<ArrowUpRight className="size-4" aria-hidden="true"/></motion.a>}
+export default function Home(){
+ const [menu,setMenu]=useState(false);const reduce=useReducedMotion();const {scrollYProgress}=useScroll();const progress=useSpring(scrollYProgress,{stiffness:100,damping:26});
+ useEffect(()=>{const key=(e:KeyboardEvent)=>{if(e.key==='Escape')setMenu(false)};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key)},[]);
+ return <div className="relative min-h-screen overflow-x-clip bg-[#08090e] font-sans text-[#f6f3fa] selection:bg-[#c8b1ff] selection:text-[#09070f]">
+  <a href="#main-content" className="sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:not-sr-only focus:rounded-xl focus:bg-white focus:px-4 focus:py-3 focus:text-black">Skip to content</a>
+  <motion.div aria-hidden="true" className="fixed inset-x-0 top-0 z-[70] h-[2px] origin-left bg-gradient-to-r from-[#c5a1ff] via-[#77d5ed] to-[#ffc79e]" style={{scaleX:progress}}/>
+  <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[.07] bg-[#090a12]/75 backdrop-blur-2xl">
+   <div className="mx-auto flex h-[82px] max-w-[1440px] items-center justify-between gap-5 px-6 sm:px-10 lg:px-16">
+    <a href="#home" className="flex items-center gap-3 focus-visible:outline-2 focus-visible:outline-[#c6a5ff]" onClick={()=>setMenu(false)}><span className="grid size-10 place-items-center rounded-xl border border-[#bb9afa]/25 bg-[#bca4fc]/10 text-lg font-black tracking-[-.1em] text-[#d4bbff]">S<span className="text-[#80d9d1]">.</span></span><span className="text-[12px] font-bold uppercase tracking-[.18em] sm:text-sm">SAMAD <span className="font-light text-[#9694a9]">/ STUDIO</span></span></a>
+    <nav aria-label="Main navigation" className="hidden items-center gap-9 lg:flex">{links.map(([label,href])=><a key={href} className="text-xs font-medium tracking-[.02em] text-[#bcb9c9] transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c6a5ff]" href={href}>{label}</a>)}</nav>
+    <div className="flex items-center gap-4"><a href="mailto:asbabillail@gmail.com?subject=Let's%20Connect" className="hidden items-center gap-2 rounded-full border border-[#bb9afa]/30 bg-[#bd9df4]/10 px-5 py-2.5 text-xs font-semibold text-[#e5d8ff] transition-all hover:bg-[#c6a5ff]/20 sm:inline-flex">Let's talk <ArrowUpRight className="size-3.5"/></a><button aria-label={menu?'Close menu':'Open menu'} aria-expanded={menu} aria-controls="mobile-menu" type="button" onClick={()=>setMenu(!menu)} className="grid size-11 place-items-center rounded-xl border border-white/20 text-white focus-visible:outline-2 focus-visible:outline-[#c6a5ff] lg:hidden">{menu?<X className="size-5"/>:<Menu className="size-5"/>}</button></div>
+   </div>
+   <AnimatePresence>{menu&&<motion.nav id="mobile-menu" aria-label="Mobile navigation" initial={reduce?false:{height:0,opacity:0}} animate={{height:'auto',opacity:1}} exit={{height:0,opacity:0}} className="overflow-hidden border-t border-white/10 bg-[#11121d] lg:hidden"><div className="grid p-5">{links.map(([label,href])=><a key={href} href={href} className="rounded-xl px-4 py-3 text-slate-200 hover:bg-white/10" onClick={()=>setMenu(false)}>{label}</a>)}</div></motion.nav>}</AnimatePresence>
+  </header>
+  <main id="main-content">
+   <section id="home" aria-labelledby="hero-title" className="relative isolate flex min-h-[860px] scroll-mt-20 items-center overflow-hidden px-6 pb-20 pt-36 sm:px-10 lg:min-h-[min(980px,100svh)] lg:px-16">
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_76%_35%,rgba(114,66,174,.13),transparent_53%),radial-gradient(ellipse_at_13%_92%,rgba(57,123,151,.1),transparent_50%)]"/>
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[.19] [background-image:linear-gradient(rgba(180,160,255,.06)_1px,transparent_1px),linear-gradient(90deg,rgba(180,160,255,.06)_1px,transparent_1px)] [background-size:90px_90px] [mask-image:linear-gradient(to_bottom,black,transparent_85%)]"/>
+    <CinematicScene />
+    <div className="relative z-10 mx-auto w-full max-w-[1310px]">
+     <motion.div initial={reduce?false:{opacity:0,y:15}} animate={{opacity:1,y:0}} transition={{duration:.7}} className="mb-10 flex w-fit items-center gap-3 rounded-full border border-[#b8a5df]/20 bg-[#181421]/75 px-4 py-2 text-[10px] font-semibold uppercase tracking-[.23em] text-[#c9b2ff] backdrop-blur-lg"><span className="relative flex size-2"><span className="absolute inline-flex size-full animate-ping rounded-full bg-[#95f0d0]/50 motion-reduce:animate-none"/><span className="relative size-2 rounded-full bg-[#9bf0d8]"/></span>Business mind. Engineering DNA.</motion.div>
+     <motion.p initial={reduce?false:{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:.65,delay:.1}} className="mb-5 font-mono text-xs uppercase tracking-[.32em] text-[#a8a2b6]">Abdul Samad Babillail <span className="mx-2 text-[#c2a1f5]">/</span> Portfolio 2026</motion.p>
+     <motion.h1 id="hero-title" initial={reduce?false:{opacity:0,y:30}} animate={{opacity:1,y:0}} transition={{duration:.85,delay:.16,ease:[.18,.82,.25,1]}} className="max-w-[900px] text-[clamp(3.7rem,8vw,8.7rem)] font-semibold leading-[.96] tracking-[-.075em] text-white">Beyond<br/><span className="bg-gradient-to-r from-[#f7f0ff] via-[#d0b8ff] to-[#94ddf3] bg-clip-text text-transparent">the ordinary.</span></motion.h1>
+     <motion.p initial={reduce?false:{opacity:0,y:24}} animate={{opacity:1,y:0}} transition={{duration:.7,delay:.27}} className="mt-8 max-w-[560px] text-lg leading-8 text-[#bab8c9] sm:text-xl">Where <span className="font-semibold text-white">business strategy</span>, technology leadership, and creative engineering turn ambitious thinking into meaningful execution.</motion.p>
+     <motion.div initial={reduce?false:{opacity:0,y:18}} animate={{opacity:1,y:0}} transition={{duration:.7,delay:.36}} className="mt-10 flex flex-wrap items-center gap-4"><MagneticLink href="#work">Explore the work</MagneticLink><MagneticLink href="#about" secondary>Discover my approach</MagneticLink></motion.div>
+     <motion.div initial={reduce?false:{opacity:0}} animate={{opacity:1}} transition={{duration:1,delay:.7}} className="mt-16 flex max-w-[570px] flex-wrap items-center gap-4 border-t border-white/10 pt-5 font-mono text-[10px] uppercase tracking-[.17em] text-[#888698]"><span>01 / Strategy</span><span className="text-[#a38ac4]">✦</span><span>02 / Leadership</span><span className="text-[#a38ac4]">✦</span><span>03 / Technology</span></motion.div>
     </div>
-  );
+    <a href="#about" className="absolute bottom-8 right-10 z-20 hidden items-center gap-3 text-[10px] uppercase tracking-[.2em] text-[#a8a4b7] lg:flex">Scroll to explore <ArrowDownRight className="size-5"/></a>
+   </section>
+   <BrandWall />
+   <section id="about" aria-labelledby="about-title" className="relative overflow-hidden px-6 py-28 sm:px-10 lg:px-16 lg:py-40">
+    <div className="pointer-events-none absolute -right-44 top-4 size-[600px] rounded-full bg-[#6e4ca5]/[.08] blur-3xl" aria-hidden="true"/>
+    <div className="relative mx-auto grid max-w-[1300px] gap-12 lg:grid-cols-[.75fr_1.25fr] lg:gap-24"><Fade><p className="mb-5 font-mono text-xs uppercase tracking-[.3em] text-[#ba9ff4]">01 — The perspective</p><div className="flex items-center gap-2 text-[#858091]"><span className="h-px w-10 bg-[#ba9ff4]/60"/><span className="text-xs">Who I am</span></div></Fade><Fade delay={.1}><h2 id="about-title" className="max-w-[860px] text-4xl font-semibold leading-[1.12] tracking-[-.052em] text-white sm:text-6xl">I think like a strategist.<br/><span className="text-[#998dba]">I build like an engineer.</span></h2><p className="mt-8 max-w-2xl text-base leading-8 text-[#b7b3c4]">I work across business operations, technology management, team coordination, and digital transformation. My focus is connecting the wider objective to the details that make execution possible.</p><p className="mt-5 max-w-2xl text-sm leading-7 text-[#8d8a9d]">A future technology and business consulting venture is part of my ambition. For now, this is my personal professional portfolio—not a consulting company.</p></Fade></div>
+   </section>
+   <section id="expertise" aria-labelledby="expertise-title" className="bg-[#0d0e17] px-6 py-28 sm:px-10 lg:px-16 lg:py-36">
+    <div className="mx-auto max-w-[1300px]"><Fade><p className="mb-4 font-mono text-xs uppercase tracking-[.3em] text-[#ba9ff4]">02 — What I bring</p><h2 id="expertise-title" className="text-4xl font-semibold tracking-[-.05em] sm:text-6xl">The bigger picture.<br/><span className="text-[#918b9f]">The smallest details.</span></h2></Fade><div className="mt-14 grid gap-4 md:grid-cols-2">{features.map((feature,index)=>{const Icon=feature.icon;return <Fade key={feature.n} delay={(index%2)*.1}><article className="group relative flex h-full min-h-[310px] flex-col overflow-hidden rounded-[28px] border border-white/[.09] bg-[#141520] p-8 transition-all duration-500 hover:-translate-y-1.5 hover:border-[#aa8bf0]/40 hover:bg-[#1c192c] motion-reduce:transform-none sm:p-10"><div aria-hidden="true" className="pointer-events-none absolute -right-8 -top-8 size-40 rounded-full bg-[#bba3ff]/[.06] blur-3xl transition-opacity group-hover:opacity-100"/><div className="mb-14 flex items-center justify-between"><span className="font-mono text-sm text-[#b6a0e9]">{feature.n} / 04</span><Icon aria-hidden="true" className="size-8 text-[#c5abff]"/></div><p className="mb-2 font-mono text-[10px] tracking-[.24em] text-[#9182a8]">{feature.tag}</p><h3 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">{feature.title}</h3><p className="mt-4 max-w-lg text-sm leading-7 text-[#a9a7bb]">{feature.body}</p><ArrowUpRight aria-hidden="true" className="absolute bottom-8 right-8 size-5 text-[#7d6d9e] transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"/></article></Fade>})}</div></div>
+   </section>
+   <section id="work" aria-labelledby="work-title" className="px-6 py-28 sm:px-10 lg:px-16 lg:py-40"><div className="mx-auto max-w-[1300px]"><Fade><p className="mb-5 font-mono text-xs uppercase tracking-[.3em] text-[#ba9ff4]">03 — Featured explorations</p><div className="flex flex-wrap items-end justify-between gap-7"><h2 id="work-title" className="text-4xl font-semibold tracking-[-.05em] sm:text-6xl">Ideas into <span className="text-[#c6b0ff]">reality.</span></h2><p className="max-w-sm text-sm leading-7 text-[#9692a8]">Independent engineering work alongside business-oriented technology interests.</p></div></Fade>
+    <div className="mt-14 grid gap-5 lg:grid-cols-2"><Fade><a href="https://github.com/Asbabillail/samad-portfolio" target="_blank" rel="noopener noreferrer" className="group relative flex min-h-[490px] flex-col justify-between overflow-hidden rounded-[30px] border border-white/10 bg-[#171223] p-8 transition-colors hover:border-[#a68bdf]/60 focus-visible:outline-2 focus-visible:outline-[#c6a5ff] sm:p-10"><div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(164,117,255,.28),transparent_52%),radial-gradient(circle_at_20%_85%,rgba(81,200,214,.10),transparent_55%)]"/><div className="relative flex items-center justify-between text-xs font-mono uppercase tracking-[.2em] text-[#e0caff]"><span>01 / Digital experience</span><ArrowUpRight className="size-6"/></div><div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-[41%] grid size-44 -translate-x-1/2 -translate-y-1/2 rotate-[-24deg] place-items-center rounded-[42px] border border-[#cbb6ff]/25 bg-gradient-to-tr from-[#392859] via-[#553877] to-[#1b3445] shadow-[0_25px_90px_rgba(177,122,255,.3)] transition-transform duration-700 group-hover:rotate-[-12deg] group-hover:scale-105"><span className="text-7xl font-bold tracking-[-.1em] text-[#f3e7ff]">S.</span></div><div className="relative mt-60"><p className="mb-3 text-xs text-[#aaa0bf]">Next.js / React / Interaction Design</p><h3 className="text-3xl font-semibold text-white">Project SAMAD</h3><p className="mt-2 max-w-md text-sm leading-7 text-[#c8c1d8]">An evolving personal digital identity, combining storytelling, visual interaction, and software engineering.</p></div></a></Fade>
+    <Fade delay={.12}><div className="group relative flex min-h-[490px] flex-col justify-between overflow-hidden rounded-[30px] border border-white/10 bg-[#101c25] p-8 sm:p-10"><div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_66%_32%,rgba(41,171,186,.22),transparent_55%),radial-gradient(circle_at_8%_80%,rgba(93,125,193,.10),transparent_55%)]"/><div className="relative flex items-center justify-between font-mono text-xs uppercase tracking-[.2em] text-[#9ed9e7]"><span>02 / Business automation</span><Workflow className="size-6"/></div><div aria-hidden="true" className="absolute inset-x-10 top-24 grid h-48 grid-cols-3 gap-3 opacity-80"><div className="rounded-2xl border border-[#77cfe9]/20 bg-[#22475a]/35"/><div className="translate-y-9 rounded-2xl border border-[#77cfe9]/20 bg-[#326178]/35"/><div className="translate-y-4 rounded-2xl border border-[#77cfe9]/20 bg-[#22475a]/35"/></div><div className="relative mt-60"><p className="mb-3 text-xs text-[#a7c3cf]">Python / Workflows / Practical systems</p><h3 className="text-3xl font-semibold text-white">Process & Automation</h3><p className="mt-2 max-w-md text-sm leading-7 text-[#bacbd4]">Designing digital tools around operational challenges. Institution-specific case details are withheld pending approval.</p></div></div></Fade></div>
+    </div></section>
+   <section id="vision" aria-labelledby="vision-title" className="relative overflow-hidden bg-[#100d19] px-6 py-28 sm:px-10 lg:px-16 lg:py-40"><div aria-hidden="true" className="pointer-events-none absolute -right-28 top-1/4 size-[550px] rounded-full bg-[#b190ee]/[.08] blur-3xl"/><div className="relative mx-auto grid max-w-[1300px] gap-10 lg:grid-cols-[1.2fr_.8fr] lg:gap-24"><Fade><p className="mb-5 font-mono text-xs uppercase tracking-[.3em] text-[#ba9ff4]">04 — What's next</p><h2 id="vision-title" className="max-w-[850px] text-4xl font-semibold leading-[1.08] tracking-[-.05em] sm:text-6xl">Building today.<br/><span className="text-[#c3a2ff]">Thinking beyond tomorrow.</span></h2></Fade><Fade delay={.1}><div className="space-y-8 border-l border-[#bda1f3]/25 pl-7"><div><p className="mb-2 text-xs font-mono uppercase tracking-widest text-[#cab2ff]">Current focus</p><h3 className="mb-3 text-xl font-semibold">Business & Technology Leadership</h3><p className="text-sm leading-7 text-[#b1a9bf]">Operational excellence, strategic technology decisions, and cross-functional leadership.</p></div><div><p className="mb-2 text-xs font-mono uppercase tracking-widest text-[#cab2ff]">Future ambition</p><h3 className="mb-3 text-xl font-semibold">Entrepreneurship & Consulting</h3><p className="text-sm leading-7 text-[#b1a9bf]">Working toward a future technology and business consulting venture.</p></div></div></Fade></div></section>
+   <section id="contact" aria-labelledby="contact-title" className="relative overflow-hidden px-6 py-32 sm:px-10 lg:px-16 lg:py-44"><div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_75%,rgba(123,76,196,.14),transparent_60%)]"/><Fade className="relative mx-auto flex max-w-[1300px] flex-col items-center text-center"><p className="mb-5 font-mono text-xs uppercase tracking-[.3em] text-[#bea7eb]">05 — Let's connect</p><h2 id="contact-title" className="text-[clamp(3.5rem,8vw,8.5rem)] font-semibold leading-[1] tracking-[-.07em]">Let's make <span className="bg-gradient-to-r from-[#d2b1ff] to-[#91d6ef] bg-clip-text text-transparent">it happen.</span></h2><p className="mt-8 max-w-lg text-base leading-8 text-[#a8a4bb]">Open to professional opportunities, meaningful connections, and conversations at the intersection of business and technology.</p><div className="mt-10 flex flex-wrap justify-center gap-4"><MagneticLink href="mailto:asbabillail@gmail.com?subject=Professional%20Collaboration">Get in touch</MagneticLink><MagneticLink secondary href="https://www.linkedin.com/in/abdul-samad-babillail-3bb342249/">LinkedIn</MagneticLink></div></Fade></section>
+  </main>
+  <footer className="border-t border-white/10 px-6 py-8 sm:px-10 lg:px-16"><div className="mx-auto flex max-w-[1300px] flex-wrap items-center justify-between gap-4 text-xs text-[#858091]"><p>© {new Date().getFullYear()} Abdul Samad Babillail. Built with purpose.</p><div className="flex items-center gap-6"><a href="https://github.com/Asbabillail" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-white">GitHub ↗</a><a href="https://www.linkedin.com/in/abdul-samad-babillail-3bb342249/" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-white">LinkedIn ↗</a><span>Business × Design × Engineering</span></div></div></footer>
+ </div>
 }
