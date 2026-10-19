@@ -1,0 +1,97 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length 1607 >>
+stream
+BT
+/F1 10 Tf
+14 TL
+44 785 Td
+(PROJECT SAMAD | PHASE 007 | 20 OCT 2026) Tj
+T*
+(LIQUID GLASS / IOS-INSPIRED EXPERIENCE) Tj
+T*
+() Tj
+T*
+(Branch: project-samad/phase-07-liquid-glass) Tj
+T*
+(Production: unchanged; draft implementation only.) Tj
+T*
+() Tj
+T*
+(SCOPE AND IMPLEMENTATION) Tj
+T*
+(1. Corrected brand statement to Business DNA. Engineering Mind.) Tj
+T*
+(2. Replaced the previous oversized WebGL visual in the homepage.) Tj
+T*
+(3. Added an original layered translucent CSS-3D glass composition.) Tj
+T*
+(4. Pointer orientation eases via requestAnimationFrame without React rerenders.) Tj
+T*
+(5. Prefers-reduced-motion and touch-pointer fallbacks implemented.) Tj
+T*
+(6. Added frosted navigation and refined translucent expertise cards.) Tj
+T*
+(7. Retained technology logo strip and non-confidential business narrative.) Tj
+T*
+() Tj
+T*
+(FILES) Tj
+T*
+(components/experience/LiquidGlassHero.tsx \(new\)) Tj
+T*
+(app/page.tsx \(updated\)) Tj
+T*
+(PROJECT_SAMAD.md \(phase register updated\)) Tj
+T*
+(docs/phase-reports/PHASE-007.pdf \(this report\)) Tj
+T*
+() Tj
+T*
+(VALIDATION AND LIMITATIONS) Tj
+T*
+(Source changes and GitHub commits recorded.) Tj
+T*
+(GitHub CI and preview verification: see latest run/PR status.) Tj
+T*
+(Motion appearance and FPS still require hands-on browser evaluation.) Tj
+T*
+(The new object uses CSS 3D, not Apple's proprietary Liquid Glass API.) Tj
+T*
+(Historic public repository privacy/security considerations remain.) Tj
+T*
+() Tj
+T*
+(ROLLBACK) Tj
+T*
+(Do not merge branch; production main is unaffected.) Tj
+T*
+(Preview releases remain separate and protected by Vercel sign-in.) Tj
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000311 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1969
+%%EOF
