@@ -12,7 +12,14 @@ import {
   X,
   ShieldCheck,
   Building2,
-  Download
+  Download,
+  Menu,
+  ArrowUpRight,
+  BriefcaseBusiness,
+  Workflow,
+  Users,
+  Handshake,
+  Code2
 } from 'lucide-react';
 
 // --- SOUND EFFECT GENERATOR ---
@@ -104,6 +111,7 @@ export default function Home() {
   const { scrollYProgress } = useScroll();
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [terminalOpen, setTerminalOpen] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [inputVal, setInputVal] = useState('');
   const [commandHistory, setCommandHistory] = useState<Array<{ cmd: string; result: string }>>([
     { cmd: 'system.init', result: 'SAMAD-OS v3.0 loaded successfully. Type "help" for available commands.' }
@@ -157,8 +165,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen text-zinc-100 font-sans selection:bg-emerald-500 selection:text-black relative overflow-hidden bg-zinc-950">
-      {/* Background Fluid Canvas */}
-      <FluidSmokeBackground />
+      <a href="#about" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:p-3 focus:text-black">Skip to main content</a>
+      {/* Legacy fluid canvas removed from default rendering for performance. */}
 
       {/* --- FLOATING LOGO MATRIX --- */}
       <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden select-none">
@@ -337,25 +345,27 @@ export default function Home() {
             </span>
           </div>
 
-          <div className="hidden md:flex items-center gap-6 text-sm text-zinc-300 font-medium">
+          <div className="hidden lg:flex items-center gap-6 text-sm text-zinc-300 font-medium">
             <a href="#about" className="hover:text-emerald-400 transition-colors">About</a>
-            <a href="#metrics" className="hover:text-emerald-400 transition-colors">Metrics</a>
-            <a href="#suite" className="hover:text-emerald-400 transition-colors">Architecture Suite</a>
-            <a href="#labs" className="hover:text-emerald-400 transition-colors">Labs & Networks</a>
-            <a href="#ecosystem" className="hover:text-emerald-400 transition-colors">Ecosystem</a>
+            <a href="#metrics" className="hover:text-emerald-400 transition-colors">Expertise</a>
+            <a href="#suite" className="hover:text-emerald-400 transition-colors">Work</a>
+            <a href="#direction" className="hover:text-emerald-400 transition-colors">Future</a>
+            <a href="#approach" className="hover:text-emerald-400 transition-colors">Approach</a>
             <a href="#contact" className="hover:text-emerald-400 transition-colors">Contact</a>
           </div>
 
           <div className="flex items-center gap-3">
             <a 
-              href="/Abdul_Samad_Resume.pdf"
+              href="https://www.linkedin.com/in/abdul-samad-babillail-3bb342249/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-xs font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-full hover:bg-amber-500/20 transition-all cursor-pointer"
             >
               <Download className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">EXECUTIVE CV</span>
+              <span className="hidden sm:inline">LINKEDIN</span>
             </a>
+
+            <button type="button" className="lg:hidden rounded-lg border border-white/20 p-2.5 text-slate-200 focus-visible:outline-2 focus-visible:outline-teal-300" aria-expanded={mobileNavOpen} aria-controls="samad-mobile-nav" aria-label={mobileNavOpen ? "Close navigation" : "Open navigation"} onClick={() => setMobileNavOpen((previous) => !previous)}>{mobileNavOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}</button>
 
             {/* Sound Toggle Button */}
             <button 
@@ -374,6 +384,18 @@ export default function Home() {
             </a> 
           </div>
         </div>
+        {mobileNavOpen && (
+          <div id="samad-mobile-nav" className="border-t border-white/10 bg-zinc-950 p-4 lg:hidden">
+            <div className="mx-auto grid max-w-6xl gap-1">
+              {[
+                ["Overview", "#about"], ["Expertise", "#metrics"], ["Selected Work", "#suite"],
+                ["Approach", "#approach"], ["Future", "#direction"], ["Contact", "#contact"]
+              ].map(([label, href]) => (
+                <a key={href} href={href} onClick={() => setMobileNavOpen(false)} className="rounded-lg px-4 py-3 text-sm text-slate-200 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-teal-300">{label}</a>
+              ))}
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* --- INTERACTIVE TERMINAL DRAWER --- */}
@@ -415,7 +437,7 @@ export default function Home() {
       </AnimatePresence>
 
       {/* HERO SECTION */}
-      <section id="about" className="min-h-screen flex flex-col justify-center items-center text-center px-6 relative z-20 pt-20 pointer-events-none">
+      <section id="about" aria-labelledby="samad-heading" className="min-h-screen flex flex-col justify-center items-center text-center px-6 relative z-20 pt-20 pointer-events-none">
         <CursorOrbit />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -428,7 +450,7 @@ export default function Home() {
             <span>Business Operations · Technology Strategy · Innovation</span>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-4 bg-gradient-to-b from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent leading-tight">
+          <h1 id="samad-heading" className="text-5xl md:text-7xl font-extrabold tracking-tight mb-4 bg-gradient-to-b from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent leading-tight">
             Abdul Samad Babillail
           </h1>
 
@@ -502,14 +524,37 @@ export default function Home() {
         </div>
       </section>
 
+      <section id="approach" className="relative z-20 border-t border-white/10 px-6 py-20" aria-labelledby="samad-approach">
+        <div className="mx-auto max-w-6xl">
+          <p className="mb-3 font-mono text-xs uppercase tracking-widest text-teal-300">Strategy × execution</p>
+          <h2 id="samad-approach" className="mb-8 text-3xl font-semibold tracking-tight md:text-4xl">From business context to usable outcomes.</h2>
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              {title:"Discover",body:"Understand priorities, stakeholders, and constraints.",Icon:BriefcaseBusiness},
+              {title:"Coordinate",body:"Align people, vendors, systems, and operating processes.",Icon:Users},
+              {title:"Deliver",body:"Build, test, document, and improve practical solutions.",Icon:Code2}
+            ].map(({title,body,Icon},index)=><article key={title} className="rounded-2xl border border-teal-300/20 bg-slate-900/70 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-teal-300/50 motion-reduce:transform-none"><Icon className="mb-5 h-8 w-8 text-teal-300" aria-hidden="true" /><span className="mb-2 block font-mono text-xs text-amber-300">0{index+1}</span><h3 className="mb-3 text-xl font-semibold">{title}</h3><p className="text-sm leading-relaxed text-slate-300">{body}</p></article>)}
+          </div>
+        </div>
+      </section>
+      <section id="direction" className="relative z-20 border-t border-white/10 bg-[#101e28] px-6 py-20" aria-labelledby="samad-future">
+        <div className="mx-auto max-w-6xl">
+          <h2 id="samad-future" className="mb-8 text-3xl font-semibold md:text-4xl">Leadership now. Entrepreneurship ahead.</h2>
+          <div className="grid gap-5 md:grid-cols-2">
+            <article className="rounded-2xl border border-teal-400/30 bg-teal-400/5 p-7"><p className="mb-3 font-mono text-xs uppercase text-teal-300">Professional direction</p><h3 className="mb-3 text-xl font-semibold">Business & Technology Leadership</h3><p className="text-sm leading-7 text-slate-300">Business operations, stakeholder collaboration, commercial planning, technology strategy, and cross-functional delivery.</p></article>
+            <article className="rounded-2xl border border-amber-400/25 bg-amber-400/5 p-7"><p className="mb-3 font-mono text-xs uppercase text-amber-300">Future ambition</p><h3 className="mb-3 text-xl font-semibold">Entrepreneurship & Consulting</h3><p className="text-sm leading-7 text-slate-300">Developing toward a future technology and business consulting venture, not an existing consulting practice.</p></article>
+          </div>
+        </div>
+      </section>
+
       {/* FOOTER */}
       <footer id="contact" className="py-16 px-6 border-t border-zinc-900 bg-zinc-950/90 relative z-20 text-center backdrop-blur-md">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold mb-2 text-white">Let's Connect & Collaborate</h2>
-          <p className="text-zinc-400 text-sm mb-6">Building resilient enterprise environments and smart digital infrastructure.</p>
+          <p className="text-zinc-400 text-sm mb-6">Open to professional opportunities and thoughtful business and technology collaboration.</p><div className="mb-6 flex flex-wrap justify-center gap-3"><a href="mailto:asbabillail@gmail.com?subject=Professional%20Collaboration" className="inline-flex items-center gap-2 rounded-full bg-teal-300 px-5 py-3 font-semibold text-slate-950 hover:bg-teal-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-300">Get in touch <ArrowUpRight className="h-4 w-4"/></a><a href="https://github.com/Asbabillail" target="_blank" rel="noopener noreferrer" className="rounded-full border border-white/20 px-5 py-3 text-white hover:border-teal-300/50">GitHub ↗</a></div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-zinc-400 text-sm">
             <span className="flex items-center gap-2"><Building2 className="w-4 h-4 text-emerald-400" /> Dammam – Khobar, Eastern Province, KSA</span>
-            <span className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-emerald-400" /> Professional Collaboration</span>
+            <span className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-emerald-400" /> Business × Operations × Technology</span>
           </div>
         </div>
       </footer>
