@@ -20,8 +20,8 @@
 
 | Phase | Purpose | Status | Report |
 | --- | --- | --- | --- |
-| 001 | Foundation, business-first homepage and pointer-responsive 3D prototype | Implemented on development branch; verification pending | [PHASE-001](docs/phase-reports/PHASE-001.md) |
-| 002 | UI architecture, navigation, animation performance and disclosure review | Planned | Not started |
+| 001 | Foundation, business-first homepage and pointer-responsive 3D prototype | Implemented on development branch; verification pending | [PDF](docs/phase-reports/PHASE-001.pdf) / [Technical notes](docs/phase-reports/PHASE-001.md) |
+| 002 | Responsive navigation, business-led sections, lighter motion foundation | Development branch; test and disclosure review pending | [PDF](docs/phase-reports/PHASE-002.pdf) |
 | 003 | Engineering and business case-study system, synthetic demos | Planned | Not started |
 | 004 | Accessibility, SEO, CI and production-readiness | Planned | Not started |
 
