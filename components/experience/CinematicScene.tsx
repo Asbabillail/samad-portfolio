@@ -24,26 +24,28 @@ float torusSdf(vec3 p, vec2 shape) {
   return length(q) - shape.y;
 }
 vec2 scene(vec3 p) {
-  vec3 a = p;
-  a.xy *= turn(0.5 + u_pointer.x * 0.34 + 0.08 * sin(u_time * 0.32));
-  a.yz *= turn(0.65 + u_pointer.y * 0.36);
-  float outer = torusSdf(a, vec2(1.05, 0.042));
+  // A sculpted, intertwined ribbon knot with subtle procedural deformation.
+  // Entire scene is synthetic and has no institutional data.
+  vec3 q = p;
+  q.xy *= turn(u_pointer.x * 0.32 + 0.12 * sin(u_time * 0.18));
+  q.yz *= turn(u_pointer.y * 0.28 - 0.16 * cos(u_time * 0.2));
+  q.xz *= turn(0.23);
+  float phase = atan(q.z, q.x);
+  float twist = 2.5 * phase + u_time * 0.095;
+  float radius = 0.92 + 0.24 * cos(3.0 * phase);
+  vec3 core = vec3(radius * cos(phase), 0.26 * sin(3.0 * phase), radius * sin(phase));
+  float knot = length(q - core) - (0.155 + 0.02 * sin(twist * 2.0));
+  float gloss = sin(18.0 * phase + 7.0 * q.y) * 0.008;
+  knot += gloss;
 
-  vec3 b = p;
-  b.xy *= turn(0.85 - u_pointer.y * 0.32 - 0.13 * sin(u_time * 0.28));
-  b.xz *= turn(0.33 + u_pointer.x * 0.36);
-  float middle = torusSdf(b, vec2(0.79, 0.031));
-
-  vec3 c = p;
-  c.xz *= turn(0.48 + u_pointer.x * 0.3 + 0.12 * sin(u_time * 0.23));
-  c.xy *= turn(1.18 + u_pointer.y * 0.25);
-  float inner = torusSdf(c, vec2(0.57, 0.025));
-
-  float core = sphereSdf(p, 0.31);
-  vec2 d = vec2(outer, 1.0);
-  if (middle < d.x) d = vec2(middle, 2.0);
+  vec3 orb = p;
+  orb.xy *= turn(u_time * 0.045 + u_pointer.x * 0.25);
+  orb.xz *= turn(0.7 - u_pointer.y * 0.25);
+  float halo = torusSdf(orb, vec2(1.46, 0.009));
+  float inner = torusSdf(orb.yxz, vec2(1.23, 0.006));
+  vec2 d = vec2(knot, 1.0);
+  if (halo < d.x) d = vec2(halo, 2.0);
   if (inner < d.x) d = vec2(inner, 3.0);
-  if (core < d.x) d = vec2(core, 4.0);
   return d;
 }
 vec3 normalAt(vec3 p) {
@@ -60,7 +62,7 @@ float hash21(vec2 p) {
 void main() {
   vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution) / u_resolution.y;
   float radius = length(uv);
-  vec3 bg = mix(vec3(0.037, 0.073, 0.102), vec3(0.03, 0.13, 0.17), 0.45 * smoothstep(0.8, 0.05, radius));
+  vec3 bg = mix(vec3(0.028, 0.022, 0.052), vec3(0.08, 0.048, 0.15), 0.4 * smoothstep(0.82, 0.02, radius));
   float grid = sin(uv.x * 27.0) * sin(uv.y * 27.0);
   bg += 0.012 * smoothstep(0.98, 1.0, grid) * (1.0 - smoothstep(0.30, 1.1, radius));
 
@@ -83,15 +85,13 @@ void main() {
     vec3 n = normalAt(pos);
     vec3 light = normalize(vec3(-0.54, 0.78, 1.0));
     float lambert = max(dot(n, light), 0.0);
-    float rim = pow(1.0 - max(dot(n, -rd), 0.0), 2.6);
+    float rim = pow(1.0 - max(dot(n, -rd), 0.0), 2.3);
     float specular = pow(max(dot(reflect(-light, n), -rd), 0.0), 28.0);
 
-    vec3 tint = material < 1.5 ? vec3(0.23, 0.91, 0.79) :
-                material < 2.5 ? vec3(0.91, 0.70, 0.45) :
-                material < 3.5 ? vec3(0.42, 0.64, 1.0) :
-                vec3(0.26, 0.64, 0.75);
+    vec3 tint = material < 1.5 ? mix(vec3(0.78, 0.64, 0.98), vec3(0.42, 0.79, 0.94), smoothstep(-1.0, 1.0, n.y)) :
+                material < 2.5 ? vec3(0.96, 0.77, 0.56) : vec3(0.62, 0.48, 0.91);
     color = tint * (0.24 + 0.77 * lambert);
-    color += tint * rim * 0.55 + vec3(1.0) * specular * 0.45;
+    color += tint * rim * 0.72 + vec3(1.0) * specular * 0.68;
     color += tint * 0.06 / max(0.12, abs(pos.z));
   }
 
@@ -217,7 +217,7 @@ export default function CinematicScene() {
 
     const draw = (timestamp: number) => {
       if (!alive || !isVisible) { raf = 0; return; }
-      // 30 FPS cap reduces GPU load for raymarched material.
+      // GPU-friendly capped rendering for raymarched material.
       if (timestamp - lastFrame >= 32 || reducedMotion.matches) {
         const delta = Math.min(timestamp - (lastFrame || timestamp), 50);
         lastFrame = timestamp;
