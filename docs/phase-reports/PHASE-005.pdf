@@ -1,0 +1,109 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length 1850 >>
+stream
+BT
+/F1 9 Tf
+13 TL
+42 788 Td
+(PROJECT SAMAD | PHASE 005 | 19 OCTOBER 2026) Tj
+T*
+(QUALITY AUTOMATION + PUBLIC-ASSET SAFEGUARDS) Tj
+T*
+() Tj
+T*
+(Branch: project-samad/phase-05-release-qa) Tj
+T*
+(Production: not modified. Preview: Phase 4 Vercel build READY.) Tj
+T*
+() Tj
+T*
+(CHANGES COMPLETED) Tj
+T*
+(1. Removed legacy employer-specific modules from branch tree:) Tj
+T*
+(   telemetry, infrastructure visualizations, RFQ dashboard,) Tj
+T*
+(   protected container and Yref viewer.) Tj
+T*
+(2. Removed old publicly served resume PDF from current branch tree.) Tj
+T*
+(3. Added GitHub Actions workflow \(npm ci, resume exclusion,) Tj
+T*
+(   ESLint, TypeScript, production build\).) Tj
+T*
+(4. Fixed JSX unescaped entity identified by initial CI run.) Tj
+T*
+() Tj
+T*
+(VERIFICATION RESULTS) Tj
+T*
+(GitHub Actions run 39316391284: SUCCESS.) Tj
+T*
+(Dependency installation: passed.) Tj
+T*
+(Legacy public resume excluded: passed.) Tj
+T*
+(ESLint: passed. TypeScript: passed. Next.js build: passed.) Tj
+T*
+(Initial run 39316234980 failed ESLint, subsequently fixed.) Tj
+T*
+(Preview browser QA: not performed.) Tj
+T*
+(WebGL appearance and actual frame timing: not measured.) Tj
+T*
+() Tj
+T*
+(OPEN SECURITY AND RELEASE RISKS) Tj
+T*
+(npm ci reported 10 dependency advisories \(9 high, 1 critical\).) Tj
+T*
+(These must be triaged before production.) Tj
+T*
+(Removed files remain accessible through prior Git history.) Tj
+T*
+(Employer permission / data ownership still unresolved.) Tj
+T*
+(Preview protection requires authorized Vercel account sign-in.) Tj
+T*
+() Tj
+T*
+(ROLLBACK / RELEASE POLICY) Tj
+T*
+(Do not merge to main or deploy production without approval.) Tj
+T*
+(Branch is isolated. Baseline main: 9002267.) Tj
+T*
+() Tj
+T*
+(CI: github.com/Asbabillail/samad-portfolio/actions/runs/39316391284) Tj
+T*
+(Phase: 005 | Status: QA gates passed; production blocked.) Tj
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000311 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+2212
+%%EOF
