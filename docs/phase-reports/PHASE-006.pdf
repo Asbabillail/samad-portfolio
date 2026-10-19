@@ -1,0 +1,115 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length 2015 >>
+stream
+BT
+/F1 9 Tf
+13 TL
+42 790 Td
+(PROJECT SAMAD | PHASE 006 | VISUAL REBUILD) Tj
+T*
+(Date: 19 October 2026) Tj
+T*
+(Branch: project-samad/phase-06-visual-rebuild) Tj
+T*
+(Production: UNCHANGED; no merge to main.) Tj
+T*
+() Tj
+T*
+(GOAL) Tj
+T*
+(Address user feedback: flat theme, missing technology logos, basic 3D.) Tj
+T*
+() Tj
+T*
+(IMPLEMENTED) Tj
+T*
+(- Replaced SAMAD-OS dashboard aesthetic with premium editorial layout.) Tj
+T*
+(- Introduced dark plum, lavender, ice blue and layered gradients.) Tj
+T*
+(- Rebuilt hero typography, CTA interactions, storytelling sections.) Tj
+T*
+(- Added mouse-responsive magnetic CTA interactions.) Tj
+T*
+(- Restored 7 authentic technology SVG brand marks; no endorsement.) Tj
+T*
+(- Changed the WebGL hero from basic rings to synthetic sculptural knot.) Tj
+T*
+(- Added enhanced highlights, orbital detail and static fallbacks.) Tj
+T*
+(- Preserved business strategy, operations, leadership and future) Tj
+T*
+(  entrepreneurship as the principal content narrative.) Tj
+T*
+(- No employer performance numbers or internal topology published.) Tj
+T*
+() Tj
+T*
+(VERIFICATION) Tj
+T*
+(GitHub Actions run 39318221527: PASSED.) Tj
+T*
+(ESLint: passed. TypeScript: passed. Production build: passed.) Tj
+T*
+(Repository source review: passed. 3D appearance/FPS: NOT measured.) Tj
+T*
+(Video references: YouTube playback could not be verified completely.) Tj
+T*
+(Preview browser and mobile feedback: PENDING.) Tj
+T*
+() Tj
+T*
+(SCOPE / FILES) Tj
+T*
+(app/page.tsx - full homepage rewrite.) Tj
+T*
+(components/experience/BrandWall.tsx - technology marks.) Tj
+T*
+(components/experience/CinematicScene.tsx - custom WebGL sculpture.) Tj
+T*
+(PROJECT_SAMAD.md and this phase PDF.) Tj
+T*
+() Tj
+T*
+(RELEASE RISKS) Tj
+T*
+(User design acceptance pending. No guarantee of 60 FPS.) Tj
+T*
+(Public historic files and dependency advisories still need review.) Tj
+T*
+(Changes remain on development branch. Do NOT promote yet.) Tj
+T*
+() Tj
+T*
+(ROLLBACK) Tj
+T*
+(Leave main at baseline 9002267; close draft PR if rejected.) Tj
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000311 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+2377
+%%EOF
