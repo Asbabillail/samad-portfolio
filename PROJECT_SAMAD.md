@@ -23,7 +23,7 @@
 | 001 | Foundation, business-first homepage and pointer-responsive 3D prototype | Implemented on development branch; verification pending | [PDF](docs/phase-reports/PHASE-001.pdf) / [Technical notes](docs/phase-reports/PHASE-001.md) |
 | 002 | Responsive navigation, business-led sections, lighter motion foundation | Development branch; test and disclosure review pending | [PDF](docs/phase-reports/PHASE-002.pdf) |
 | 003 | Native WebGL2 3D visual, reduced-motion/visibility controls and executive SEO | Development implementation; test pending | [PDF](docs/phase-reports/PHASE-003.pdf) |
-| 004 | Accessibility, SEO, CI and production-readiness | Planned | Not started |
+| 004 | Enforce Next.js TypeScript checks; validate protected Vercel preview | Preview build passed; browser/privacy QA pending | [PDF](docs/phase-reports/PHASE-004.pdf) |
 
 ## Record format
 
