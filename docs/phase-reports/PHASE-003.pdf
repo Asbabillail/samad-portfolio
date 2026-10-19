@@ -1,0 +1,117 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length 2032 >>
+stream
+BT
+/F1 11 Tf
+15 TL
+50 785 Td
+(PROJECT SAMAD  /  PHASE 003  /  19 OCT 2026) Tj
+T*
+(CINEMATIC 3D EXPERIENCE - DEVELOPMENT REPORT) Tj
+T*
+() Tj
+T*
+(Implementation branch: project-samad/phase-03-cinematic) Tj
+T*
+(Base: phase 02 commit 22a5100c8259cf076fbd56804d3a41ba249829c3) Tj
+T*
+(Status: Development implemented; release blocked pending tests.) Tj
+T*
+() Tj
+T*
+(CHANGE SUMMARY) Tj
+T*
+(- Added native WebGL2 shader-driven raymarched 3D orbital sculpture.) Tj
+T*
+(- Mouse-driven orientation uses smoothed pointer interpolation.) Tj
+T*
+(- Rendering is capped near 30 FPS and limited to visible scene.) Tj
+T*
+(- WebGL size capped; no outside texture or institution data used.) Tj
+T*
+(- Reduced-motion freezes animations; CSS 3D fallback available.) Tj
+T*
+(- Reframed hero for business strategy and operational execution.) Tj
+T*
+(- Updated metadata, canonical URL and social sharing information.) Tj
+T*
+(- Updated the master record index.) Tj
+T*
+() Tj
+T*
+(FILES) Tj
+T*
+(components/experience/CinematicScene.tsx - new component) Tj
+T*
+(app/page.tsx - cinematic hero, content and controls) Tj
+T*
+(app/layout.tsx - professional SEO metadata) Tj
+T*
+(PROJECT_SAMAD.md - updated phase index) Tj
+T*
+(docs/phase-reports/PHASE-003.pdf - this report) Tj
+T*
+() Tj
+T*
+(VERIFICATION) Tj
+T*
+(GitHub commit creation: PASS.) Tj
+T*
+(Code content review: partial. No build or visual tests completed.) Tj
+T*
+(Build, lint, tsc, device performance: NOT RUN.) Tj
+T*
+(QA, security and confidentiality review: OPEN.) Tj
+T*
+(Production: UNCHANGED; no merge or deployment.) Tj
+T*
+() Tj
+T*
+(KNOWN RISKS) Tj
+T*
+(Existing repository history, assets and resume require disclosure review.) Tj
+T*
+(WebGL shaders remain untested on target devices and browsers.) Tj
+T*
+(30 FPS target is a cap, not a measured performance result.) Tj
+T*
+(Some legacy project components remain in repository.) Tj
+T*
+() Tj
+T*
+(ROLLBACK) Tj
+T*
+(Do not merge phase-03-cinematic; production stays on main.) Tj
+T*
+() Tj
+T*
+(Next: build and real browser QA, performance tuning and approval.) Tj
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000311 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+2394
+%%EOF
