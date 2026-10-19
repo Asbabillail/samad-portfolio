@@ -25,6 +25,7 @@
 | 003 | Native WebGL2 3D visual, reduced-motion/visibility controls and executive SEO | Development implementation; test pending | [PDF](docs/phase-reports/PHASE-003.pdf) |
 | 004 | Enforce Next.js TypeScript checks; validate protected Vercel preview | Preview build passed; browser/privacy QA pending | [PDF](docs/phase-reports/PHASE-004.pdf) |
 | 005 | Exclude unapproved legacy assets; add automated CI validation | Checks passed; visual and history review pending | [PDF](docs/phase-reports/PHASE-005.pdf) |
+| 006 | Visual redesign, richer 3D sculpture, technology brand wall | CI passed; browser design acceptance pending | [PDF](docs/phase-reports/PHASE-006.pdf) |
 
 ## Record format
 
