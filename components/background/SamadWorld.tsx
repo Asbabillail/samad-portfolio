@@ -58,7 +58,12 @@ function GlassSpire({ position, height, width, angle, index, motion }: SpireProp
   const depth = width * 0.75;
   const center = height / 2;
   const color = index % 3 === 0 ? "#24edbd" : "#10bcaa";
-  const geometry = useMemo(() => new THREE.BoxGeometry(width + 0.025, height + 0.025, depth + 0.025), [width, height, depth]);
+  const geometry = useMemo(() => {
+    const box = new THREE.BoxGeometry(width + 0.025, height + 0.025, depth + 0.025);
+    const edges = new THREE.EdgesGeometry(box);
+    box.dispose();
+    return edges;
+  }, [width, height, depth]);
   useEffect(() => () => geometry.dispose(), [geometry]);
 
   const tower = (
@@ -246,7 +251,6 @@ function EnergyCore({ quality, motion }: { quality: Quality; motion: boolean }) 
 
 function CameraRig() {
   const target = useRef({ x: 0, y: 0 });
-  const cameraGroup = useRef<THREE.Group>(null);
   useEffect(() => {
     const onPointerMove = (event: PointerEvent) => {
       if (event.pointerType !== "mouse" && event.pointerType !== "pen") return;
@@ -262,9 +266,8 @@ function CameraRig() {
     camera.position.x = THREE.MathUtils.damp(camera.position.x, idealX, 1.25, delta);
     camera.position.y = THREE.MathUtils.damp(camera.position.y, idealY, 1.25, delta);
     camera.lookAt(0, -0.25, -4.1);
-    if (cameraGroup.current) cameraGroup.current.rotation.y = 0;
   });
-  return <group ref={cameraGroup} />;
+  return null;
 }
 
 function WorldScene({ quality, motion }: { quality: Quality; motion: boolean }) {
