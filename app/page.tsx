@@ -4,6 +4,7 @@ import YrefMatrixViewer from '@/components/ui/YrefMatrixViewer';
 import InteractiveInfrastructureSuite from "@/components/InteractiveInfrastructureSuite";
 import InfrastructureMap from '@/components/InfrastructureMap';
 import RfqDashboard from '@/components/RfqDashboard';
+import dynamic from 'next/dynamic';
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import {
@@ -55,6 +56,12 @@ const playHoverSound = (enabled: boolean) => {
     // Audio context initialization fallback
   }
 };
+
+// Load the WebGL environment only in the browser, outside the initial page bundle.
+const SamadWorld = dynamic(() => import('@/components/background/SamadWorld'), {
+  ssr: false,
+  loading: () => <div aria-hidden="true" className="fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,#0a2c2a_0%,#030b0c_52%,#020506_100%)]" />,
+});
 
 // --- FLUID BACKGROUND COMPONENT ---
 const FluidSmokeBackground = () => {
@@ -161,6 +168,7 @@ const CASE_STUDY_DETAILS: Record<string, {
 export default function Home() {
   const { scrollYProgress } = useScroll();
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const [showImmersiveWorld, setShowImmersiveWorld] = useState(true);
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [isCvOpen, setIsCvOpen] = useState(false);
   const [inputVal, setInputVal] = useState('');
@@ -218,8 +226,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen text-zinc-100 font-sans selection:bg-emerald-500 selection:text-black relative overflow-hidden bg-zinc-950">
-      {/* Background Fluid Canvas */}
-      <FluidSmokeBackground />
+      {/* Immersive glass architecture; legacy fluid view is available as a fallback. */}
+      {showImmersiveWorld ? <SamadWorld /> : <FluidSmokeBackground />}
+      {showImmersiveWorld && <div aria-hidden="true" className="fixed inset-0 z-[1] pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.16)_0%,transparent_68%)]" />}
 
       {/* --- FLOATING LOGO MATRIX --- */}
       <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden select-none">
@@ -417,6 +426,19 @@ export default function Home() {
               <Download className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">EXECUTIVE CV</span>
             </a>
+
+            {/* Accessible visual-mode toggle with no page reload. */}
+            <button
+              type="button"
+              onClick={() => setShowImmersiveWorld((current) => !current)}
+              aria-label={showImmersiveWorld ? 'Switch to classic fluid background' : 'Switch to immersive 3D background'}
+              aria-pressed={showImmersiveWorld}
+              title={showImmersiveWorld ? '3D Nexus active — switch to classic' : 'Classic background — switch to 3D Nexus'}
+              className="flex items-center gap-1.5 px-2.5 py-2 rounded-full bg-zinc-900 border border-emerald-500/25 text-emerald-300 hover:border-emerald-400/70 hover:bg-emerald-500/10 transition-all"
+            >
+              <Layers className="w-4 h-4" />
+              <span className="hidden lg:inline text-[10px] font-bold tracking-widest">{showImmersiveWorld ? '3D' : 'CLASSIC'}</span>
+            </button>
 
             {/* Sound Toggle Button */}
             <button 
