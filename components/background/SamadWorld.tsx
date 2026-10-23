@@ -2,7 +2,7 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Sparkles, Stars } from "@react-three/drei";
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import * as THREE from "three";
 
 /**
@@ -16,7 +16,7 @@ import * as THREE from "three";
  */
 
 type Quality = "high" | "low";
-type Journey = { progress: React.MutableRefObject<number>; motion: boolean; quality: Quality };
+type Journey = { progress: RefObject<number>; motion: boolean; quality: Quality };
 
 const PORTAL_DEPTHS = [-15, -28, -42, -56, -72, -90, -108, -126];
 const STAGE_COLORS = [
@@ -379,7 +379,6 @@ function JourneyRig({ progress, motion }: Journey) {
   const left = useRef<THREE.PointLight>(null);
   const right = useRef<THREE.PointLight>(null);
   const fog = useRef<THREE.Fog>(null);
-  const stage = useRef(0);
 
   useEffect(() => {
     const move = (event: PointerEvent) => {
@@ -403,9 +402,14 @@ function JourneyRig({ progress, motion }: Journey) {
     const phase = p * (STAGE_COLORS.length - 1);
     const index = Math.min(STAGE_COLORS.length - 2, Math.floor(phase));
     const blend = THREE.MathUtils.smoothstep(phase - index, 0, 1);
-    stage.current = index;
-    if (left.current) left.current.color.lerpColors(STAGE_COLORS[index], STAGE_COLORS[index + 1], blend);
-    if (right.current) right.current.color.lerpColors(STAGE_COLORS[index + 1], STAGE_COLORS[index], blend);
+    if (left.current) {
+      left.current.color.lerpColors(STAGE_COLORS[index], STAGE_COLORS[index + 1], blend);
+      left.current.position.z = camera.position.z - 23;
+    }
+    if (right.current) {
+      right.current.color.lerpColors(STAGE_COLORS[index + 1], STAGE_COLORS[index], blend);
+      right.current.position.z = camera.position.z - 38;
+    }
     if (fog.current) {
       fog.current.far = THREE.MathUtils.damp(fog.current.far, 52 + 9 * Math.sin(p * Math.PI * 2), 1.2, delta);
     }
