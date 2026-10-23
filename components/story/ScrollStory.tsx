@@ -210,6 +210,22 @@ function StoryFrame({
   );
 }
 
+function ChapterTick({ index, progress }: { index: number; progress: MotionValue<number> }) {
+  const scaleX = useTransform(
+    progress,
+    [index / CHAPTERS.length, (index + 1) / CHAPTERS.length],
+    [0, 1]
+  );
+  return (
+    <div className="relative h-px w-9 bg-white/20">
+      <motion.div
+        className="absolute inset-y-0 left-0 origin-left bg-emerald-300"
+        style={{ scaleX }}
+      />
+    </div>
+  );
+}
+
 /** Reduced-motion visitors get an accessible linear story, without pinned animations. */
 function ReducedMotionStory() {
   return (
@@ -269,18 +285,7 @@ export default function ScrollStory() {
           </div>
           <div className="hidden items-center gap-2 sm:flex" aria-hidden="true">
             {CHAPTERS.map((chapter, index) => (
-              <div key={chapter.chapter} className="relative h-px w-9 bg-white/20">
-                <motion.div
-                  className="absolute inset-y-0 left-0 origin-left bg-emerald-300"
-                  style={{
-                    scaleX: useTransform(
-                      scrollYProgress,
-                      [index / CHAPTERS.length, (index + 1) / CHAPTERS.length],
-                      [0, 1]
-                    ),
-                  }}
-                />
-              </div>
+              <ChapterTick key={chapter.chapter} index={index} progress={scrollYProgress} />
             ))}
           </div>
         </div>
