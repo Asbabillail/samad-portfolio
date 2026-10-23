@@ -570,7 +570,14 @@ export default function Home() {
       {showImmersiveWorld && <ScrollStory />}
 
       {/* --- LIVE INFRASTRUCTURE METRICS DASHBOARD --- */}
-      <section id="metrics" className="py-12 px-6 relative z-20">
+      <motion.section
+        id="metrics"
+        initial={{ opacity: 0, y: 42 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.08 }}
+        transition={{ duration: 0.85, ease: "easeOut" }}
+        className="py-12 px-6 relative z-20"
+      >
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-xl flex items-center gap-3">
@@ -603,26 +610,47 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* --- INTERACTIVE INFRASTRUCTURE SUITE COMPONENT --- */}
-      <section id="suite" className="py-12 px-6 relative z-20">
+      <motion.section
+        id="suite"
+        initial={{ opacity: 0, y: 42 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.08 }}
+        transition={{ duration: 0.85, ease: "easeOut" }}
+        className="py-12 px-6 relative z-20"
+      >
         <div className="max-w-6xl mx-auto space-y-6">
           <InteractiveInfrastructureSuite />
           <InfrastructureMap />
           <RfqDashboard />
         </div>
-      </section>
+      </motion.section>
 
       {/* --- YREF FRAMEWORK MATRIX SECTION --- */}
-      <section id="yref-matrix" className="py-12 px-6 relative z-20">
+      <motion.section
+        id="yref-matrix"
+        initial={{ opacity: 0, y: 42 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.08 }}
+        transition={{ duration: 0.85, ease: "easeOut" }}
+        className="py-12 px-6 relative z-20"
+      >
         <div className="max-w-6xl mx-auto">
            <YrefMatrixViewer />
         </div>
-      </section>
+      </motion.section>
 
       {/* --- LABS & NETWORK INFRASTRUCTURE DETAIL SECTION --- */}
-      <section id="labs" className="py-16 px-6 relative z-20">
+      <motion.section
+        id="labs"
+        initial={{ opacity: 0, y: 42 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.08 }}
+        transition={{ duration: 0.85, ease: "easeOut" }}
+        className="py-16 px-6 relative z-20"
+      >
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold tracking-tight mb-3 text-white">
@@ -693,10 +721,17 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* ECOSYSTEM / TECH STACK SECTION */}
-      <section id="ecosystem" className="py-20 px-6 relative z-20">
+      <motion.section
+        id="ecosystem"
+        initial={{ opacity: 0, y: 42 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.08 }}
+        transition={{ duration: 0.85, ease: "easeOut" }}
+        className="py-20 px-6 relative z-20"
+      >
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-white">
@@ -788,7 +823,7 @@ export default function Home() {
             </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* --- CASE STUDY MODAL --- */}
       <AnimatePresence>
