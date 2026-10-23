@@ -4,9 +4,10 @@ import YrefMatrixViewer from '@/components/ui/YrefMatrixViewer';
 import InteractiveInfrastructureSuite from "@/components/InteractiveInfrastructureSuite";
 import InfrastructureMap from '@/components/InfrastructureMap';
 import RfqDashboard from '@/components/RfqDashboard';
+import ScrollStory from '@/components/story/ScrollStory';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform, AnimatePresence } from 'framer-motion';
 import {
   Mail,
   MapPin,
@@ -182,6 +183,11 @@ export default function Home() {
     damping: 30,
     restDelta: 0.001,
   });
+  // Floating partner badges are part of the intro, not the full journey.
+  const logoOpacity = useTransform(scrollYProgress, [0, 0.075], [1, 0]);
+  const logoVisibility = useTransform(scrollYProgress, (value) =>
+    value < 0.075 ? "visible" : "hidden"
+  );
 
   const handleCommandSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -230,8 +236,11 @@ export default function Home() {
       {showImmersiveWorld ? <SamadWorld /> : <FluidSmokeBackground />}
       {showImmersiveWorld && <div aria-hidden="true" className="fixed inset-0 z-[1] pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.16)_0%,transparent_68%)]" />}
 
-      {/* --- FLOATING LOGO MATRIX --- */}
-      <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden select-none">
+      {/* Floating partner badges introduce the experience, then disappear as the world opens. */}
+      <motion.div
+        className="fixed inset-0 pointer-events-none z-10 overflow-hidden select-none"
+        style={{ opacity: logoOpacity, visibility: logoVisibility }}
+      >
         {/* APPLE */}
         <motion.div 
           onMouseEnter={() => playHoverSound(soundEnabled)}
@@ -383,7 +392,7 @@ export default function Home() {
         >
           <span className="text-[#004B93] font-black text-lg tracking-widest">ACEBOTT</span>
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Scroll Progress Line */}
       <motion.div
@@ -408,12 +417,30 @@ export default function Home() {
           </div>
 
           <div className="hidden md:flex items-center gap-6 text-sm text-zinc-300 font-medium">
-            <a href="#about" className="hover:text-emerald-400 transition-colors">About</a>
-            <a href="#metrics" className="hover:text-emerald-400 transition-colors">Metrics</a>
-            <a href="#suite" className="hover:text-emerald-400 transition-colors">Architecture Suite</a>
-            <a href="#labs" className="hover:text-emerald-400 transition-colors">Labs & Networks</a>
-            <a href="#ecosystem" className="hover:text-emerald-400 transition-colors">Ecosystem</a>
-            <a href="#contact" className="hover:text-emerald-400 transition-colors">Contact</a>
+            {[
+              ["#about", "About"],
+              ["#metrics", "Metrics"],
+              ["#suite", "Architecture Suite"],
+              ["#labs", "Labs & Networks"],
+              ["#ecosystem", "Ecosystem"],
+              ["#contact", "Contact"],
+            ].map(([href, label], index) => (
+              <motion.a
+                key={href}
+                href={href}
+                initial={{ opacity: 0, y: -13 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.12 + index * 0.07, duration: 0.55, ease: "easeOut" }}
+                whileHover={{ y: -2 }}
+                className="group relative py-1.5 transition-colors hover:text-emerald-300 focus-visible:text-emerald-300"
+              >
+                {label}
+                <span
+                  aria-hidden="true"
+                  className="absolute -bottom-0.5 left-0 h-px w-0 bg-gradient-to-r from-emerald-400 to-cyan-300 shadow-[0_0_12px_rgba(45,212,191,0.7)] transition-all duration-300 group-hover:w-full group-focus-visible:w-full"
+                />
+              </motion.a>
+            ))}
           </div>
 
           <div className="flex items-center gap-3">
@@ -538,6 +565,9 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
+
+      {/* CINEMATIC STORY: real portfolio facts appear as the camera travels the 3D world. */}
+      {showImmersiveWorld && <ScrollStory />}
 
       {/* --- LIVE INFRASTRUCTURE METRICS DASHBOARD --- */}
       <section id="metrics" className="py-12 px-6 relative z-20">
