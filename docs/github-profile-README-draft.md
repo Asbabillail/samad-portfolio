@@ -43,7 +43,7 @@ My current focus combines **reliable IT operations** with **useful engineering a
 | Project | What it demonstrates |
 | --- | --- |
 | [SAMAD-OS Portfolio](https://github.com/Asbabillail/samad-portfolio) | Interactive technology portfolio built with Next.js, TypeScript, Framer Motion, and infrastructure visualizations |
-| [Automated Fee System](https://github.com/Asbabillail/automated-fee-system) | Python/Streamlit approach to administrative fee-calculation workflows *(documentation and privacy review in progress)* |
+| Automated Fee System *(case study under review)* | Python/Streamlit workflow automation; repository promotion deferred pending employer-information and privacy review |
 | [ATLAS Engineering Intelligence](https://github.com/Asbabillail/atlas-engineering-intelligence) | Modular engineering instructions and agent-oriented tooling with documentation and structural validation |
 
 ### Certifications & professional learning
