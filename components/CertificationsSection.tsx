@@ -1,4 +1,4 @@
-import { Award, BookOpenCheck, ExternalLink } from "lucide-react";
+import { Award, BookOpenCheck } from "lucide-react";
 
 type Credential = {
   title: string;
