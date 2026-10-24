@@ -401,7 +401,8 @@ export default function Home() {
 
           <div className="hidden md:flex items-center gap-6 text-sm text-zinc-300 font-medium">
             <a href="#about" className="hover:text-emerald-400 transition-colors">About</a>
-            <a href="#metrics" className="hover:text-emerald-400 transition-colors">Metrics</a>
+            <a href="#metrics" className="hover:text-emerald-400 transition-colors">Scope</a>
+              <a href="#certifications" className="hover:text-emerald-400 transition-colors">Credentials</a>
             <a href="#suite" className="hover:text-emerald-400 transition-colors">Architecture Suite</a>
             <a href="#labs" className="hover:text-emerald-400 transition-colors">Labs & Networks</a>
             <a href="#ecosystem" className="hover:text-emerald-400 transition-colors">Ecosystem</a>
@@ -521,6 +522,7 @@ export default function Home() {
       {/* --- SELECTED, USER-SUPPLIED ENVIRONMENT SNAPSHOT --- */}
       <section id="metrics" className="py-12 px-6 relative z-20">
         <div className="max-w-6xl mx-auto">
+          <p className="mb-4 text-xs font-mono tracking-wide text-zinc-400">Technology portfolio snapshot · October 2026 · Not a live operations dashboard</p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-xl flex items-center gap-3">
               <Server className="w-8 h-8 text-emerald-400 shrink-0" />
