@@ -8,7 +8,7 @@ This file tracks **actual outcomes**, not artificial commit or activity targets.
 
 | Priority | Mission | Repository | Completion criterion | Status | Evidence / next action |
 | --- | --- | --- | --- | --- | --- |
-| P0 | Public-content accuracy review | samad-portfolio | Resolve unsupported uptime and stale account/fleet figures before merging site-content updates | In progress | Source audit found outdated metrics in `app/page.tsx` |
+| P0 | Public-content accuracy review | samad-portfolio | Resolve unsupported uptime and stale account/fleet figures before merging site-content updates | Draft PR | [Accuracy and credentials review — PR #10](https://github.com/Asbabillail/samad-portfolio/pull/10) |
 | P0 | Institutional-data privacy review | All public projects | No shared credentials, serial-level inventory, restricted documents, or private operational diagrams published | In progress | Review required before any new public operational artifacts |
 | P1 | Replace starter portfolio README | samad-portfolio | Complete, accurate README with setup, stack, privacy guidance | Draft PR | Documentation-only feature branch |
 | P1 | Draft GitHub profile README | samad-portfolio | Public-safe draft with expertise, visible credentials, selected projects | Draft PR | `docs/github-profile-README-draft.md` |
@@ -63,6 +63,17 @@ This file tracks **actual outcomes**, not artificial commit or activity targets.
 - Performed readback and limited text-based checks of the two Markdown files.
 - **Not run:** npm lint, build, browser accessibility test, vulnerability scanner.
 - **Next mission:** reconcile live portfolio case-study data and assess institution-specific information before publishing revised site content.
+
+## Mission 002 record — 2026-10-24
+
+- Updated website-facing scope and removed stale or unsupported claims in six portfolio files.
+- Added visible credential and professional-recognition summaries, distinguishing certifications from course completions and simulations.
+- Replaced detailed/static operational data with high-level portfolio summaries; labeled interactive views as illustrative rather than live telemetry.
+- Opened [draft PR #10](https://github.com/Asbabillail/samad-portfolio/pull/10) from a separate feature branch. It is not merged.
+- Deferred prominent linking of the fee-system repository in the [profile README draft](./github-profile-README-draft.md) pending a separate privacy review.
+- **Verification performed:** GitHub file readback; selected stale-claim and disclosure phrase checks.
+- **Not verified:** Next.js build, lint, browser accessibility and production behavior. No deployment of ASCEND changes was observed in the checked Vercel deployment list.
+- **Next mission:** validate CI/build and public disclosures, reconcile downloadable resume contents, then review PRs before publication.
 
 ---
 *Evidence must be revised as tasks progress. This tracker itself is not a substitute for a real security review.*
