@@ -1,6 +1,7 @@
 'use client';
 
 import YrefMatrixViewer from '@/components/ui/YrefMatrixViewer';
+import CertificationsSection from '@/components/CertificationsSection';
 import InteractiveInfrastructureSuite from "@/components/InteractiveInfrastructureSuite";
 import InfrastructureMap from '@/components/InfrastructureMap';
 import RfqDashboard from '@/components/RfqDashboard';
@@ -126,35 +127,35 @@ const CASE_STUDY_DETAILS: Record<string, {
 }> = {
   'Apple Enterprise': {
     title: 'Apple Enterprise Architecture & Jamf MDM',
-    tagline: 'Zero-Touch macOS & 350+ iPad Fleet Management',
-    strategy: 'Leveraged Apple School Manager (ASM) linked directly to Jamf Pro to orchestrate zero-touch deployment for 350+ iPads (300+ Student 1:1, ~50 Faculty) and macOS workstations.',
-    security: 'Enforced FileVault full-disk encryption, automated compliance posture checks, web filtering, and scheduled iOS/macOS update rings.',
-    scalability: 'Structured dynamic device groups supporting seamless annual student handovers and automated identity syncing.',
-    highlights: ['ASM & Jamf Pro Zero-Touch Pipeline', '350+ Managed Apple Endpoints', 'Automated Profile & Licensing Provisioning']
+    tagline: '400 Student iPads, 60 Teacher iPads & BYOD Support',
+    strategy: 'Manage 400 student iPads and 60 teacher iPads through Apple School Manager and Jamf for Education workflows, while supporting more than 50 student-owned BYOD devices.',
+    security: 'Coordinate appropriate device settings, app distribution, and enrollment policies through authorized management portals.',
+    scalability: 'Support device lifecycle and Microsoft identity integration workflows for students and faculty.',
+    highlights: ['Apple School Manager & Jamf for Education', '400 Student & 60 Teacher iPads', '50+ Student BYOD Devices Supported']
   },
   'Microsoft 365 & Azure': {
     title: 'Microsoft 365 Enterprise Identity & Licensing',
-    tagline: '1,050+ Seat Cloud Identity & Endpoint Governance',
-    strategy: 'Engineered M365 A3 tenant architecture managing 1,000 Student A3, 25+ Faculty A3, and 25 Business licenses across Entra ID.',
-    security: 'Conditional Access policies enforcing MFA, role-based identity access control, and Intune security baselines across 80+ Windows PCs.',
-    scalability: 'Automated user onboarding/offboarding workflows integrated with active directory identity sync.',
-    highlights: ['1,050+ M365 Active Licensing Scope', 'Intune Endpoint Policy Management', 'Entra ID MFA & Conditional Access']
+    tagline: '800+ Microsoft Accounts & Endpoint Governance',
+    strategy: 'Administer 800+ Microsoft accounts and coordinate cloud identity workflows with Apple School Manager and Jamf for Education.',
+    security: 'Support identity access administration and Microsoft Intune policies for managed Windows devices.',
+    scalability: 'Expanding Intune enrollment and shared-device policies for ICT labs with 25 PCs each; rollout is in progress.',
+    highlights: ['800+ Microsoft Accounts', 'Intune Lab Enrollment In Progress', 'Cloud Identity Administration']
   },
   'SMART Tech Displays': {
     title: 'SMART Display Interactive Ecosystem',
-    tagline: '53-Unit Smart Board Governance & EdTech Infrastructure',
-    strategy: 'Centralized governance of 53 SMART MX075-V5 interactive displays through SMART Admin console for OTA firmware and configuration push.',
-    security: 'Isolated display network VLANs coupled with strict kiosk-mode profile permissions and remote screen lock capability.',
-    scalability: 'Standardized room deployment templates supporting seamless screen mirroring, Lumio integration, and campus-wide broadcasting.',
-    highlights: ['53 SMART Board MX075-V5 Deployment', 'SMART Admin Centralized Console', 'Lumio Cloud Content Platform']
+    tagline: '52 SMART Boards & Classroom Technology',
+    strategy: 'Support 52 SMART interactive boards, two video walls, SMART administration tools, and the Lumio classroom platform.',
+    security: 'Coordinate approved classroom display settings and device administration through vendor management tools.',
+    scalability: 'Support faculty classroom technology workflows, display readiness, and Lumio learning tools.',
+    highlights: ['52 SMART Boards', 'Two Video Walls', 'SMART Lumio Platform']
   },
   'Innovation Labs & STEM': {
     title: 'Robotics, Brain & STEM Innovation Labs',
-    tagline: '380+ Tracked Advanced Lab Infrastructure Assets',
-    strategy: 'Designed and deployed multi-lab infrastructure comprising 108 Robotics Kits (Weemake/UBTECH), 93 Brain Lab units (Muse 2 Headbands), and 26 STEM VR/Drone kits.',
-    security: 'Implemented hardware inventory audits (YREF v1.0), charging cart safety protocols, and asset tagging across all lab assets.',
-    scalability: 'Standardized curriculum kit provisioning and continuous maintenance framework for 630+ active daily lab users.',
-    highlights: ['108 Robotics & AI Learning Kits', '93 Muse 2 Brainwave Headbands', '26 STEM VR & Drone Ecosystems']
+    tagline: 'Robotics, STEM & VR Platform Administration',
+    strategy: 'Support robotics and immersive-learning systems and administer SciVR, ArborXR for VR management, and the UBTECH Admin Portal.',
+    security: 'Coordinate technical readiness, authorized platform administration, and equipment lifecycle workflows.',
+    scalability: 'Collaborate with academic teams on sustainable lab workflows, YREF documentation, and training.',
+    highlights: ['SciVR & ArborXR VR Management', 'UBTECH Admin Portal', 'Robotics & STEM Technology Operations']
   }
 };
 
@@ -188,19 +189,19 @@ export default function Home() {
         response = 'Role: Head of Tech & Innovation Department | Focus: Enterprise MDM, Cloud Identity & Infrastructure';
         break;
       case 'scale':
-        response = 'Users: 630+ Daily | iPads: 350+ (Jamf) | Windows PCs: 80+ | M365 Seats: 1,050+ | Aruba APs: 60';
+        response = 'iPads: 400 student + 60 teacher | Student BYOD: 50+ | Microsoft accounts: 800+ | SMART boards: 52';
         break;
       case 'labs':
-        response = 'Assets: 380+ | SMART Boards: 53 | Robotics Kits: 108 | Brain Lab: 93 | STEM VR/Drones: 26';
+        response = 'ICT labs: 25 PCs per lab (Intune rollout in progress) | VR: ArborXR and SciVR | Robotics: UBTECH portal';
         break;
       case 'network':
-        response = 'Firewall: FortiGate 200F | Core Switch: Cisco SG350 | Wireless: 60 Aruba AP25 | CCTV: 100+ | Access: 32';
+        response = 'Technologies: FortiGate 200F, Cisco/Hikvision switching, wireless operations, and security administration. Internal topology is not published.';
         break;
       case 'certs':
-        response = 'CCNA (Simplilearn #4489483), Python Data Science (#4464651), SMART MX-V5 Display Tech, SAP Consulting';
+        response = 'Google Certified Educator Level 1 | SMART MX-V5 iQ4 training | Simplilearn networking course | Python Data Science | SAP/Forage simulation';
         break;
       case 'status':
-        response = 'Location: Dammam-Khobar, KSA | Work Status: Transferable Status | Uptime: 99.99%';
+        response = 'Based in Dammam/Khobar, Saudi Arabia | Focus: Infrastructure, device management, and business automation';
         break;
       case 'clear':
         setCommandHistory([]);
@@ -497,7 +498,7 @@ export default function Home() {
           </p>
 
           <p className="text-zinc-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-8 font-medium">
-            Directing technology operations for 630+ active daily users across 350+ Apple iPads (Jamf/ASM), 80+ Windows PCs, 380+ STEM/Lab hardware assets, and enterprise Fortinet/Aruba network infrastructure.
+            Managing IT and innovation operations across 400 student iPads, 60 teacher iPads, 50+ student BYOD devices, 800+ Microsoft accounts, Windows ICT labs, SMART classroom technology, and enterprise networks.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 pointer-events-auto">
@@ -517,41 +518,43 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* --- LIVE INFRASTRUCTURE METRICS DASHBOARD --- */}
+      {/* --- SELECTED, USER-SUPPLIED ENVIRONMENT SNAPSHOT --- */}
       <section id="metrics" className="py-12 px-6 relative z-20">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-xl flex items-center gap-3">
               <Server className="w-8 h-8 text-emerald-400 shrink-0" />
               <div>
-                <div className="text-xl md:text-2xl font-bold text-white">630+</div>
-                <div className="text-xs text-zinc-400 font-mono">Active Daily Users</div>
+                <div className="text-xl md:text-2xl font-bold text-white">400</div>
+                <div className="text-xs text-zinc-400 font-mono">Student iPads</div>
               </div>
             </div>
             <div className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-xl flex items-center gap-3">
               <Monitor className="w-8 h-8 text-sky-400 shrink-0" />
               <div>
-                <div className="text-xl md:text-2xl font-bold text-white">350+ iPads</div>
-                <div className="text-xs text-zinc-400 font-mono">300+ 1:1 / ~50 Faculty</div>
+                <div className="text-xl md:text-2xl font-bold text-white">60</div>
+                <div className="text-xs text-zinc-400 font-mono">Teacher iPads</div>
               </div>
             </div>
             <div className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-xl flex items-center gap-3">
               <Bot className="w-8 h-8 text-purple-400 shrink-0" />
               <div>
-                <div className="text-xl md:text-2xl font-bold text-white">380+ Assets</div>
-                <div className="text-xs text-zinc-400 font-mono">Lab & STEM Assets</div>
+                <div className="text-xl md:text-2xl font-bold text-white">50+</div>
+                <div className="text-xs text-zinc-400 font-mono">Student BYOD Devices</div>
               </div>
             </div>
             <div className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-xl flex items-center gap-3">
               <Cpu className="w-8 h-8 text-amber-400 shrink-0" />
               <div>
-                <div className="text-xl md:text-2xl font-bold text-white">1,050+ Seats</div>
-                <div className="text-xs text-zinc-400 font-mono">M365 A3 & Business</div>
+                <div className="text-xl md:text-2xl font-bold text-white">800+</div>
+                <div className="text-xs text-zinc-400 font-mono">Microsoft Accounts</div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      <CertificationsSection />
 
       {/* --- INTERACTIVE INFRASTRUCTURE SUITE COMPONENT --- */}
       <section id="suite" className="py-12 px-6 relative z-20">
@@ -577,7 +580,7 @@ export default function Home() {
               Campus Infrastructure & Lab Operations
             </h2>
             <p className="text-zinc-400 text-sm max-w-xl mx-auto">
-              Hardware distribution and network topology across live educational and administrative spaces.
+              A high-level summary of platforms supported. Confidential network layouts and internal inventory are intentionally omitted.
             </p>
           </div>
 
@@ -585,28 +588,28 @@ export default function Home() {
             {/* LAB HARDWARE CATALOG */}
             <div className="p-6 rounded-2xl bg-zinc-900/70 border border-zinc-800/80 backdrop-blur-xl">
               <h3 className="text-lg font-bold text-white flex items-center gap-2 mb-4">
-                <Layers className="w-5 h-5 text-emerald-400" /> Tracked Lab Assets & Displays
+                <Layers className="w-5 h-5 text-emerald-400" /> Classroom & Innovation Technology
               </h3>
               <div className="space-y-3 text-xs md:text-sm">
                 <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
                   <span className="font-medium text-zinc-200">SMART Board Interactive Displays (MX075-V5)</span>
-                  <span className="font-bold text-emerald-400 font-mono bg-emerald-950/50 px-2.5 py-1 rounded border border-emerald-800/50">53 Units</span>
+                  <span className="font-bold text-emerald-400 font-mono bg-emerald-950/50 px-2.5 py-1 rounded border border-emerald-800/50">52 Units</span>
                 </div>
                 <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
-                  <span className="font-medium text-zinc-200">Robotics & AI Kits (Weemake, UBTECH, Hiwonder)</span>
-                  <span className="font-bold text-emerald-400 font-mono bg-emerald-950/50 px-2.5 py-1 rounded border border-emerald-800/50">108 Kits</span>
+                  <span className="font-medium text-zinc-200">Robotics Platform Administration (UBTECH)</span>
+                  <span className="font-bold text-emerald-400 font-mono bg-emerald-950/50 px-2.5 py-1 rounded border border-emerald-800/50">Admin Portal</span>
                 </div>
                 <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
-                  <span className="font-medium text-zinc-200">Brain Lab Units (Muse 2 Brainwave Headbands)</span>
-                  <span className="font-bold text-emerald-400 font-mono bg-emerald-950/50 px-2.5 py-1 rounded border border-emerald-800/50">93 Units</span>
+                  <span className="font-medium text-zinc-200">VR Platform Management (ArborXR)</span>
+                  <span className="font-bold text-emerald-400 font-mono bg-emerald-950/50 px-2.5 py-1 rounded border border-emerald-800/50">VR MDM</span>
                 </div>
                 <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
-                  <span className="font-medium text-zinc-200">STEM VR & Drone Kits</span>
-                  <span className="font-bold text-emerald-400 font-mono bg-emerald-950/50 px-2.5 py-1 rounded border border-emerald-800/50">26 Kits</span>
+                  <span className="font-medium text-zinc-200">SciVR Learning Platform</span>
+                  <span className="font-bold text-emerald-400 font-mono bg-emerald-950/50 px-2.5 py-1 rounded border border-emerald-800/50">Admin Portal</span>
                 </div>
                 <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
-                  <span className="font-medium text-zinc-200">ICT Lab Workstations & Peripherals</span>
-                  <span className="font-bold text-emerald-400 font-mono bg-emerald-950/50 px-2.5 py-1 rounded border border-emerald-800/50">56 PCs</span>
+                  <span className="font-medium text-zinc-200">ICT Lab Windows PCs (Intune rollout in progress)</span>
+                  <span className="font-bold text-emerald-400 font-mono bg-emerald-950/50 px-2.5 py-1 rounded border border-emerald-800/50">25 PCs per lab</span>
                 </div>
               </div>
             </div>
@@ -614,28 +617,28 @@ export default function Home() {
             {/* NETWORK & SECURITY TOPOLOGY */}
             <div className="p-6 rounded-2xl bg-zinc-900/70 border border-zinc-800/80 backdrop-blur-xl">
               <h3 className="text-lg font-bold text-white flex items-center gap-2 mb-4">
-                <Wifi className="w-5 h-5 text-sky-400" /> Network & Core Security Nodes
+                <Wifi className="w-5 h-5 text-sky-400" /> Network & Operations Technology
               </h3>
               <div className="space-y-3 text-xs md:text-sm">
                 <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
-                  <span className="font-medium text-zinc-200">Aruba Instant On AP25 Access Points</span>
-                  <span className="font-bold text-sky-400 font-mono bg-sky-950/50 px-2.5 py-1 rounded border border-sky-800/50">60 APs</span>
+                  <span className="font-medium text-zinc-200">Enterprise Wi-Fi Operations</span>
+                  <span className="font-bold text-sky-400 font-mono bg-sky-950/50 px-2.5 py-1 rounded border border-sky-800/50">Managed</span>
                 </div>
                 <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
                   <span className="font-medium text-zinc-200">Fortinet FortiGate 200F Firewall</span>
-                  <span className="font-bold text-sky-400 font-mono bg-sky-950/50 px-2.5 py-1 rounded border border-sky-800/50">Dual-WAN SD-WAN</span>
+                  <span className="font-bold text-sky-400 font-mono bg-sky-950/50 px-2.5 py-1 rounded border border-sky-800/50">NGFW</span>
                 </div>
                 <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
-                  <span className="font-medium text-zinc-200">Cisco SG350 Core Switch & Managed Distribution</span>
-                  <span className="font-bold text-sky-400 font-mono bg-sky-950/50 px-2.5 py-1 rounded border border-sky-800/50">Gigabit Stack</span>
+                  <span className="font-medium text-zinc-200">Cisco & Hikvision Switching</span>
+                  <span className="font-bold text-sky-400 font-mono bg-sky-950/50 px-2.5 py-1 rounded border border-sky-800/50">Managed</span>
                 </div>
                 <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
-                  <span className="font-medium text-zinc-200">Surveillance & Physical Door Controllers</span>
-                  <span className="font-bold text-sky-400 font-mono bg-sky-950/50 px-2.5 py-1 rounded border border-sky-800/50">100+ CCTV / 32 Access</span>
+                  <span className="font-medium text-zinc-200">Physical Security Operations</span>
+                  <span className="font-bold text-sky-400 font-mono bg-sky-950/50 px-2.5 py-1 rounded border border-sky-800/50">Supported</span>
                 </div>
                 <div className="flex justify-between items-center p-3 rounded-xl bg-zinc-950/60 border border-zinc-800/80">
                   <span className="font-medium text-zinc-200">Grandstream PBX Voice IP Telephony</span>
-                  <span className="font-bold text-sky-400 font-mono bg-sky-950/50 px-2.5 py-1 rounded border border-sky-800/50">60 Extensions</span>
+                  <span className="font-bold text-sky-400 font-mono bg-sky-950/50 px-2.5 py-1 rounded border border-sky-800/50">Supported</span>
                 </div>
               </div>
             </div>
@@ -668,7 +671,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-bold mb-2 text-zinc-100">Apple Enterprise</h3>
               <p className="text-zinc-400 text-xs leading-relaxed mb-4">
-                Automated device enrollment, Jamf MDM integration, and 350+ iPad zero-touch deployment.
+                Apple School Manager, Jamf for Education, 400 student and 60 teacher iPads, plus BYOD support.
               </p>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2.5 py-1 text-xs rounded-md bg-zinc-800 text-zinc-300">Jamf Pro</span>
@@ -691,7 +694,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-bold mb-2 text-zinc-100">Microsoft 365 & Azure</h3>
               <p className="text-zinc-400 text-xs leading-relaxed mb-4">
-                1,050+ M365 seats, Entra ID SSO/MFA, Intune policy suites, and 80+ PC governance.
+                800+ Microsoft accounts and growing Intune enrollment and shared-device policies for ICT labs.
               </p>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2.5 py-1 text-xs rounded-md bg-zinc-800 text-zinc-300">Entra ID</span>
@@ -709,7 +712,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-bold mb-2 text-zinc-100">SMART Tech Displays</h3>
               <p className="text-zinc-400 text-xs leading-relaxed mb-4">
-                Fleet management of 53 SMART MX075-V5 panels via SMART Admin console governance.
+                Supporting 52 SMART Boards, two video walls, and Lumio classroom workflows.
               </p>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2.5 py-1 text-xs rounded-md bg-zinc-800 text-zinc-300">MX075-V5</span>
@@ -727,7 +730,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-bold mb-2 text-zinc-100">Innovation Labs</h3>
               <p className="text-zinc-400 text-xs leading-relaxed mb-4">
-                380+ tracked assets across Robotics (108), Brain Lab (93), and STEM VR/Drone setups.
+                Supporting robotics and VR ecosystems using SciVR, ArborXR, UBTECH, and other management portals.
               </p>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2.5 py-1 text-xs rounded-md bg-zinc-800 text-zinc-300">Weemake</span>
@@ -847,7 +850,7 @@ export default function Home() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-xl bg-slate-900/50 border border-slate-800 text-xs font-mono">
                   <div><span className="text-slate-500">ROLE:</span> Head of IT & Innovation</div>
                   <div><span className="text-slate-500">LOCATION:</span> Eastern Province, KSA</div>
-                  <div><span className="text-slate-500">TRANSFER:</span> Immediate Qiwa Transfer</div>
+                  <div><span className="text-slate-500">FOCUS:</span> Enterprise IT Operations</div>
                   <div><span className="text-slate-500">CONTACT:</span> asbabillail@gmail.com</div>
                 </div>
 
@@ -855,25 +858,25 @@ export default function Home() {
                 <div className="space-y-2">
                   <h3 className="text-xs font-mono text-amber-400 uppercase tracking-wider">Core Leadership Competencies</h3>
                   <p className="text-slate-300 leading-relaxed">
-                    Enterprise IT Infrastructure Architecture • Apple & Microsoft MDM Governance (Jamf Pro, Intune, ASM) • IT Budget & Vendor RFQ Optimization • Network & Physical Security Design (FortiGate, Dual 5G, CCTV) • Accreditation Compliance (Cognia & ADS)
+                    Enterprise IT Infrastructure Architecture • Apple & Microsoft MDM Governance (Jamf Pro, Intune, ASM) • IT Budget & Vendor RFQ Optimization • Network & Physical Security Operations (Fortinet, Cisco, Hikvision) • Accreditation Compliance (Cognia & ADS)
                   </p>
                 </div>
 
-                {/* Verified High-Impact Metrics */}
+                {/* Selected, evidence-conscious responsibilities */}
                 <div className="space-y-3">
                   <h3 className="text-xs font-mono text-amber-400 uppercase tracking-wider">Key Executive Directives</h3>
                   <ul className="space-y-2 text-slate-300">
                     <li className="flex items-start gap-2">
                       <span className="text-amber-400 font-bold">•</span>
-                      <span><strong>MDM & Device Lifecycle:</strong> Directed zero-touch deployment and central management across 445+ enterprise devices and 300 active AppleCare warranties.</span>
+                      <span><strong>MDM & Device Lifecycle:</strong> Support 400 student iPads, 60 teacher iPads, and 50+ student BYOD devices through Apple and Jamf workflows.</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-amber-400 font-bold">•</span>
-                      <span><strong>Infrastructure Optimization:</strong> Engineered load-balanced dual 5G / STC fiber connections, achieving 99.9% campus uptime and SAR 100k+ operational savings.</span>
+                      <span><strong>Infrastructure Operations:</strong> Coordinate FortiGate, switching, wireless, and physical security administration alongside vendor-led changes.</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <span className="text-amber-400 font-bold">•</span>
-                      <span><strong>Curriculum & Innovation Governance:</strong> Authored YREF v1.0 STEM progression framework covering 8 labs and 382 hardware assets with 100% audit compliance.</span>
+                      <span><strong>Innovation Governance:</strong> Support YREF robotics and STEM framework work, educational VR platforms, and classroom technology adoption.</span>
                     </li>
                   </ul>
                 </div>
