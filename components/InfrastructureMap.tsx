@@ -10,12 +10,14 @@ interface HardwareItem {
 }
 
 const HARDWARE_ESTATE: HardwareItem[] = [
-  { name: 'Apple iPads (ASM/Jamf Pro)', category: 'Endpoints', count: '300+', status: 'Active' },
-  { name: 'Faculty Endpoints (Mac/Win)', category: 'Endpoints', count: '50', status: 'Active' },
-  { name: 'SMART MX075-V5 Interactive Displays', category: 'Display', count: '53', status: 'Operational' },
-  { name: 'FortiGate 200F Dual-WAN Security', category: 'Network', count: '1 Appliance', status: 'Operational' },
-  { name: 'Aruba AP25 Wi-Fi 6 Access Points', category: 'Network', count: '60 APs', status: 'Operational' },
-  { name: 'UBTECH AI Kits (Fantasy & Smart Life)', category: 'Robotics', count: '28 Sets', status: 'Deployment Ready' },
+  { name: 'Student iPads (Apple School Manager / Jamf)', category: 'Endpoints', count: '400', status: 'Active' },
+  { name: 'Teacher iPads', category: 'Endpoints', count: '60', status: 'Active' },
+  { name: 'Student BYOD Devices Supported', category: 'Endpoints', count: '50+', status: 'Active' },
+  { name: 'SMART Interactive Displays', category: 'Display', count: '52', status: 'Operational' },
+  { name: 'Video Walls', category: 'Display', count: '2', status: 'Operational' },
+  { name: 'FortiGate 200F Firewall Operations', category: 'Network', count: 'Managed', status: 'Active' },
+  { name: 'Cisco / Hikvision Switching', category: 'Network', count: 'Managed', status: 'Active' },
+  { name: 'ArborXR, SciVR & UBTECH Portals', category: 'Robotics', count: 'Supported', status: 'Active' },
 ];
 
 export default function InfrastructureMap() {
@@ -30,8 +32,8 @@ export default function InfrastructureMap() {
     <div className="bg-slate-950 text-white p-6 rounded-2xl border border-slate-800 shadow-xl my-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 border-b border-slate-800 pb-4">
         <div>
-          <h3 className="text-lg font-bold text-cyan-400 tracking-wider uppercase">Infrastructure Telemetry Map</h3>
-          <p className="text-xs text-slate-400">Yenepoya IT Department Endpoint & Infrastructure Grid</p>
+          <h3 className="text-lg font-bold text-cyan-400 tracking-wider uppercase">Infrastructure Portfolio Snapshot</h3>
+          <p className="text-xs text-slate-400">Selected technology scope · Illustrative, not live monitoring</p>
         </div>
         <div className="flex gap-2 flex-wrap">
           {categories.map((cat) => (
