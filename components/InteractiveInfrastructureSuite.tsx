@@ -92,31 +92,31 @@ interface ArchDetail {
 
 const ARCHITECTURES: Record<ArchKey, ArchDetail> = {
   mdm: {
-    title: "Jamf Pro & ASM Provisioning",
-    subtitle: "Zero-Touch Endpoint Management & Entra ID Sync",
-    nodes: "300+ iPads, 50+ Macs/PCs",
-    latency: "Real-time Telemetry",
-    security: "Managed Apple IDs",
-    status: "ENFORCED",
-    diagram: ["Apple School Manager", "Jamf Pro Engine", "Yenepoya Endpoints"]
+    title: "Apple School Manager & Jamf for Education",
+    subtitle: "Device lifecycle, onboarding, identity integration and BYOD support",
+    nodes: "400 student + 60 teacher iPads",
+    latency: "Documented workflows",
+    security: "Device policy administration",
+    status: "PORTFOLIO VIEW",
+    diagram: ["Apple School Manager", "Jamf for Education", "Managed devices and BYOD support"]
   },
   network: {
-    title: "Fortinet & Aruba Backbone",
-    subtitle: "High-Availability Dual-WAN Security & Wi-Fi 6 Mesh",
-    nodes: "1 FortiGate, 60 Aruba AP25s",
-    latency: "Gigabit Throughput",
-    security: "IPsec / Zero-Trust",
-    status: "SECURED",
-    diagram: ["FortiGate 200F", "Aruba Core Switch", "Aruba Wi-Fi 6 Nodes"]
+    title: "Fortinet & Managed Switching",
+    subtitle: "Firewall, switching, wireless and network support responsibilities",
+    nodes: "FortiGate 200F + managed switches",
+    latency: "Illustrative overview",
+    security: "No internal topology disclosed",
+    status: "PORTFOLIO VIEW",
+    diagram: ["Firewall administration", "Cisco / Hikvision systems", "Network operations"]
   },
   edtech: {
-    title: "Interactive Classroom Grids",
-    subtitle: "SMART Boards & UBTECH Robotics AI Deployment",
-    nodes: "53 Displays, 28 AI Kits",
-    latency: "Local Subnet Mesh",
-    security: "VLAN Isolated",
-    status: "OPERATIONAL",
-    diagram: ["SMART MX075-V5", "Instructional VLAN", "UBTECH AI Nodes"]
+    title: "SMART & Innovation Platforms",
+    subtitle: "Classroom technology and VR / robotics administration",
+    nodes: "52 displays + 2 video walls",
+    latency: "Vendor management portals",
+    security: "Authorized access",
+    status: "PORTFOLIO VIEW",
+    diagram: ["SMART & Lumio", "ArborXR / SciVR", "UBTECH Admin Portal"]
   }
 };
 
@@ -259,7 +259,7 @@ export default function InteractiveInfrastructureSuite() {
                 <div className="text-xs font-bold text-emerald-400 font-mono mt-0.5">{current.nodes}</div>
               </div>
               <div className="bg-zinc-950/70 p-2.5 rounded-xl border border-zinc-800/80">
-                <div className="text-[10px] text-zinc-500 font-mono uppercase">Performance</div>
+                <div className="text-[10px] text-zinc-500 font-mono uppercase">Workflow</div>
                 <div className="text-xs font-bold text-cyan-400 font-mono mt-0.5">{current.latency}</div>
               </div>
               <div className="bg-zinc-950/70 p-2.5 rounded-xl border border-zinc-800/80">
