@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SAMAD-OS — IT Infrastructure & Engineering Portfolio
 
-## Getting Started
+**Abdul Samad Babillail** · IT Infrastructure & Technology Leadership · Dammam / Al Khobar, Saudi Arabia
 
-First, run the development server:
+[Live portfolio](https://my-samad-portfolio.vercel.app/) · [GitHub](https://github.com/Asbabillail) · [LinkedIn](https://www.linkedin.com/in/abdul-samad-babillail-3bb342249/)
+
+## About this project
+
+SAMAD-OS is a personal technology portfolio that presents my work across enterprise IT operations, device management, cloud services, digital learning technology, and practical software automation.
+
+It combines case-study content with interactive demonstrations built using modern web technologies. The public portfolio is a **presentation of professional work**, not a live administrative interface or access point to institutional systems.
+
+## What you can explore
+
+The current source includes:
+
+- **Infrastructure map and interactive technology views** — components for presenting network and systems architecture at a portfolio level.
+- **Procurement and RFQ dashboard** — an interactive display of technology planning and procurement concepts.
+- **Innovation and robotics framework viewer** — a presentation component for the YREF learning framework.
+- **Technology case studies** — content about endpoint management, Microsoft 365, classroom technology, and innovation labs.
+
+These describe content and components present in the repository; this README does not claim a fresh browser or end-to-end test of each interaction.
+
+## Technology stack
+
+- **Framework:** Next.js 16, React 19, TypeScript
+- **UI:** Tailwind CSS 4, Lucide React, Framer Motion
+- **Interactive visualization:** WebGL Fluid (used for the portfolio background)
+- **Deployment:** Vercel
+
+The authoritative package versions are maintained in [package.json](./package.json).
+
+## Run locally
 
 ```bash
+git clone https://github.com/Asbabillail/samad-portfolio.git
+cd samad-portfolio
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Additional available commands:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npm run build
+npm run start
+```
 
-## Learn More
+These are package scripts, **not claims that the current build and lint checks have passed**.
 
-To learn more about Next.js, take a look at the following resources:
+## Repository structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Path | Purpose |
+| --- | --- |
+| `app/` | Next.js routes, layouts, styling, and portfolio content |
+| `components/` | Infrastructure, RFQ, security, and interactive UI components |
+| `public/` | Static assets and a downloadable resume |
+| `package.json` | Dependencies and project scripts |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Responsible public documentation
 
-## Deploy on Vercel
+Professional portfolio materials should use accurate, dated summaries of work and avoid exposing operational details such as real device serial numbers, credentials, internal network configurations, asset registers, identifiable school records, or restricted vendor contracts.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Metrics and fleet sizes evolve. Some older case-study text may not reflect the latest managed-device estate; the public presentation is being reviewed for accuracy and confidentiality.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## About the author
+
+I work across IT infrastructure, Microsoft 365, Apple device management, network operations, and educational technology. I also build Python and Next.js tools that simplify real administrative and operational workflows.
+
+For current professional experience, credentials, and selected engineering projects, see the [live portfolio](https://my-samad-portfolio.vercel.app/) and [GitHub account](https://github.com/Asbabillail).
+
+---
+
+*Documentation refresh prepared as part of GitHub ASCEND. Work-in-progress technical claims and confidential operational details are intentionally excluded.*
