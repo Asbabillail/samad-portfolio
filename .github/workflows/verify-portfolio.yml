@@ -44,5 +44,7 @@ jobs:
         run: npx tsc --noEmit
       - name: ESLint
         run: npm run lint
+      - name: Content and privacy regression tests
+        run: node --test tests/portfolio-content.test.mjs
       - name: Next.js production build
         run: npm run build
