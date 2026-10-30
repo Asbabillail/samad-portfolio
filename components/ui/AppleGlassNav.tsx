@@ -115,12 +115,26 @@ export default function AppleGlassNav() {
   const active = useVisibleSection();
   const reduced = !!useReducedMotion();
 
+  const illuminate = (event: React.PointerEvent<HTMLElement>) => {
+    if (event.pointerType === "touch" || reduced) return;
+    const element = event.currentTarget;
+    const bounds = element.getBoundingClientRect();
+    element.style.setProperty("--glass-light-x", `${event.clientX - bounds.left}px`);
+    element.style.setProperty("--glass-light-y", `${event.clientY - bounds.top}px`);
+  };
+
   return (
     <>
       <nav
         aria-label="Primary portfolio sections"
-        className="relative hidden items-center gap-0.5 rounded-full border border-white/[0.17] bg-[#101a1e]/65 p-1 shadow-[0_10px_36px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.19)] backdrop-blur-2xl backdrop-saturate-150 lg:flex"
+        onPointerMove={illuminate}
+        className="group relative hidden items-center gap-0.5 rounded-full border border-white/[0.17] bg-[#101a1e]/65 p-1 shadow-[0_10px_36px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.19)] backdrop-blur-2xl backdrop-saturate-150 lg:flex"
       >
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          style={{ background: "radial-gradient(175px circle at var(--glass-light-x,50%) var(--glass-light-y,50%),rgba(210,255,244,0.17),transparent 73%)" }}
+        />
         <span
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-7 top-0 h-px bg-gradient-to-r from-transparent via-white/55 to-transparent"
