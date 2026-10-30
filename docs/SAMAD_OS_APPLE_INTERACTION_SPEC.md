@@ -1,6 +1,49 @@
 # SAMAD-OS — Apple-Inspired Interaction System & Glass Passage
 Last updated: 2026-10-31
 
+## 2026-10-31 — Floor, scroll correctness and accessibility completion pass
+
+### Recovered and observed
+- Recovered feature HEAD `420e9c2`, draft PR #8, and READY baseline preview of `846eae4`.
+- Actual Chrome baseline at scrollY=1100: story top=-288, sticky top=-288; only chapter 5 had nonzero opacity (~0.26). Camera and narrative were desynchronized. The root `overflow-hidden` trapped the sticky layout.
+- Floor was visually near-black; low-opacity inlays and a 78% edge vignette obscured it. Large scroll-linked text blur persisted when scrolling stopped.
+
+### Implemented
+- Root uses `overflow-x-clip`, preserving viewport sticky positioning.
+- Shared `useJourneyProgress` hook measures the visible story in document coordinates, caches bounds with ResizeObserver, and batches scroll updates with requestAnimationFrame. Camera and HTML use the same convention; the 3D test route uses document progress.
+- Brighter rough floor material, antialiased perspective inlays, continuous rails, analytic light pools and reduced vignette. Light pools are an approximation, not planar ray-traced reflections. No rendering dependency or postprocessing pass added.
+- Recessed portal piers and ceiling returns, varied bay height/width, eased forward camera travel through all eight portals. Text blur removed; readable holds enlarged.
+- Small/short viewports use a linear narrative; reduced-motion visitors retain their static narrative. Background animation stops when the document is hidden; canvas errors have a gradient error boundary.
+- Larger desktop nav targets, search combobox/listbox semantics, keyboard result tracking, focus restoration without scroll jumps, and real mailto contact action.
+- Resolved pre-existing lint failures in fluid initialization, ambient module typing and legacy AudioContext typing. Existing tools, CV, career copy and dashboards retained.
+- Tablet story cue moved above the mobile dock after visual inspection.
+
+### Verification evidence
+Runtime implementation `5b15abe5d891bc74827b10b31d5c4bcf8dcb5bb2`:
+https://my-samad-portfolio-quhhwm28l-samad-portfolio.vercel.app
+
+- `npm ci --ignore-scripts`: 509 packages installed from lockfile. No dependency changes.
+- `npm run lint`: passes with no warnings or errors.
+- `npm run build`: compilation, TypeScript and 5/5 static pages pass.
+- `npm audit --omit=dev --audit-level=high`: zero vulnerabilities.
+- Vercel preview READY; target null (preview), not production.
+- Chrome desktop: sticky top=0 at scrollY=1100, first chapter opacity=1, others=0. Subsequent scrollY=1780/2460/3140/3820 reveals chapters 2/3/4/5 in order.
+- Chrome 375x812: no horizontal overflow; linear story readable. Contact mail link bottom=572 versus dock top=733, leaving clear space.
+- Chrome 768x1024: pinned story readable; dock clear of main content. Scroll cue overlap was identified and corrected in the follow-up.
+- Search: Ctrl+K opens, ArrowDown selects Metrics, Escape closes and restores search-trigger focus. Filtering Contact then Enter navigates to #contact and closes the dialog.
+- Architecture network tab displays Fortinet & Aruba Backbone. Updated /3d-test entry scene reviewed.
+- No runtime errors observed in captured console logs; existing Three.Clock deprecation warning remains in dependency code.
+
+### Remaining release checks
+- Safari, real-device sustained FPS, reduced-motion OS setting, forced WebGL context loss and screen-reader testing are not verified. Do not infer these from a passing build.
+- Reconcile existing professional claims before public release: current job title, Jamf School versus Jamf Pro, infrastructure counts, uptime and savings assertions. This visual pass preserves existing copy and does not certify its truth.
+- No Higgsfield credits spent. No generated video substituted for WebGL.
+- Keep PR #8 draft. Production/main require explicit user approval.
+- Rollback: restore the parent `420e9c2` on the feature branch with a reviewed revert; the original preview remains available.
+
+### Design sources applied
+Apple HIG Materials/Motion and WWDC25 “Meet Liquid Glass”: readable content, restrained top-level glass controls, reduced motion/transparency and clear hierarchy. This is a web interpretation, not Apple's native compositor.
+
 ## 2026-10-31 — Cinematic motion refinement (ATLAS review)
 
 **Screenshot audit:** The user-supplied browser screenshots were from earlier Vercel preview `my-samad-portfolio-jsyadvw5e-samad-portfolio.vercel.app`, not the most recent build. The previous floating "partner" collage comprised oversized, independently bobbing logo tiles. Several marks were approximate CSS/typography recreations and looked unauthentic.

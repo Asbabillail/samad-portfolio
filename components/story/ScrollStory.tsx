@@ -272,7 +272,7 @@ export default function ScrollStory() {
           />
         ))}
 
-        <div className="pointer-events-none absolute bottom-7 left-6 right-6 z-20 flex items-end justify-between gap-6 sm:left-12 sm:right-12">
+        <div className="pointer-events-none absolute bottom-28 lg:bottom-7 left-6 right-6 z-20 flex items-end justify-between gap-6 sm:left-12 sm:right-12">
           <div className="flex flex-col gap-2">
             <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-emerald-200/75">
               SCROLL TO EXPLORE
