@@ -35,7 +35,7 @@ function Signal({
   const reduced = useReducedMotion();
   const depth = 0.35 + (index % 3) * 0.17;
   const x = useTransform(pointerX, (value) => (reduced ? 0 : value * depth * (item.side === "left" ? 9 : -9)));
-  const y = useTransform(pointerY, (value) => (reduced ? 0 : value * depth * 7);
+  const y = useTransform(pointerY, (value) => (reduced ? 0 : value * depth * 7));
 
   return (
     <motion.div
