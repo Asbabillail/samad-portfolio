@@ -8,8 +8,8 @@ import { Server, ShieldCheck, Network, Cpu, RefreshCw, Terminal, Volume2, Volume
 const playAudioFX = (type: 'hover' | 'click' | 'scan', soundEnabled: boolean) => {
   if (!soundEnabled || typeof window === 'undefined') return;
   try {
-    // @ts-ignore
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    const audioWindow = window as Window & { webkitAudioContext?: typeof AudioContext };
+    const AudioContextClass = window.AudioContext || audioWindow.webkitAudioContext;
     if (!AudioContextClass) return;
     
     const ctx = new AudioContextClass();
