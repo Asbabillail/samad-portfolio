@@ -46,3 +46,12 @@ test("public architecture summaries omit granular site topology", async () => {
     assert.doesNotMatch(content, /Server\/Data Rooms|4 ISP WANs|STC DIA \(30Mbps\)|192\.168\./);
   }
 });
+
+test("portfolio demos are clearly illustrative, not institutional disclosures", async () => {
+  const robotics = await read("../components/ui/YrefMatrixViewer.tsx");
+  const procurement = await read("../components/RfqDashboard.tsx");
+  assert.match(robotics, /ILLUSTRATIVE DEMO/);
+  assert.doesNotMatch(robotics, /YENEPOYA ROBOTICS EDUCATION FRAMEWORK/);
+  assert.match(procurement, /fictional scores/);
+  assert.doesNotMatch(procurement, /RFQ-ROB-2026-001/);
+});
