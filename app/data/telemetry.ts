@@ -1,111 +1,38 @@
+// Static portfolio information, not a live device or security monitoring feed.
+// Figures below are user-supplied working scope as of October 2026.
+// No internal network topology, room/door layout, IPs, device serials, or credentials are published.
 export const infrastructureTelemetry = [
   {
-    category: "ENDPOINTS & MDM",
+    category: "ENDPOINTS & DEVICE MANAGEMENT",
     items: [
-      {
-        title: "Student iPads (ASM / Jamf Pro / BYOD)",
-        value: "500+",
-        subtitle: "iOS 18.5.1+ Enrolled & Zero-Touch Managed",
-        status: "Active"
-      },
-      {
-        title: "Faculty Managed iPads",
-        value: "60+",
-        subtitle: "ASM Enrolled / Apple Configurator Managed",
-        status: "Active"
-      },
-      {
-        title: "ICT Lab Win 11 Workstations",
-        value: "72 Units",
-        subtitle: "3 Labs x 24 Win 11 All-in-One Stations",
-        status: "Active"
-      },
-      {
-        title: "Faculty & Admin Endpoints",
-        value: "50+",
-        subtitle: "Cross-platform Mac / Windows / Android Grid",
-        status: "Active"
-      }
+      { title: "Student iPads", value: "400", subtitle: "Apple School Manager / Jamf for Education", status: "Managed" },
+      { title: "Teacher iPads", value: "60", subtitle: "Faculty Apple device support", status: "Managed" },
+      { title: "Student BYOD Devices", value: "50+", subtitle: "Student-owned device support", status: "Supported" },
+      { title: "ICT Lab Workstations", value: "25 per lab", subtitle: "Microsoft Intune enrollment and shared-device policies", status: "In Progress" },
+      { title: "Administrative PCs & Laptops", value: "Managed", subtitle: "Windows endpoint lifecycle support", status: "Supported" }
     ]
   },
   {
-    category: "IDENTITY & CLOUD INFRASTRUCTURE",
+    category: "CLOUD IDENTITY & COLLABORATION",
     items: [
-      {
-        title: "Microsoft 365 A5 Enterprise",
-        value: "30 Licenses",
-        subtitle: "Faculty Tier Security & Governance",
-        status: "Operational"
-      },
-      {
-        title: "Directory Synchronized Identities",
-        value: "1,200 Users",
-        subtitle: "712 ADU | Seamless Sync across M365, ASM & Jamf",
-        status: "Operational"
-      }
+      { title: "Microsoft Accounts", value: "800+", subtitle: "Microsoft 365 and integration with Apple/Jamf workflows", status: "Managed" }
     ]
   },
   {
-    category: "DISPLAY & REMOTE MANAGEMENT",
+    category: "EDUCATION & INNOVATION PLATFORMS",
     items: [
-      {
-        title: "SMART Interactive Displays",
-        value: "52 Panels",
-        subtitle: "Centralized Remote Deployment via SMART Remote Management (SRM)",
-        status: "Operational"
-      }
+      { title: "SMART Interactive Boards", value: "52", subtitle: "SMART administrative tools and Lumio", status: "Managed" },
+      { title: "Video Walls", value: "2", subtitle: "Presentation and event technology", status: "Supported" },
+      { title: "VR Device Management", value: "ArborXR", subtitle: "Vendor-supported headset management", status: "Supported" },
+      { title: "Robotics & VR Platforms", value: "SciVR / UBTECH", subtitle: "Platform administration and technical readiness", status: "Supported" }
     ]
   },
   {
-    category: "ENTERPRISE NETWORK & WAN",
+    category: "NETWORK & CAMPUS TECHNOLOGY",
     items: [
-      {
-        title: "Aruba Wi-Fi 6 Access Points",
-        value: "65 APs",
-        subtitle: "Cloud Managed via Aruba Instant On Dashboard",
-        status: "Operational"
-      },
-      {
-        title: "Core Switching Fabric",
-        value: "36 Switches",
-        subtitle: "24x Cisco SG350 (24P/48P PoE) + 12x Hikvision PoE",
-        status: "Operational"
-      },
-      {
-        title: "Multi-WAN Gateway & Firewall",
-        value: "4 ISP WANs",
-        subtitle: "1x STC DIA (30Mbps) + 2x Mobily 5G + 1x Zain 5G | 1x NGFW",
-        status: "Operational"
-      }
-    ]
-  },
-  {
-    category: "PHYSICAL SECURITY & TELEPHONY",
-    items: [
-      {
-        title: "Grandstream IP Telephony",
-        value: "61 Stations",
-        subtitle: "1x Central IP-PBX Appliance + 5x Master Consoles + 55x IP Phones",
-        status: "Operational"
-      },
-      {
-        title: "Access Control Infrastructure",
-        value: "20 Access Doors",
-        subtitle: "Hikvision Access: 4 Admin/School + 12 Server/Data Rooms",
-        status: "Operational"
-      },
-      {
-        title: "Perimeter Access Barriers",
-        value: "4 x 5 Gate",
-        subtitle: "Student Turnstile Barriers with Hikvision RFID Integration",
-        status: "Operational"
-      },
-      {
-        title: "Biometric Workforce Tracking",
-        value: "1 Unit",
-        subtitle: "ZKTeco Time & Attendance Terminal",
-        status: "Operational"
-      }
+      { title: "Next-Generation Firewall", value: "FortiGate 200F", subtitle: "High-level operational responsibility", status: "Supported" },
+      { title: "Switching & Wireless", value: "Cisco / Hikvision", subtitle: "Enterprise network support; topology not disclosed", status: "Supported" },
+      { title: "Physical Security & Telephony", value: "Operational support", subtitle: "Security devices and communication systems", status: "Supported" }
     ]
   }
 ];

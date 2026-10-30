@@ -13,16 +13,16 @@ interface VendorBid {
 }
 
 const VENDORS: VendorBid[] = [
-  { name: 'Vendor Alpha Robotics', technicalScore: 23, yrefFitScore: 19, mdmScore: 14, trainingScore: 13, deliveryScore: 9, costScore: 12 },
-  { name: 'Vendor Beta STEM Solutions', technicalScore: 21, yrefFitScore: 17, mdmScore: 12, trainingScore: 14, deliveryScore: 8, costScore: 14 },
+  { name: 'Example Vendor A', technicalScore: 23, yrefFitScore: 19, mdmScore: 14, trainingScore: 13, deliveryScore: 9, costScore: 12 },
+  { name: 'Example Vendor B', technicalScore: 21, yrefFitScore: 17, mdmScore: 12, trainingScore: 14, deliveryScore: 8, costScore: 14 },
 ];
 
 export default function RfqDashboard() {
   return (
     <div className="bg-slate-950 text-white p-6 rounded-2xl border border-slate-800 shadow-xl my-6">
       <div className="mb-6 border-b border-slate-800 pb-4">
-        <h3 className="text-lg font-bold text-cyan-400 tracking-wider uppercase">RFQ-ROB-2026-001 Scoring Matrix</h3>
-        <p className="text-xs text-slate-400">Robotics Lab Procurement | 6-Factor Weighted Evaluation</p>
+        <h3 className="text-lg font-bold text-cyan-400 tracking-wider uppercase">Illustrative Vendor Evaluation</h3>
+        <p className="text-xs text-slate-400">Sample-only evaluation criteria and fictional scores. Not an actual procurement decision.</p>
       </div>
 
       <div className="overflow-x-auto">

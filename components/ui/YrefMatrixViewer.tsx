@@ -2,39 +2,40 @@
 
 import React, { useState } from 'react';
 
-// Institutional YREF Competency Framework Data
+// General illustrative competency progression for portfolio demonstration only.
+// It is not a reproduction of an institution's curriculum, assessment policy, or procurement plan.
 const YREF_DATA = [
   {
     tier: 1,
-    title: 'Certified Robotics Explorer',
-    hardware: 'UBTECH AI Fantasy Zoo, KUBO Coding Sets',
-    competency: 'Basic Algorithm Logic, Directional Sequencing, Motor Actuation & Mechanical Structure',
-    rubric: '75% Practical Assessment, Complete Portfolio & Safety Protocol Compliance',
-    targetGrade: 'Grades 3–4 (Diagnostic Placement)',
+    title: 'Robotics Foundations',
+    hardware: 'Sample educational robotics kits and block coding',
+    competency: 'Sequencing, simple mechanisms, safe setup and basic debugging',
+    rubric: 'Demonstrate a simple build, explain choices, and document learning',
+    targetGrade: 'Illustrative entry stage',
   },
   {
     tier: 2,
-    title: 'Certified Robotics Engineer',
-    hardware: 'UBTECH AI Smart Life, City Guardian Sets, LEGO SPIKE Prime',
-    competency: 'Sensory Integration (Ultrasonic/IR), Structural Mechanics, Gear Ratios & Event-Driven Coding',
-    rubric: '75% Practical Assessment + Autonomous Navigation Task Completion',
-    targetGrade: 'Grades 5–6 (Diagnostic Placement)',
+    title: 'Applied Robotics',
+    hardware: 'Sample sensors, motors and classroom controllers',
+    competency: 'Event-driven programming, sensor feedback and mechanical design',
+    rubric: 'Complete an applied challenge and explain testing and iteration',
+    targetGrade: 'Illustrative intermediate stage',
   },
   {
     tier: 3,
-    title: 'Certified AI Robotics Innovator',
-    hardware: 'UBTECH AI Smart Life (Advanced), Python IDE, Vision AI Modules',
-    competency: 'Text-Based Coding (Python), Machine Vision Perception, Machine Learning Model Training & IoT',
-    rubric: '75% Combined Score (30% Theory, 70% Practical Capstone Project)',
-    targetGrade: 'Grades 7–9 (Diagnostic Placement)',
+    title: 'AI & Automation Integration',
+    hardware: 'Python learning environment and sample vision modules',
+    competency: 'Python scripting, introductory computer vision and automation design',
+    rubric: 'Present a demonstrable prototype, testing notes and safety considerations',
+    targetGrade: 'Illustrative advanced stage',
   },
   {
     tier: 4,
-    title: 'Certified Advanced Robotics Specialist',
-    hardware: 'UBTECH Yanshee Humanoid, Arduino / ESP32, Advanced Python & ROS',
-    competency: 'Humanoid Kinematics, Complex Vision AI Processing, Embedded Microcontrollers & System Integration',
-    rubric: 'Mastery Demonstration, Autonomous Task Execution & Formal Engineering Logbook',
-    targetGrade: 'Grades 10–12 (Diagnostic Placement)',
+    title: 'Systems Capstone',
+    hardware: 'Generic robotics controllers and open educational tooling',
+    competency: 'Systems integration, embedded programming and collaborative problem-solving',
+    rubric: 'Present a capstone prototype with an engineering log and reflection',
+    targetGrade: 'Illustrative capstone stage',
   },
 ];
 
@@ -48,7 +49,7 @@ export default function YrefMatrixViewer() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800">
         <div>
           <div className="text-xs text-teal-400 mb-1">
-            YENEPOYA ROBOTICS EDUCATION FRAMEWORK (YREF)
+            ROBOTICS LEARNING FRAMEWORK — ILLUSTRATIVE DEMO
           </div>
           <h2 className="text-2xl font-black text-white tracking-tight">
             FRAMEWORK COMPETENCY MATRIX
@@ -82,13 +83,13 @@ export default function YrefMatrixViewer() {
         <div className="grid md:grid-cols-2 gap-6">
           <div className="space-y-4">
             <div>
-              <span className="text-[10px] uppercase text-slate-400 block mb-1">Certification Level Title</span>
+              <span className="text-[10px] uppercase text-slate-400 block mb-1">Learning Stage</span>
               <h3 className="text-xl font-extrabold text-white">{currentData.title}</h3>
               <p className="text-xs text-slate-300 mt-1">{currentData.targetGrade}</p>
             </div>
 
             <div>
-              <span className="text-[10px] uppercase text-slate-400 block mb-1">Authorized Hardware Stack</span>
+              <span className="text-[10px] uppercase text-slate-400 block mb-1">Example Learning Tools</span>
               <p className="text-sm font-semibold text-teal-200">{currentData.hardware}</p>
             </div>
           </div>
@@ -100,7 +101,7 @@ export default function YrefMatrixViewer() {
             </div>
 
             <div className="pt-2 border-t border-slate-800/80">
-              <span className="text-[10px] uppercase text-slate-400 mb-1 block">Assessment Threshold</span>
+              <span className="text-[10px] uppercase text-slate-400 mb-1 block">Illustrative Assessment Activity</span>
               <p className="text-xs font-bold text-amber-300">{currentData.rubric}</p>
             </div>
           </div>
