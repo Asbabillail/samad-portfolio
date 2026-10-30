@@ -119,7 +119,7 @@ export default function AppleGlassNav() {
     <>
       <nav
         aria-label="Primary portfolio sections"
-        className="relative hidden items-center gap-0.5 rounded-full border border-white/[0.17] bg-[#101a1e]/65 p-1 shadow-[0_10px_36px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.19)] backdrop-blur-2xl backdrop-saturate-150 md:flex"
+        className="relative hidden items-center gap-0.5 rounded-full border border-white/[0.17] bg-[#101a1e]/65 p-1 shadow-[0_10px_36px_rgba(0,0,0,0.34),inset_0_1px_0_rgba(255,255,255,0.19)] backdrop-blur-2xl backdrop-saturate-150 lg:flex"
       >
         <span
           aria-hidden="true"
@@ -138,7 +138,7 @@ export default function AppleGlassNav() {
 
       <nav
         aria-label="Mobile portfolio sections"
-        className="fixed inset-x-2 bottom-[max(0.65rem,env(safe-area-inset-bottom))] z-[60] mx-auto flex max-w-[430px] items-center justify-around gap-0.5 rounded-[30px] border border-white/[0.21] bg-[#071316]/85 p-1.5 shadow-[0_15px_55px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(255,255,255,0.2)] backdrop-blur-3xl backdrop-saturate-150 md:hidden"
+        className="fixed inset-x-2 bottom-[max(0.65rem,env(safe-area-inset-bottom))] z-[60] mx-auto flex max-w-[430px] items-center justify-around gap-0.5 rounded-[30px] border border-white/[0.21] bg-[#071316]/85 p-1.5 shadow-[0_15px_55px_rgba(0,0,0,0.65),inset_0_1px_0_rgba(255,255,255,0.2)] backdrop-blur-3xl backdrop-saturate-150 lg:hidden"
       >
         <span
           aria-hidden="true"
