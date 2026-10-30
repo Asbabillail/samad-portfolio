@@ -1,6 +1,26 @@
 # SAMAD-OS — Apple-Inspired Interaction System & Glass Passage
 Last updated: 2026-10-31
 
+## 2026-10-31 — Cinematic motion refinement (ATLAS review)
+
+**Screenshot audit:** The user-supplied browser screenshots were from earlier Vercel preview `my-samad-portfolio-jsyadvw5e-samad-portfolio.vercel.app`, not the most recent build. The previous floating "partner" collage comprised oversized, independently bobbing logo tiles. Several marks were approximate CSS/typography recreations and looked unauthentic.
+
+**Change set:**
+- Replaced the collage with `components/experience/TechConstellation.tsx`: 8 exact technology/product names, with concise context labels, modest edge-positioned glass surfaces, staggered entrances and damped pointer-relative depth. Uses plain-text names **rather than pretending to reproduce third-party logo art** or implying sponsorship. Hidden below `xl` to protect small-screen composition.
+- Removed per-logo hover synthesizer and 9KB+ of repetitive markup from `app/page.tsx`.
+- Added `data-samad-journey` to `components/story/ScrollStory.tsx` and adjusted the camera progress in `components/background/SamadWorld.tsx` to match the story section's actual scroll track instead of the total document height. This ensures the eight portals move coherently as five chapters are revealed.
+- Added approach-driven glints to portal tops, two subtly travelling floor ribbons, and a small camera lateral arc. No extra rendering/postprocessing dependency was added. Star/sparkle counts lowered to offset additional animation work.
+- Existing reduced-motion path, classic background, full portfolio and main branch are preserved.
+
+**Actual validation:** Vercel build for `846eae4596205476a30795ff565c9852bd13d8ff` reports successful optimized compilation, completed TypeScript, 5/5 generated static pages, and deployment READY:
+https://my-samad-portfolio-ajyjg0a7x-samad-portfolio.vercel.app
+
+**Still unverified:** Visual QA on a real device/browser, WebGL frame timings, Safari, reduced-motion testing and screen-reader behavior. These are acceptance checks, not passed results.
+
+**Higgsfield:** Read-only model recommendations consulted for original abstract glass-corridor mood boards. No paid generation was requested or claimed. A rendered video cannot substitute for responsive real-time 3D motion.
+
+**Trademark caution:** Published Microsoft and Apple guidelines restrict use of corporate logos in promotional settings without permission; accurate names can communicate experience without visually inventing or misusing official marks. If licensed/authorized brand assets are supplied later, add them carefully without implying affiliation.
+
 ## Executive brief (APEX — intent and constraints)
 
 **Product:** Abdul Samad Babillail's public-facing professional IT leadership portfolio.
