@@ -75,5 +75,19 @@ This file tracks **actual outcomes**, not artificial commit or activity targets.
 - **Not verified:** Next.js build, lint, browser accessibility and production behavior. No deployment of ASCEND changes was observed in the checked Vercel deployment list.
 - **Next mission:** validate CI/build and public disclosures, reconcile downloadable resume contents, then review PRs before publication.
 
+
+## Mission 003 record — 2026-10-31
+
+- Confirmed PR #9 and PR #10 remain separate, open, and unmerged against the same original base commit.
+- Added a least-privilege GitHub Actions workflow to PR #10 with TypeScript, ESLint, content/privacy regression tests, and Next.js production build.
+- Repaired initial lint errors, including React effect and TypeScript annotation issues.
+- Improved case study keyboard activation, focus styles, accessible dialog semantics, and relevant metadata.
+- Replaced example curriculum and vendor evaluation material with clearly illustrative portfolio demonstrations.
+- **Verified:** CI checks passed on commit `e6791841`, [run 41133292560](https://github.com/Asbabillail/samad-portfolio/actions/runs/41133292560).
+- Matched the downloadable portfolio resume's Git object hash to the previous ATS resume: the published file is outdated. A fresh, private review-only resume draft was prepared; it has not been pushed or published.
+- Reviewed public fee-system repository content; institution-specific documents and business data make privacy authorization a prerequisite before additional promotion. Repository visibility was not changed.
+- **Not completed:** live desktop/mobile visual QA, automated accessibility browser audit, independent security testing, resume approval, or any production deployment.
+- **Publication gate:** review institutional disclosures and approve the revised public resume before merging PRs or updating the production site.
+
 ---
 *Evidence must be revised as tasks progress. This tracker itself is not a substitute for a real security review.*
