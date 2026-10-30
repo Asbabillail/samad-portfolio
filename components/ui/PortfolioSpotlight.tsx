@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { createPortal } from "react-dom";
 import {
   ArrowUpRight,
   Command,
@@ -49,12 +50,15 @@ export default function PortfolioSpotlight({
   onOpenTerminal,
 }: Props) {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState(0);
   const input = useRef<HTMLInputElement>(null);
   const dialog = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
   const reduced = !!useReducedMotion();
+
+  useEffect(() => { setMounted(true); }, []);
 
   const items = useMemo<Item[]>(
     () => [
@@ -90,7 +94,7 @@ export default function PortfolioSpotlight({
   const run = (item: Item) => {
     if (item.kind === "navigate" && item.target) {
       document.querySelector(item.target)?.scrollIntoView({
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
         block: "start",
       });
       // Keep a shareable location without forcing a second scroll.
@@ -183,7 +187,8 @@ export default function PortfolioSpotlight({
         </kbd>
       </motion.button>
 
-      <AnimatePresence>
+      {mounted && createPortal(
+        <AnimatePresence>
         {open && (
           <motion.div
             key="spotlight"
@@ -278,7 +283,9 @@ export default function PortfolioSpotlight({
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+        </AnimatePresence>,
+        document.body
+      )}
     </>
   );
 }
