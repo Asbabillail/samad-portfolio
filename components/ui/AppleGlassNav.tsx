@@ -85,7 +85,7 @@ function NavItem({
       className={[
         "relative isolate flex shrink-0 items-center justify-center gap-2 rounded-full outline-none transition-colors",
         "focus-visible:ring-2 focus-visible:ring-emerald-200/80 focus-visible:ring-offset-2 focus-visible:ring-offset-black",
-        mode === "desktop" ? "min-h-10 px-3.5 text-xs lg:text-[13px]" : "min-h-12 min-w-12 flex-col gap-1 px-2 py-2 text-[9px]",
+        mode === "desktop" ? "min-h-11 px-3.5 text-xs lg:text-[13px]" : "min-h-12 min-w-12 flex-col gap-1 px-2 py-2 text-[9px]",
         active ? "text-white" : "text-zinc-300 hover:text-white",
       ].join(" ")}
     >

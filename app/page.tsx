@@ -13,7 +13,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import {
   Mail,
-  MapPin,
   ChevronRight,
   Terminal,
   Sparkles,
@@ -21,17 +20,14 @@ import {
   Volume2,
   VolumeX,
   X,
-  Activity,
   Server,
-  Layers,
   Cpu,
+  Layers,
   ShieldCheck,
   CheckCircle2,
   Wifi,
   Bot,
   Building2,
-  Award,
-  FileText,
   Download
 } from 'lucide-react';
 
@@ -44,17 +40,11 @@ const SamadWorld = dynamic(() => import('@/components/background/SamadWorld'), {
 // --- FLUID BACKGROUND COMPONENT ---
 const FluidSmokeBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted || !canvasRef.current) return;
-    // @ts-ignore
+    if (!canvasRef.current) return;
     import('webgl-fluid')
-      .then((webGLFluid: any) => {
+      .then((webGLFluid) => {
         const fluid = webGLFluid.default || webGLFluid;
         if (canvasRef.current && typeof fluid === 'function') {
           fluid(canvasRef.current, {
@@ -88,9 +78,7 @@ const FluidSmokeBackground = () => {
         }
       })
       .catch((err) => console.error('WebGL Fluid error:', err));
-  }, [mounted]);
-
-  if (!mounted) return null;
+  }, []);
 
   return (
     <canvas
@@ -203,7 +191,7 @@ export default function Home() {
   const currentModalData = selectedCaseStudy ? CASE_STUDY_DETAILS[selectedCaseStudy] : null;
 
   return (
-    <div className="min-h-screen text-zinc-100 font-sans selection:bg-emerald-500 selection:text-black relative overflow-hidden bg-zinc-950">
+    <div className="min-h-screen text-zinc-100 font-sans selection:bg-emerald-500 selection:text-black relative overflow-x-clip bg-zinc-950">
       {/* Immersive glass architecture; legacy fluid view is available as a fallback. */}
       {showImmersiveWorld ? <SamadWorld /> : <FluidSmokeBackground />}
       {showImmersiveWorld && <div aria-hidden="true" className="fixed inset-0 z-[1] pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.16)_0%,transparent_68%)]" />}
@@ -685,8 +673,9 @@ export default function Home() {
       {/* FOOTER */}
       <footer id="contact" className="px-6 pt-16 pb-36 lg:pb-16 border-t border-zinc-900 bg-zinc-950/90 relative z-20 text-center backdrop-blur-md scroll-mt-24">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold mb-2 text-white">Let's Connect & Collaborate</h2>
+          <h2 className="text-2xl font-bold mb-2 text-white">Let&apos;s Connect & Collaborate</h2>
           <p className="text-zinc-400 text-sm mb-6">Building resilient enterprise environments and smart digital infrastructure.</p>
+          <a href="mailto:asbabillail@gmail.com" className="mb-8 inline-flex min-h-11 items-center gap-2 rounded-full border border-emerald-300/35 bg-emerald-300/10 px-6 py-3 text-sm text-emerald-100 transition hover:bg-emerald-300/20 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-200"><Mail className="h-4 w-4" aria-hidden="true" />asbabillail@gmail.com</a>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-zinc-400 text-sm">
             <span className="flex items-center gap-2"><Building2 className="w-4 h-4 text-emerald-400" /> Dammam – Khobar, Eastern Province, KSA</span>
             <span className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-emerald-400" /> Transferable Status</span>

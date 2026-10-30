@@ -2,8 +2,11 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Sparkles, Stars } from "@react-three/drei";
-import { Suspense, useEffect, useMemo, useRef, useState, type RefObject } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import * as THREE from "three";
+import { useJourneyProgress } from "@/hooks/useJourneyProgress";
+import type { MotionValue } from "framer-motion";
+import { Component } from "react";
 
 /**
  * SAMAD-OS: The Glass Passage
@@ -16,7 +19,7 @@ import * as THREE from "three";
  */
 
 type Quality = "high" | "low";
-type Journey = { progress: RefObject<number>; motion: boolean; quality: Quality };
+type Journey = { progress: MotionValue<number>; motion: boolean; quality: Quality };
 
 const PORTAL_DEPTHS = [-15, -28, -42, -56, -72, -90, -108, -126];
 const STAGE_COLORS = [
@@ -28,54 +31,38 @@ const STAGE_COLORS = [
   new THREE.Color("#68f6d9"),
 ];
 
-function useJourneyProgress() {
-  const progress = useRef(0);
+function useWorldPreferences() {
   const [motion, setMotion] = useState(false);
   const [quality, setQuality] = useState<Quality>("low");
-
+  const [visible, setVisible] = useState(true);
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const mobile = window.matchMedia("(max-width: 767px)");
-
-    const updatePreferences = () => {
+    const update = () => {
       setMotion(!reduced.matches);
       setQuality(mobile.matches || reduced.matches ? "low" : "high");
     };
-    const updateScroll = () => {
-      const maxScroll = Math.max(
-        1,
-        document.documentElement.scrollHeight - window.innerHeight
-      );
-      // Align camera travel with the five actual scroll-story chapters,
-      // not the entire document (which includes long technical dashboards).
-      const journey = document.querySelector<HTMLElement>("[data-samad-journey]");
-      if (journey) {
-        const rect = journey.getBoundingClientRect();
-        const start = window.scrollY + rect.top;
-        const travel = Math.max(1, rect.height - window.innerHeight);
-        progress.current = THREE.MathUtils.clamp((window.scrollY - start) / travel, 0, 1);
-      } else {
-        progress.current = THREE.MathUtils.clamp(window.scrollY / maxScroll, 0, 1);
-      }
-    };
-
-    updatePreferences();
-    updateScroll();
-
-    window.addEventListener("scroll", updateScroll, { passive: true });
-    window.addEventListener("resize", updateScroll, { passive: true });
-    reduced.addEventListener("change", updatePreferences);
-    mobile.addEventListener("change", updatePreferences);
-
+    const visibility = () => setVisible(!document.hidden);
+    update();
+    visibility();
+    reduced.addEventListener("change", update);
+    mobile.addEventListener("change", update);
+    document.addEventListener("visibilitychange", visibility);
     return () => {
-      window.removeEventListener("scroll", updateScroll);
-      window.removeEventListener("resize", updateScroll);
-      reduced.removeEventListener("change", updatePreferences);
-      mobile.removeEventListener("change", updatePreferences);
+      reduced.removeEventListener("change", update);
+      mobile.removeEventListener("change", update);
+      document.removeEventListener("visibilitychange", visibility);
     };
   }, []);
+  return { motion, quality, visible };
+}
 
-  return { progress, motion, quality };
+class WorldBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
+  render() {
+    return this.state.failed ? <div className="absolute inset-0 bg-gradient-to-b from-[#06252b] to-[#01080c]" /> : this.props.children;
+  }
 }
 
 function GlassBeam({
@@ -132,14 +119,25 @@ function PortalFrame({ depth, index, motion }: { depth: number; index: number; m
     material.opacity = 0.16 + approach * 0.36 + heartbeat * 0.07;
   });
 
-  const width = 8.2 + (index % 2) * 0.55;
-  const top = 5.2;
+  const width = 8.2 + Math.sin(index * 1.2) * 0.7;
+  const top = 5.2 + (index % 3) * 0.45;
   const bottom = -4.55;
   const height = top - bottom;
   const color = index % 3 === 2 ? "#5cbdd7" : "#20beaf";
 
   return (
-    <group position={[0, 0, depth]}>
+    <group position={[Math.sin(index * 1.1) * 0.35, 0, depth]}>
+      {/* Recessed piers and ceiling returns give each bay architectural thickness. */}
+      {[-1, 1].map((side) => (
+        <group key={side}>
+          <GlassBeam position={[side * (width + 0.48), (top + bottom) / 2, -1.8]} size={[0.65, height, 3.2]} color={color} opacity={0.24} />
+          <mesh position={[side * (width - 0.03), (top + bottom) / 2, 0.25]}>
+            <boxGeometry args={[0.025, height, 0.03]} />
+            <meshBasicMaterial color={color} transparent opacity={0.55} toneMapped={false} />
+          </mesh>
+        </group>
+      ))}
+      <GlassBeam position={[0, top + 0.35, -1.7]} size={[width * 2 + 1.2, 0.3, 3.4]} color={color} opacity={0.22} />
       {/* Portal is OPEN in the center: no beam behind the hero's lettering. */}
       <GlassBeam
         position={[-width, (top + bottom) / 2, 0]}
@@ -321,36 +319,39 @@ function WorldArchitecture({ motion, quality }: { motion: boolean; quality: Qual
 }
 
 function Ground() {
-  const lines = useMemo(() => {
-    const coordinates: number[] = [];
-
-    for (const x of [-9.2, -6, -3.5, 3.5, 6, 9.2]) {
-      coordinates.push(x, -4.55, 5, x, -4.55, -148);
-    }
-    for (let z = 0; z >= -145; z -= 9) {
-      coordinates.push(-9.5, -4.55, z, 9.5, -4.55, z);
-    }
-
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute("position", new THREE.Float32BufferAttribute(coordinates, 3));
-    return geometry;
-  }, []);
-
-  useEffect(() => () => lines.dispose(), [lines]);
-
+  const uniforms = useMemo(() => ({ cameraZ: { value: 7 } }), []);
+  const floor = useRef<THREE.ShaderMaterial>(null);
+  useFrame(({ camera }) => { if (floor.current) floor.current.uniforms.cameraZ.value = camera.position.z; });
   return (
     <group>
       <mesh position={[0, -4.66, -70]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[200, 230]} />
-        <meshStandardMaterial color="#020c10" roughness={0.28} metalness={0.63} />
+        <meshStandardMaterial color="#143138" roughness={0.34} metalness={0.35} />
       </mesh>
-      <lineSegments>
-        <primitive object={lines} attach="geometry" />
-        <lineBasicMaterial color="#1bb8ba" transparent opacity={0.19} depthWrite={false} />
-      </lineSegments>
-      <mesh position={[0, -4.5, -66]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[4.5, 140]} />
-        <meshBasicMaterial color="#087f78" transparent opacity={0.016} depthWrite={false} />
+      {/* Analytic light pools and antialiased inlays: no bloom or reflection render pass. */}
+      <mesh position={[0, -4.64, -70]} rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[23, 170]} />
+        <shaderMaterial ref={floor} transparent depthWrite={false} uniforms={uniforms}
+          vertexShader={`varying vec3 world; void main() {
+            vec4 p = modelMatrix * vec4(position, 1.0); world = p.xyz;
+            gl_Position = projectionMatrix * viewMatrix * p;
+          }`}
+          fragmentShader={`varying vec3 world; uniform float cameraZ;
+            void main() {
+              vec2 p = world.xz;
+              vec2 grid = p / vec2(3.8, 8.0);
+              vec2 edge = abs(fract(grid - 0.5) - 0.5) / max(fwidth(grid), vec2(0.001));
+              float line = 1.0 - min(min(edge.x, edge.y), 1.0);
+              float rail = 1.0 - smoothstep(0.025, 0.025 + fwidth(p.x), abs(abs(p.x) - 3.8));
+              float glow = exp(-abs(abs(p.x) - 3.8) * 2.5);
+              float pools = exp(-pow((abs(p.x) - 7.5) / 2.3, 2.0)) * (0.45 + 0.55 * pow(cos(p.y * 0.19), 6.0));
+              float distanceFade = 1.0 - smoothstep(15.0, 66.0, cameraZ - p.y);
+              float sides = 1.0 - smoothstep(8.5, 11.5, abs(p.x));
+              vec3 color = mix(vec3(0.04, 0.28, 0.31), vec3(0.35, 0.8, 0.71), rail);
+              float alpha = (0.12 + line * 0.22 + rail * 0.52 + glow * 0.16 + pools * 0.34) * distanceFade * sides;
+              gl_FragColor = vec4(color, alpha);
+            }`}
+        />
       </mesh>
     </group>
   );
@@ -366,7 +367,7 @@ function LightRunner({ motion }: { motion: boolean }) {
 
     // Always in front of the camera, never close enough to cover hero text.
     const z = camera.position.z - 42 + progress * 27;
-    const x = Math.sin(clock.elapsedTime * 0.7) * 1.55;
+    const x = motion ? Math.sin(clock.elapsedTime * 0.7) * 1.55 : 0;
     runner.current.position.set(x, -4.12, z);
 
     if (reflection.current) {
@@ -440,15 +441,19 @@ function JourneyRig({ progress, motion }: Journey) {
   }, []);
 
   useFrame(({ camera }, delta) => {
-    const p = motion ? progress.current : 0;
+    const p = motion ? progress.get() : 0;
     // From the entry hall (z=7) through all eight portals to the final chamber.
-    const targetZ = 7 - p * 119;
-    camera.position.z = THREE.MathUtils.damp(camera.position.z, targetZ, 2.35, delta);
+    const chapterPhase = p * 5;
+    const local = chapterPhase % 1;
+    const eased = local * local * (3 - 2 * local);
+    const travel = (Math.floor(chapterPhase) + local * 0.65 + eased * 0.35) / 5;
+    const targetZ = 7 - travel * 139;
+    camera.position.z = THREE.MathUtils.damp(camera.position.z, targetZ, 5, Math.min(delta, 0.1));
     // One controlled, sub-pixel-feeling camera arc over each chapter — not random shake.
     const drift = motion ? Math.sin(p * Math.PI * 3.25) * 0.24 : 0;
     camera.position.x = THREE.MathUtils.damp(camera.position.x, motion ? mouse.current.x * 0.26 + drift : 0, 1.9, delta);
     camera.position.y = THREE.MathUtils.damp(camera.position.y, motion ? 0.25 - mouse.current.y * 0.12 + Math.sin(p * Math.PI * 2) * 0.08 : 0.25, 1.8, delta);
-    camera.lookAt(camera.position.x * 0.12, 0.1, camera.position.z - 20);
+    camera.lookAt(camera.position.x * 0.12, -0.35, camera.position.z - 20);
 
     // Lighting transitions as the user passes the major portfolio chapters.
     const phase = p * (STAGE_COLORS.length - 1);
@@ -503,18 +508,20 @@ function WorldScene({ progress, motion, quality }: Journey) {
 }
 
 export default function SamadWorld({ preview = false }: { preview?: boolean }) {
-  const { progress, motion, quality } = useJourneyProgress();
+  const progress = useJourneyProgress();
+  const { motion, quality, visible } = useWorldPreferences();
 
   return (
     <div
       aria-hidden="true"
       className="fixed inset-0 z-0 pointer-events-none overflow-hidden"
     >
+      <WorldBoundary>
       <Canvas
         dpr={quality === "high" ? [1, 1.5] : 1}
         camera={{ position: [0, 0.25, 7], fov: 55, near: 0.15, far: 110 }}
         gl={{ antialias: quality === "high", alpha: false, powerPreference: "high-performance" }}
-        frameloop={motion ? "always" : "demand"}
+        frameloop={motion && visible ? "always" : "demand"}
         style={{ pointerEvents: "none" }}
         fallback={<div className="absolute inset-0 bg-gradient-to-b from-[#031922] via-[#020a10] to-black" />}
       >
@@ -522,8 +529,9 @@ export default function SamadWorld({ preview = false }: { preview?: boolean }) {
           <WorldScene progress={progress} motion={motion} quality={quality} />
         </Suspense>
       </Canvas>
+      </WorldBoundary>
       {/* Soft aperture protects the hero; edge vignette deepens the corridor. */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.17)_0%,transparent_48%,rgba(0,0,0,0.78)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.17)_0%,transparent_48%,rgba(0,0,0,0.42)_100%)]" />
       {!preview && <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#01080c]/15" />}
     </div>
   );

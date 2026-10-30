@@ -3,11 +3,10 @@
 import {
   motion,
   useReducedMotion,
-  useScroll,
   useTransform,
   type MotionValue,
 } from "framer-motion";
-import { useRef } from "react";
+import { useJourneyProgress } from "@/hooks/useJourneyProgress";
 
 /**
  * Cinematic storytelling layer for the SAMAD-OS portfolio.
@@ -125,18 +124,17 @@ function StoryFrame({
 }) {
   const start = index / CHAPTERS.length;
   const end = (index + 1) / CHAPTERS.length;
-  const stops = [start, start + 0.065, end - 0.055, end];
-  const opacity = useTransform(progress, stops, [0, 1, 1, 0]);
-  const titleX = useTransform(progress, stops, [index % 2 ? 90 : -90, 0, 0, index % 2 ? -65 : 65]);
-  const titleY = useTransform(progress, stops, [65, 0, 0, -44]);
-  const scale = useTransform(progress, stops, [0.86, 1, 1, 1.07]);
-  const headingBlur = useTransform(progress, stops, ["blur(12px)", "blur(0px)", "blur(0px)", "blur(9px)"]);
+  const stops = [start, start + 0.025, end - 0.025, end];
+  const opacity = useTransform(progress, stops, [index === 0 ? 1 : 0, 1, 1, index === CHAPTERS.length - 1 ? 1 : 0]);
+  const titleX = useTransform(progress, stops, [index % 2 ? 24 : -24, 0, 0, index % 2 ? -20 : 20]);
+  const titleY = useTransform(progress, stops, [22, 0, 0, -18]);
+  const scale = useTransform(progress, stops, [0.97, 1, 1, 1.025]);
   const detailOpacity = useTransform(
     progress,
-    [start, start + 0.088, end - 0.07, end],
-    [0, 1, 1, 0]
+    [start, start + 0.028, end - 0.028, end],
+    [index === 0 ? 1 : 0, 1, 1, index === CHAPTERS.length - 1 ? 1 : 0]
   );
-  const sideY = useTransform(progress, stops, [80, 0, 0, -65]);
+  const sideY = useTransform(progress, stops, [24, 0, 0, -20]);
   const palette = COLORS[chapter.color];
 
   return (
@@ -155,7 +153,7 @@ function StoryFrame({
       />
 
       <div className="relative z-10 grid w-full max-w-6xl grid-cols-1 items-center gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(16rem,0.42fr)] lg:gap-16">
-        <motion.div style={{ x: titleX, y: titleY, scale, filter: headingBlur }}>
+        <motion.div style={{ x: titleX, y: titleY, scale }}>
           <div className={`mb-7 flex items-center gap-3 font-mono text-[10px] font-semibold uppercase tracking-[0.36em] ${palette.text} sm:text-xs`}>
             <span className={`inline-block h-2 w-2 rounded-full bg-current shadow-[0_0_18px_currentColor]`} />
             <span>CHAPTER {chapter.chapter} / {chapter.category}</span>
@@ -229,7 +227,7 @@ function ChapterTick({ index, progress }: { index: number; progress: MotionValue
 /** Reduced-motion visitors get an accessible linear story, without pinned animations. */
 function ReducedMotionStory() {
   return (
-    <section aria-label="Technology leadership story" className="relative z-20 space-y-12 px-6 py-24">
+    <section aria-label="Technology leadership story" data-samad-journey className="samad-linear-story relative z-20 space-y-12 px-6 py-24">
       {CHAPTERS.map((chapter) => (
         <article key={chapter.chapter} className="mx-auto max-w-4xl border-b border-emerald-300/20 pb-12">
           <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-emerald-300">
@@ -249,21 +247,18 @@ function ReducedMotionStory() {
 }
 
 export default function ScrollStory() {
-  const target = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target,
-    offset: ["start start", "end end"],
-  });
+  const scrollYProgress = useJourneyProgress();
 
   if (reducedMotion) return <ReducedMotionStory />;
 
   return (
+    <>
+    <div className="samad-compact-story"><ReducedMotionStory /></div>
     <section
-      ref={target}
       aria-label="Journey through SAMAD-OS technology portfolio"
       data-samad-journey
-      className="relative z-20 h-[550svh]"
+      className="samad-pinned-story relative z-20 h-[550svh]"
     >
       <div className="sticky top-0 flex h-[100svh] w-full items-center overflow-hidden">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#010b10]/40 via-transparent to-[#010b10]/35" />
@@ -292,5 +287,6 @@ export default function ScrollStory() {
         </div>
       </div>
     </section>
+    </>
   );
 }

@@ -50,7 +50,6 @@ export default function PortfolioSpotlight({
   onOpenTerminal,
 }: Props) {
   const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState(0);
   const input = useRef<HTMLInputElement>(null);
@@ -58,7 +57,6 @@ export default function PortfolioSpotlight({
   const trigger = useRef<HTMLButtonElement>(null);
   const reduced = !!useReducedMotion();
 
-  useEffect(() => { setMounted(true); }, []);
 
   const items = useMemo<Item[]>(
     () => [
@@ -88,7 +86,6 @@ export default function PortfolioSpotlight({
     setOpen(false);
     setQuery("");
     setSelected(0);
-    requestAnimationFrame(() => trigger.current?.focus());
   };
 
   const run = (item: Item) => {
@@ -149,14 +146,18 @@ export default function PortfolioSpotlight({
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", trap);
-      before?.focus();
+      before?.focus({ preventScroll: true });
     };
   }, [open]);
+
+  useEffect(() => {
+    if (open && filtered[selected]) document.getElementById(`samad-result-${filtered[selected].id}`)?.scrollIntoView({ block: "nearest" });
+  }, [open, selected, filtered]);
 
   const keyboard = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "ArrowDown") {
       event.preventDefault();
-      setSelected((index) => Math.min(index + 1, filtered.length - 1));
+      setSelected((index) => Math.max(0, Math.min(index + 1, filtered.length - 1)));
     } else if (event.key === "ArrowUp") {
       event.preventDefault();
       setSelected((index) => Math.max(index - 1, 0));
@@ -187,7 +188,7 @@ export default function PortfolioSpotlight({
         </kbd>
       </motion.button>
 
-      {mounted && createPortal(
+      {open && createPortal(
         <AnimatePresence>
         {open && (
           <motion.div
@@ -222,6 +223,11 @@ export default function PortfolioSpotlight({
                 <input
                   ref={input}
                   type="search"
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-expanded="true"
+                  aria-controls="samad-search-results"
+                  aria-activedescendant={filtered[selected] ? `samad-result-${filtered[selected].id}` : undefined}
                   value={query}
                   onChange={(event) => {
                     setQuery(event.target.value);
@@ -242,7 +248,7 @@ export default function PortfolioSpotlight({
                 </button>
               </div>
 
-              <div className="max-h-[min(60vh,480px)] overflow-y-auto px-2 py-3">
+              <div id="samad-search-results" role="listbox" aria-label="Portfolio commands" className="max-h-[min(60vh,480px)] overflow-y-auto px-2 py-3">
                 <p className="px-4 pb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-emerald-200/65">
                   {query ? "Matching results" : "Navigate and control"}
                 </p>
@@ -251,6 +257,9 @@ export default function PortfolioSpotlight({
                     <button
                       type="button"
                       key={item.id}
+                      id={`samad-result-${item.id}`}
+                      role="option"
+                      aria-selected={index === selected}
                       onMouseEnter={() => setSelected(index)}
                       onClick={() => run(item)}
                       className={`flex w-full items-center justify-between gap-4 rounded-2xl px-4 py-3 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-emerald-200 ${index === selected ? "bg-white/10 text-white" : "text-zinc-200 hover:bg-white/[0.07]"}`}
