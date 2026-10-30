@@ -46,7 +46,17 @@ function useJourneyProgress() {
         1,
         document.documentElement.scrollHeight - window.innerHeight
       );
-      progress.current = THREE.MathUtils.clamp(window.scrollY / maxScroll, 0, 1);
+      // Align camera travel with the five actual scroll-story chapters,
+      // not the entire document (which includes long technical dashboards).
+      const journey = document.querySelector<HTMLElement>("[data-samad-journey]");
+      if (journey) {
+        const rect = journey.getBoundingClientRect();
+        const start = window.scrollY + rect.top;
+        const travel = Math.max(1, rect.height - window.innerHeight);
+        progress.current = THREE.MathUtils.clamp((window.scrollY - start) / travel, 0, 1);
+      } else {
+        progress.current = THREE.MathUtils.clamp(window.scrollY / maxScroll, 0, 1);
+      }
     };
 
     updatePreferences();
@@ -111,7 +121,17 @@ function GlassBeam({
   );
 }
 
-function PortalFrame({ depth, index }: { depth: number; index: number }) {
+function PortalFrame({ depth, index, motion }: { depth: number; index: number; motion: boolean }) {
+  const glint = useRef<THREE.Mesh>(null);
+
+  useFrame(({ camera, clock }) => {
+    if (!glint.current) return;
+    const material = glint.current.material as THREE.MeshBasicMaterial;
+    const approach = THREE.MathUtils.clamp(1 - Math.abs(camera.position.z - depth) / 17, 0, 1);
+    const heartbeat = motion ? Math.pow((1 + Math.sin(clock.elapsedTime * 0.85 - index * 0.76)) / 2, 2) : 0;
+    material.opacity = 0.16 + approach * 0.36 + heartbeat * 0.07;
+  });
+
   const width = 8.2 + (index % 2) * 0.55;
   const top = 5.2;
   const bottom = -4.55;
@@ -139,12 +159,12 @@ function PortalFrame({ depth, index }: { depth: number; index: number }) {
         color={color}
         opacity={index === 0 ? 0.32 : 0.55}
       />
-      <mesh position={[0, top, 0]}>
+      <mesh ref={glint} position={[0, top, 0]}>
         <boxGeometry args={[width * 2 + 0.2, 0.025, 0.48]} />
         <meshBasicMaterial
           color={index === 1 || index === 2 ? "#60ffdb" : "#189b9b"}
           transparent
-          opacity={index === 1 || index === 2 ? 0.68 : 0.26}
+          opacity={0.2}
           toneMapped={false}
         />
       </mesh>
@@ -242,7 +262,7 @@ function WorldArchitecture({ motion, quality }: { motion: boolean; quality: Qual
   return (
     <>
       {PORTAL_DEPTHS.map((depth, index) => (
-        <PortalFrame key={depth} depth={depth} index={index} />
+        <PortalFrame key={depth} depth={depth} index={index} motion={motion} />
       ))}
 
       {/* Foreground structures frame the opening rather than crossing its center. */}
@@ -374,6 +394,36 @@ function LightRunner({ motion }: { motion: boolean }) {
   );
 }
 
+/**
+ * A pair of travelling luminous rails gives the corridor a consistent
+ * velocity cue. Simple unlit geometry avoids expensive bloom passes.
+ */
+function LightRibbons({ motion }: { motion: boolean }) {
+  const group = useRef<THREE.Group>(null);
+  useFrame(({ camera, clock }) => {
+    if (!group.current) return;
+    const travel = motion ? ((clock.elapsedTime * 2.8) % 24) : 12;
+    group.current.position.z = camera.position.z - 34 + travel;
+  });
+
+  return (
+    <group ref={group}>
+      {[-3.7, 3.7].map((x) => (
+        <group key={x}>
+          <mesh position={[x, -4.50, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+            <planeGeometry args={[0.044, 7.5]} />
+            <meshBasicMaterial color="#77ffed" transparent opacity={0.42} depthWrite={false} toneMapped={false} />
+          </mesh>
+          <mesh position={[x, -4.51, -0.8]} rotation={[-Math.PI / 2, 0, 0]}>
+            <planeGeometry args={[0.32, 10]} />
+            <meshBasicMaterial color="#08c4bc" transparent opacity={0.045} depthWrite={false} toneMapped={false} />
+          </mesh>
+        </group>
+      ))}
+    </group>
+  );
+}
+
 function JourneyRig({ progress, motion }: Journey) {
   const mouse = useRef({ x: 0, y: 0 });
   const left = useRef<THREE.PointLight>(null);
@@ -394,8 +444,10 @@ function JourneyRig({ progress, motion }: Journey) {
     // From the entry hall (z=7) through all eight portals to the final chamber.
     const targetZ = 7 - p * 119;
     camera.position.z = THREE.MathUtils.damp(camera.position.z, targetZ, 2.35, delta);
-    camera.position.x = THREE.MathUtils.damp(camera.position.x, motion ? mouse.current.x * 0.42 : 0, 1.5, delta);
-    camera.position.y = THREE.MathUtils.damp(camera.position.y, motion ? 0.25 - mouse.current.y * 0.21 : 0.25, 1.5, delta);
+    // One controlled, sub-pixel-feeling camera arc over each chapter — not random shake.
+    const drift = motion ? Math.sin(p * Math.PI * 3.25) * 0.24 : 0;
+    camera.position.x = THREE.MathUtils.damp(camera.position.x, motion ? mouse.current.x * 0.26 + drift : 0, 1.9, delta);
+    camera.position.y = THREE.MathUtils.damp(camera.position.y, motion ? 0.25 - mouse.current.y * 0.12 + Math.sin(p * Math.PI * 2) * 0.08 : 0.25, 1.8, delta);
     camera.lookAt(camera.position.x * 0.12, 0.1, camera.position.z - 20);
 
     // Lighting transitions as the user passes the major portfolio chapters.
@@ -431,11 +483,11 @@ function WorldScene({ progress, motion, quality }: Journey) {
       <ambientLight intensity={0.35} color="#62dacd" />
       <hemisphereLight args={["#74c8c8", "#02090c", 0.7]} />
       <directionalLight position={[4, 7, 5]} intensity={1.6} color="#8bfff1" />
-      <Stars radius={105} depth={80} count={quality === "high" ? 950 : 280} factor={1.9} saturation={0.45} fade speed={motion ? 0.15 : 0} />
+      <Stars radius={105} depth={80} count={quality === "high" ? 750 : 220} factor={1.9} saturation={0.45} fade speed={motion ? 0.15 : 0} />
       <Ground />
       <WorldArchitecture motion={motion} quality={quality} />
       <Sparkles
-        count={quality === "high" ? 190 : 56}
+        count={quality === "high" ? 150 : 44}
         scale={[19, 10, 154]}
         position={[0, 0, -70]}
         size={1.25}
@@ -444,6 +496,7 @@ function WorldScene({ progress, motion, quality }: Journey) {
         opacity={0.42}
       />
       <LightRunner motion={motion} />
+      <LightRibbons motion={motion} />
       <JourneyRig progress={progress} motion={motion} quality={quality} />
     </>
   );
