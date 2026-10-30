@@ -5,6 +5,8 @@ import InteractiveInfrastructureSuite from "@/components/InteractiveInfrastructu
 import InfrastructureMap from '@/components/InfrastructureMap';
 import RfqDashboard from '@/components/RfqDashboard';
 import ScrollStory from '@/components/story/ScrollStory';
+import AppleGlassNav from '@/components/ui/AppleGlassNav';
+import PortfolioSpotlight from '@/components/ui/PortfolioSpotlight';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useSpring, useTransform, AnimatePresence } from 'framer-motion';
@@ -401,8 +403,8 @@ export default function Home() {
       />
 
       {/* Navigation Header */}
-      <nav className="fixed top-0 left-0 w-full z-40 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50 pointer-events-auto">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      <header className="fixed top-0 left-0 w-full z-40 bg-gradient-to-b from-[#02090c]/95 via-[#02090c]/65 to-transparent pointer-events-auto">
+        <div className="mx-auto flex max-w-[1450px] items-center justify-between gap-3 px-3 py-3 sm:px-5 xl:px-8">
           <div className="flex items-center gap-3">
             <button 
               onClick={() => setTerminalOpen(!terminalOpen)}
@@ -411,48 +413,31 @@ export default function Home() {
             >
               <Terminal className="w-5 h-5" />
             </button>
-            <span className="font-bold text-lg tracking-tight text-white">
+            <span className="whitespace-nowrap font-bold text-base tracking-tight text-white sm:text-lg">
               SAMAD-OS <span className="text-xs text-emerald-400 font-mono ml-1">v3.0</span>
             </span>
           </div>
 
-          <div className="hidden md:flex items-center gap-6 text-sm text-zinc-300 font-medium">
-            {[
-              ["#about", "About"],
-              ["#metrics", "Metrics"],
-              ["#suite", "Architecture Suite"],
-              ["#labs", "Labs & Networks"],
-              ["#ecosystem", "Ecosystem"],
-              ["#contact", "Contact"],
-            ].map(([href, label], index) => (
-              <motion.a
-                key={href}
-                href={href}
-                initial={{ opacity: 0, y: -13 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.12 + index * 0.07, duration: 0.55, ease: "easeOut" }}
-                whileHover={{ y: -2 }}
-                className="group relative py-1.5 transition-colors hover:text-emerald-300 focus-visible:text-emerald-300"
-              >
-                {label}
-                <span
-                  aria-hidden="true"
-                  className="absolute -bottom-0.5 left-0 h-px w-0 bg-gradient-to-r from-emerald-400 to-cyan-300 shadow-[0_0_12px_rgba(45,212,191,0.7)] transition-all duration-300 group-hover:w-full group-focus-visible:w-full"
-                />
-              </motion.a>
-            ))}
-          </div>
+          <AppleGlassNav />
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <a 
               href="/Abdul_Samad_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-xs font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-full hover:bg-amber-500/20 transition-all cursor-pointer"
+              className="flex min-h-10 items-center gap-2 rounded-full border border-amber-400/25 bg-amber-300/[0.07] px-3 py-1.5 font-mono text-xs text-amber-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-2xl transition-all hover:border-amber-300/45 hover:bg-amber-400/[0.13] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-200"
             >
               <Download className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">EXECUTIVE CV</span>
             </a>
+
+            <PortfolioSpotlight
+              immersive={showImmersiveWorld}
+              soundEnabled={soundEnabled}
+              onToggleWorld={() => setShowImmersiveWorld((current) => !current)}
+              onToggleSound={() => setSoundEnabled((current) => !current)}
+              onOpenTerminal={() => setTerminalOpen(true)}
+            />
 
             {/* Accessible visual-mode toggle with no page reload. */}
             <button
@@ -461,7 +446,7 @@ export default function Home() {
               aria-label={showImmersiveWorld ? 'Switch to classic fluid background' : 'Switch to immersive 3D background'}
               aria-pressed={showImmersiveWorld}
               title={showImmersiveWorld ? '3D Nexus active — switch to classic' : 'Classic background — switch to 3D Nexus'}
-              className="flex items-center gap-1.5 px-2.5 py-2 rounded-full bg-zinc-900 border border-emerald-500/25 text-emerald-300 hover:border-emerald-400/70 hover:bg-emerald-500/10 transition-all"
+              className="hidden min-h-10 items-center gap-1.5 rounded-full border border-emerald-300/20 bg-white/[0.05] px-3 py-2 text-emerald-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.14)] backdrop-blur-2xl transition-all hover:border-emerald-300/45 hover:bg-emerald-400/[0.11] focus-visible:ring-2 focus-visible:ring-emerald-200 sm:flex"
             >
               <Layers className="w-4 h-4" />
               <span className="hidden lg:inline text-[10px] font-bold tracking-widest">{showImmersiveWorld ? '3D' : 'CLASSIC'}</span>
@@ -470,7 +455,7 @@ export default function Home() {
             {/* Sound Toggle Button */}
             <button 
               onClick={() => setSoundEnabled(!soundEnabled)}
-              className="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all"
+              className="hidden min-h-10 min-w-10 items-center justify-center rounded-full border border-white/[0.16] bg-white/[0.05] p-2 text-zinc-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-2xl transition-all hover:border-emerald-300/35 hover:bg-white/[0.1] focus-visible:ring-2 focus-visible:ring-emerald-200 sm:flex"
               title={soundEnabled ? "Mute Sound FX" : "Enable Sound FX"}
             >
               {soundEnabled ? <Volume2 className="w-4 h-4 text-emerald-400" /> : <VolumeX className="w-4 h-4" />}
@@ -478,13 +463,13 @@ export default function Home() {
 
             <a 
               href="#contact" 
-              className="px-4 py-2 text-xs font-semibold rounded-full bg-emerald-500 text-black hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20"
+              className="hidden min-h-10 items-center rounded-full bg-emerald-400 px-4 py-2 text-xs font-semibold text-[#061210] shadow-[0_8px_24px_rgba(52,211,153,0.18)] transition-all hover:bg-emerald-300 focus-visible:ring-2 focus-visible:ring-white xl:inline-flex"
             >
               Connect 
             </a> 
           </div>
         </div>
-      </nav>
+      </header>
 
       {/* --- INTERACTIVE TERMINAL DRAWER --- */}
       <AnimatePresence>
