@@ -262,6 +262,7 @@ export default function ScrollStory() {
     <section
       ref={target}
       aria-label="Journey through SAMAD-OS technology portfolio"
+      data-samad-journey
       className="relative z-20 h-[550svh]"
     >
       <div className="sticky top-0 flex h-[100svh] w-full items-center overflow-hidden">
