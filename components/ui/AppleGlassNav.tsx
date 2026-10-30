@@ -9,7 +9,7 @@ import {
   FlaskConical,
   Mail,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type PointerEvent } from "react";
 
 const destinations = [
   { href: "#about", label: "About", icon: Compass },
@@ -115,7 +115,7 @@ export default function AppleGlassNav() {
   const active = useVisibleSection();
   const reduced = !!useReducedMotion();
 
-  const illuminate = (event: React.PointerEvent<HTMLElement>) => {
+  const illuminate = (event: PointerEvent<HTMLElement>) => {
     if (event.pointerType === "touch" || reduced) return;
     const element = event.currentTarget;
     const bounds = element.getBoundingClientRect();
