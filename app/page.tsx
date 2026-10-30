@@ -8,8 +8,6 @@ import RfqDashboard from '@/components/RfqDashboard';
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import {
-  Mail,
-  MapPin,
   ChevronRight,
   Terminal,
   Sparkles,
@@ -17,7 +15,6 @@ import {
   Volume2,
   VolumeX,
   X,
-  Activity,
   Server,
   Layers,
   Cpu,
@@ -26,8 +23,6 @@ import {
   Wifi,
   Bot,
   Building2,
-  Award,
-  FileText,
   Download
 } from 'lucide-react';
 
@@ -52,7 +47,7 @@ const playHoverSound = (enabled: boolean) => {
     
     osc.start();
     osc.stop(ctx.currentTime + 0.08);
-  } catch (e) {
+  } catch {
     // Audio context initialization fallback
   }
 };
@@ -60,18 +55,13 @@ const playHoverSound = (enabled: boolean) => {
 // --- FLUID BACKGROUND COMPONENT ---
 const FluidSmokeBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [mounted, setMounted] = useState(false);
-
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted || !canvasRef.current) return;
-    // @ts-ignore
+    if (!canvasRef.current) return;
     import('webgl-fluid')
-      .then((webGLFluid: any) => {
-        const fluid = webGLFluid.default || webGLFluid;
+      .then((webGLFluid) => {
+        type FluidInitializer = (canvas: HTMLCanvasElement, options: Record<string, unknown>) => void;
+        const fluid: FluidInitializer =
+          webGLFluid.default ?? (webGLFluid as unknown as FluidInitializer);
         if (canvasRef.current && typeof fluid === 'function') {
           fluid(canvasRef.current, {
             IMMEDIATE: true,
@@ -104,9 +94,7 @@ const FluidSmokeBackground = () => {
         }
       })
       .catch((err) => console.error('WebGL Fluid error:', err));
-  }, [mounted]);
-
-  if (!mounted) return null;
+  }, []);
 
   return (
     <canvas
@@ -803,7 +791,7 @@ export default function Home() {
       {/* FOOTER */}
       <footer id="contact" className="py-16 px-6 border-t border-zinc-900 bg-zinc-950/90 relative z-20 text-center backdrop-blur-md">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold mb-2 text-white">Let's Connect & Collaborate</h2>
+          <h2 className="text-2xl font-bold mb-2 text-white">Let&apos;s Connect &amp; Collaborate</h2>
           <p className="text-zinc-400 text-sm mb-6">Building resilient enterprise environments and smart digital infrastructure.</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-zinc-400 text-sm">
             <span className="flex items-center gap-2"><Building2 className="w-4 h-4 text-emerald-400" /> Dammam – Khobar, Eastern Province, KSA</span>
