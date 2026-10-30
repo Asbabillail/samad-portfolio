@@ -241,7 +241,7 @@ export default function Home() {
       {/* Floating partner badges introduce the experience, then disappear as the world opens. */}
       <motion.div
         className="fixed inset-0 pointer-events-none z-10 overflow-hidden select-none"
-        style={{ opacity: logoOpacity, visibility: logoVisibility }}
+        style={{ opacity: showImmersiveWorld ? 0 : logoOpacity, visibility: showImmersiveWorld ? "hidden" : logoVisibility }}
       >
         {/* APPLE */}
         <motion.div 
@@ -868,7 +868,7 @@ export default function Home() {
       </AnimatePresence>
 
       {/* FOOTER */}
-      <footer id="contact" className="py-16 px-6 border-t border-zinc-900 bg-zinc-950/90 relative z-20 text-center backdrop-blur-md">
+      <footer id="contact" className="px-6 pt-16 pb-36 lg:pb-16 border-t border-zinc-900 bg-zinc-950/90 relative z-20 text-center backdrop-blur-md scroll-mt-24">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold mb-2 text-white">Let's Connect & Collaborate</h2>
           <p className="text-zinc-400 text-sm mb-6">Building resilient enterprise environments and smart digital infrastructure.</p>
