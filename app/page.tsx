@@ -10,7 +10,7 @@ import PortfolioSpotlight from '@/components/ui/PortfolioSpotlight';
 import TechConstellation from '@/components/experience/TechConstellation';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, useScroll, useSpring, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import {
   Mail,
   MapPin,
@@ -34,32 +34,6 @@ import {
   FileText,
   Download
 } from 'lucide-react';
-
-// --- SOUND EFFECT GENERATOR ---
-const playHoverSound = (enabled: boolean) => {
-  if (!enabled) return;
-  try {
-    const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-    const ctx = new AudioCtx();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(440, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.08);
-    
-    gain.gain.setValueAtTime(0.03, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
-    
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    
-    osc.start();
-    osc.stop(ctx.currentTime + 0.08);
-  } catch (e) {
-    // Audio context initialization fallback
-  }
-};
 
 // Load the WebGL environment only in the browser, outside the initial page bundle.
 const SamadWorld = dynamic(() => import('@/components/background/SamadWorld'), {
