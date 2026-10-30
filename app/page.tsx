@@ -7,6 +7,7 @@ import RfqDashboard from '@/components/RfqDashboard';
 import ScrollStory from '@/components/story/ScrollStory';
 import AppleGlassNav from '@/components/ui/AppleGlassNav';
 import PortfolioSpotlight from '@/components/ui/PortfolioSpotlight';
+import TechConstellation from '@/components/experience/TechConstellation';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useSpring, useTransform, AnimatePresence } from 'framer-motion';
@@ -185,11 +186,6 @@ export default function Home() {
     damping: 30,
     restDelta: 0.001,
   });
-  // Floating partner badges are part of the intro, not the full journey.
-  const logoOpacity = useTransform(scrollYProgress, [0, 0.075], [1, 0]);
-  const logoVisibility = useTransform(scrollYProgress, (value) =>
-    value < 0.075 ? "visible" : "hidden"
-  );
 
   const handleCommandSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -238,163 +234,8 @@ export default function Home() {
       {showImmersiveWorld ? <SamadWorld /> : <FluidSmokeBackground />}
       {showImmersiveWorld && <div aria-hidden="true" className="fixed inset-0 z-[1] pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.16)_0%,transparent_68%)]" />}
 
-      {/* Floating partner badges introduce the experience, then disappear as the world opens. */}
-      <motion.div
-        className="fixed inset-0 pointer-events-none z-10 overflow-hidden select-none"
-        style={{ opacity: showImmersiveWorld ? 0 : logoOpacity, visibility: showImmersiveWorld ? "hidden" : logoVisibility }}
-      >
-        {/* APPLE */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, -10, 0] }} 
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-12 left-8 w-36 h-36 rounded-3xl border border-white/20 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center p-7 shadow-2xl pointer-events-auto cursor-pointer hover:border-emerald-500/50 transition-colors"
-        >
-          <img src="https://cdn.simpleicons.org/apple/white" alt="Apple" className="w-full h-full object-contain filter drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]" />
-        </motion.div>
-
-        {/* MICROSOFT */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, 10, 0] }} 
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-12 right-8 w-36 h-36 rounded-3xl border border-white/20 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center p-7 shadow-2xl pointer-events-auto cursor-pointer hover:border-sky-500/50 transition-colors"
-        >
-          <svg className="w-full h-full object-contain" viewBox="0 0 23 23">
-            <rect x="1" y="1" width="10" height="10" fill="#F25022"/>
-            <rect x="12" y="1" width="10" height="10" fill="#7FBA00"/>
-            <rect x="1" y="12" width="10" height="10" fill="#00A4EF"/>
-            <rect x="12" y="12" width="10" height="10" fill="#FFB900"/>
-          </svg>
-        </motion.div>
-
-        {/* SMART */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, -8, 0] }} 
-          transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-[18%] right-[22%] px-6 py-3 rounded-2xl border border-white/20 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center shadow-xl pointer-events-auto cursor-pointer hover:border-emerald-400/50 transition-colors"
-        >
-          <span className="text-white font-extrabold text-2xl tracking-tight font-sans">SMART<span className="text-sky-400">.</span></span>
-        </motion.div>
-
-        {/* PICO */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, 12, 0] }} 
-          transition={{ duration: 6.8, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-[26%] left-[16%] px-6 py-3 rounded-2xl border border-white/20 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center shadow-xl h-14 pointer-events-auto cursor-pointer"
-        >
-          <span className="text-white font-black text-2xl tracking-wider font-sans">PICO</span>
-        </motion.div>
-
-        {/* GOOGLE */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, -10, 0] }} 
-          transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-[44%] left-6 w-36 h-36 rounded-3xl border border-white/20 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center p-7 shadow-2xl pointer-events-auto cursor-pointer"
-        >
-          <svg className="w-full h-full object-contain" viewBox="0 0 24 24">
-            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
-            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.29v3.15C3.26 21.3 7.31 24 12 24z"/>
-            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.29C.47 8.21 0 10.05 0 12s.47 3.79 1.29 5.42l3.99-3.15z"/>
-            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.58l3.99 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
-          </svg>
-        </motion.div>
-
-        {/* MAKEBLOCK */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, 9, 0] }} 
-          transition={{ duration: 6.2, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-[66%] left-[12%] px-6 py-3 rounded-2xl border border-cyan-500/30 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center shadow-xl h-14 pointer-events-auto cursor-pointer"
-        >
-          <span className="text-[#00A0E9] font-extrabold text-xl tracking-tight">makeblock</span>
-        </motion.div>
-
-        {/* LEGO EDUCATION */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, -11, 0] }} 
-          transition={{ duration: 7.2, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute bottom-[10%] left-[6%] px-5 py-3 rounded-2xl border border-red-500/30 bg-zinc-900/40 backdrop-blur-2xl flex items-center gap-3 shadow-xl pointer-events-auto cursor-pointer"
-        >
-          <div className="bg-[#D01012] text-white font-black text-xs px-2.5 py-1 rounded tracking-tighter border border-white/20">LEGO</div>
-          <span className="text-white font-semibold text-xs tracking-wider uppercase">education</span>
-        </motion.div>
-
-        {/* AZURE */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, 8, 0] }} 
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute bottom-[10%] left-[26%] w-32 h-32 rounded-3xl border border-sky-500/30 bg-zinc-900/40 backdrop-blur-2xl flex flex-col items-center justify-center p-3 shadow-2xl pointer-events-auto cursor-pointer"
-        >
-          <svg className="w-12 h-12 mb-1 object-contain" viewBox="0 0 96 96" fill="none">
-            <path d="M57.6 12L31.2 55.2L12 84H33.6L57.6 44.4L76.8 84H96L57.6 12Z" fill="#0078D4"/>
-            <path d="M12 84L38.4 44.4L57.6 12H38.4L0 73.2L12 84Z" fill="#50E6FF"/>
-          </svg>
-          <span className="text-sky-400 font-bold text-xs tracking-wider">Azure</span>
-        </motion.div>
-
-        {/* JAMF */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, -12, 0] }} 
-          transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-[30%] right-8 w-36 h-36 rounded-3xl border border-white/20 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center p-5 shadow-2xl pointer-events-auto cursor-pointer"
-        >
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-8 bg-[#7088A8] rounded-[3px]"></div>
-            <span className="text-zinc-200 font-light text-4xl tracking-tight font-sans leading-none pb-1">
-              jamf
-            </span>
-          </div>
-        </motion.div>
-
-        {/* UBTECH */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, 10, 0] }} 
-          transition={{ duration: 6.4, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-[52%] right-[4%] px-6 py-3 rounded-2xl border border-sky-400/30 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center shadow-xl h-14 pointer-events-auto cursor-pointer"
-        >
-          <span className="text-[#00A2E8] font-black text-xl tracking-wider">UBTECH</span>
-        </motion.div>
-
-        {/* SPHERO */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, -9, 0] }} 
-          transition={{ duration: 5.8, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-[72%] right-[22%] px-6 py-3 rounded-2xl border border-sky-500/30 bg-zinc-900/40 backdrop-blur-2xl shadow-xl h-14 flex items-center justify-center pointer-events-auto cursor-pointer"
-        >
-          <span className="text-[#00A9E0] font-bold text-lg tracking-wide flex items-center gap-2">
-            <span className="w-3.5 h-3.5 rounded-full border-2 border-[#00A9E0] inline-block"></span> sphero
-          </span>
-        </motion.div>
-
-        {/* HIWONDER */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, 11, 0] }} 
-          transition={{ duration: 7.1, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute bottom-[10%] right-[32%] px-6 py-3 rounded-2xl border border-orange-500/30 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center shadow-xl h-14 pointer-events-auto cursor-pointer"
-        >
-          <span className="text-[#F36C21] font-bold text-lg tracking-wide">Hiwonder</span>
-        </motion.div>
-
-        {/* ACEBOTT */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, -10, 0] }} 
-          transition={{ duration: 6.7, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute bottom-[6%] right-[8%] px-6 py-3 rounded-2xl border border-blue-600/30 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center shadow-xl h-14 pointer-events-auto cursor-pointer"
-        >
-          <span className="text-[#004B93] font-black text-lg tracking-widest">ACEBOTT</span>
-        </motion.div>
-      </motion.div>
+      {/* Small, factual technology references; not imitation brand marks. */}
+      <TechConstellation scrollProgress={scrollYProgress} />
 
       {/* Scroll Progress Line */}
       <motion.div
