@@ -652,7 +652,15 @@ export default function Home() {
             <motion.div 
               whileHover={{ y: -4 }} 
               onClick={() => setSelectedCaseStudy('Apple Enterprise')}
-              className="p-6 rounded-2xl bg-zinc-900/80 border border-zinc-800/80 backdrop-blur-xl relative overflow-hidden group hover:border-zinc-700 transition-all cursor-pointer"
+              role="button"
+              tabIndex={0}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  setSelectedCaseStudy('Apple Enterprise');
+                }
+              }}
+              className="p-6 rounded-2xl bg-zinc-900/80 border border-zinc-800/80 backdrop-blur-xl relative overflow-hidden group hover:border-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 transition-all cursor-pointer"
             >
               <div className="w-12 h-12 mb-4 rounded-xl bg-zinc-800/90 p-3 flex items-center justify-center">
                 <svg className="w-full h-full fill-white object-contain" viewBox="0 0 170 170">
@@ -672,7 +680,15 @@ export default function Home() {
             <motion.div 
               whileHover={{ y: -4 }} 
               onClick={() => setSelectedCaseStudy('Microsoft 365 & Azure')}
-              className="p-6 rounded-2xl bg-zinc-900/80 border border-zinc-800/80 backdrop-blur-xl relative overflow-hidden group hover:border-zinc-700 transition-all cursor-pointer"
+              role="button"
+              tabIndex={0}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  setSelectedCaseStudy('Microsoft 365 & Azure');
+                }
+              }}
+              className="p-6 rounded-2xl bg-zinc-900/80 border border-zinc-800/80 backdrop-blur-xl relative overflow-hidden group hover:border-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 transition-all cursor-pointer"
             >
               <div className="w-12 h-12 mb-4 rounded-xl bg-zinc-800/90 p-3 flex items-center justify-center">
                 <svg className="w-full h-full object-contain" viewBox="0 0 23 23">
@@ -695,7 +711,15 @@ export default function Home() {
             <motion.div 
               whileHover={{ y: -4 }} 
               onClick={() => setSelectedCaseStudy('SMART Tech Displays')}
-              className="p-6 rounded-2xl bg-zinc-900/80 border border-zinc-800/80 backdrop-blur-xl relative overflow-hidden group hover:border-zinc-700 transition-all cursor-pointer"
+              role="button"
+              tabIndex={0}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  setSelectedCaseStudy('SMART Tech Displays');
+                }
+              }}
+              className="p-6 rounded-2xl bg-zinc-900/80 border border-zinc-800/80 backdrop-blur-xl relative overflow-hidden group hover:border-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 transition-all cursor-pointer"
             >
               <div className="w-12 h-12 mb-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 p-3 flex items-center justify-center text-emerald-400">
                 <Monitor className="w-6 h-6" />
@@ -713,7 +737,15 @@ export default function Home() {
             <motion.div 
               whileHover={{ y: -4 }} 
               onClick={() => setSelectedCaseStudy('Innovation Labs & STEM')}
-              className="p-6 rounded-2xl bg-zinc-900/80 border border-zinc-800/80 backdrop-blur-xl relative overflow-hidden group hover:border-zinc-700 transition-all cursor-pointer"
+              role="button"
+              tabIndex={0}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  setSelectedCaseStudy('Innovation Labs & STEM');
+                }
+              }}
+              className="p-6 rounded-2xl bg-zinc-900/80 border border-zinc-800/80 backdrop-blur-xl relative overflow-hidden group hover:border-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 transition-all cursor-pointer"
             >
               <div className="w-12 h-12 mb-4 rounded-xl bg-purple-500/10 border border-purple-500/20 p-3 flex items-center justify-center text-purple-400">
                 <Bot className="w-6 h-6" />
@@ -736,6 +768,12 @@ export default function Home() {
         {selectedCaseStudy && currentModalData && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
             <motion.div 
+              role="dialog"
+              aria-modal="true"
+              aria-label={currentModalData.title}
+              onKeyDown={(event) => {
+                if (event.key === 'Escape') setSelectedCaseStudy(null);
+              }}
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
@@ -743,6 +781,8 @@ export default function Home() {
             >
               <button 
                 onClick={() => setSelectedCaseStudy(null)}
+                autoFocus
+                aria-label="Close case study"
                 className="absolute top-4 right-4 text-zinc-400 hover:text-white transition-colors"
               >
                 <X className="w-5 h-5" />
