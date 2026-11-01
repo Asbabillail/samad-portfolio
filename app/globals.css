@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+.samad-compact-story { display: none; }
+@media (max-width: 767px), (max-height: 620px) {
+  .samad-compact-story { display: block; }
+  .samad-pinned-story { display: none; }
+  .samad-linear-story article { background: linear-gradient(90deg, #031117e8, #03111799); padding: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  nav, [role="dialog"] { background: #09171c !important; backdrop-filter: none !important; }
+}

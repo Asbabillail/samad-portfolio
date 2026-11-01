@@ -1,14 +1,19 @@
 'use client';
 
+import CertificateGallery from '@/components/CertificateGallery';
 import YrefMatrixViewer from '@/components/ui/YrefMatrixViewer';
 import InteractiveInfrastructureSuite from "@/components/InteractiveInfrastructureSuite";
 import InfrastructureMap from '@/components/InfrastructureMap';
 import RfqDashboard from '@/components/RfqDashboard';
+import ScrollStory from '@/components/story/ScrollStory';
+import AppleGlassNav from '@/components/ui/AppleGlassNav';
+import PortfolioSpotlight from '@/components/ui/PortfolioSpotlight';
+import TechConstellation from '@/components/experience/TechConstellation';
+import dynamic from 'next/dynamic';
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import {
   Mail,
-  MapPin,
   ChevronRight,
   Terminal,
   Sparkles,
@@ -16,60 +21,31 @@ import {
   Volume2,
   VolumeX,
   X,
-  Activity,
   Server,
-  Layers,
   Cpu,
+  Layers,
   ShieldCheck,
   CheckCircle2,
   Wifi,
   Bot,
   Building2,
-  Award,
-  FileText,
   Download
 } from 'lucide-react';
 
-// --- SOUND EFFECT GENERATOR ---
-const playHoverSound = (enabled: boolean) => {
-  if (!enabled) return;
-  try {
-    const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-    const ctx = new AudioCtx();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(440, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.08);
-    
-    gain.gain.setValueAtTime(0.03, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
-    
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    
-    osc.start();
-    osc.stop(ctx.currentTime + 0.08);
-  } catch (e) {
-    // Audio context initialization fallback
-  }
-};
+// Load the WebGL environment only in the browser, outside the initial page bundle.
+const SamadWorld = dynamic(() => import('@/components/background/SamadWorld'), {
+  ssr: false,
+  loading: () => <div aria-hidden="true" className="fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,#0a2c2a_0%,#030b0c_52%,#020506_100%)]" />,
+});
 
 // --- FLUID BACKGROUND COMPONENT ---
 const FluidSmokeBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted || !canvasRef.current) return;
-    // @ts-ignore
+    if (!canvasRef.current) return;
     import('webgl-fluid')
-      .then((webGLFluid: any) => {
+      .then((webGLFluid) => {
         const fluid = webGLFluid.default || webGLFluid;
         if (canvasRef.current && typeof fluid === 'function') {
           fluid(canvasRef.current, {
@@ -103,9 +79,7 @@ const FluidSmokeBackground = () => {
         }
       })
       .catch((err) => console.error('WebGL Fluid error:', err));
-  }, [mounted]);
-
-  if (!mounted) return null;
+  }, []);
 
   return (
     <canvas
@@ -161,6 +135,7 @@ const CASE_STUDY_DETAILS: Record<string, {
 export default function Home() {
   const { scrollYProgress } = useScroll();
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const [showImmersiveWorld, setShowImmersiveWorld] = useState(true);
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [isCvOpen, setIsCvOpen] = useState(false);
   const [inputVal, setInputVal] = useState('');
@@ -217,164 +192,13 @@ export default function Home() {
   const currentModalData = selectedCaseStudy ? CASE_STUDY_DETAILS[selectedCaseStudy] : null;
 
   return (
-    <div className="min-h-screen text-zinc-100 font-sans selection:bg-emerald-500 selection:text-black relative overflow-hidden bg-zinc-950">
-      {/* Background Fluid Canvas */}
-      <FluidSmokeBackground />
+    <div className="min-h-screen text-zinc-100 font-sans selection:bg-emerald-500 selection:text-black relative overflow-x-clip bg-zinc-950">
+      {/* Immersive glass architecture; legacy fluid view is available as a fallback. */}
+      {showImmersiveWorld ? <SamadWorld /> : <FluidSmokeBackground />}
+      {showImmersiveWorld && <div aria-hidden="true" className="fixed inset-0 z-[1] pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.16)_0%,transparent_68%)]" />}
 
-      {/* --- FLOATING LOGO MATRIX --- */}
-      <div className="fixed inset-0 pointer-events-none z-10 overflow-hidden select-none">
-        {/* APPLE */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, -10, 0] }} 
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-12 left-8 w-36 h-36 rounded-3xl border border-white/20 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center p-7 shadow-2xl pointer-events-auto cursor-pointer hover:border-emerald-500/50 transition-colors"
-        >
-          <img src="https://cdn.simpleicons.org/apple/white" alt="Apple" className="w-full h-full object-contain filter drop-shadow-[0_0_12px_rgba(255,255,255,0.3)]" />
-        </motion.div>
-
-        {/* MICROSOFT */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, 10, 0] }} 
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-12 right-8 w-36 h-36 rounded-3xl border border-white/20 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center p-7 shadow-2xl pointer-events-auto cursor-pointer hover:border-sky-500/50 transition-colors"
-        >
-          <svg className="w-full h-full object-contain" viewBox="0 0 23 23">
-            <rect x="1" y="1" width="10" height="10" fill="#F25022"/>
-            <rect x="12" y="1" width="10" height="10" fill="#7FBA00"/>
-            <rect x="1" y="12" width="10" height="10" fill="#00A4EF"/>
-            <rect x="12" y="12" width="10" height="10" fill="#FFB900"/>
-          </svg>
-        </motion.div>
-
-        {/* SMART */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, -8, 0] }} 
-          transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-[18%] right-[22%] px-6 py-3 rounded-2xl border border-white/20 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center shadow-xl pointer-events-auto cursor-pointer hover:border-emerald-400/50 transition-colors"
-        >
-          <span className="text-white font-extrabold text-2xl tracking-tight font-sans">SMART<span className="text-sky-400">.</span></span>
-        </motion.div>
-
-        {/* PICO */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, 12, 0] }} 
-          transition={{ duration: 6.8, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-[26%] left-[16%] px-6 py-3 rounded-2xl border border-white/20 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center shadow-xl h-14 pointer-events-auto cursor-pointer"
-        >
-          <span className="text-white font-black text-2xl tracking-wider font-sans">PICO</span>
-        </motion.div>
-
-        {/* GOOGLE */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, -10, 0] }} 
-          transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-[44%] left-6 w-36 h-36 rounded-3xl border border-white/20 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center p-7 shadow-2xl pointer-events-auto cursor-pointer"
-        >
-          <svg className="w-full h-full object-contain" viewBox="0 0 24 24">
-            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
-            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.29v3.15C3.26 21.3 7.31 24 12 24z"/>
-            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.29C.47 8.21 0 10.05 0 12s.47 3.79 1.29 5.42l3.99-3.15z"/>
-            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.58l3.99 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
-          </svg>
-        </motion.div>
-
-        {/* MAKEBLOCK */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, 9, 0] }} 
-          transition={{ duration: 6.2, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-[66%] left-[12%] px-6 py-3 rounded-2xl border border-cyan-500/30 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center shadow-xl h-14 pointer-events-auto cursor-pointer"
-        >
-          <span className="text-[#00A0E9] font-extrabold text-xl tracking-tight">makeblock</span>
-        </motion.div>
-
-        {/* LEGO EDUCATION */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, -11, 0] }} 
-          transition={{ duration: 7.2, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute bottom-[10%] left-[6%] px-5 py-3 rounded-2xl border border-red-500/30 bg-zinc-900/40 backdrop-blur-2xl flex items-center gap-3 shadow-xl pointer-events-auto cursor-pointer"
-        >
-          <div className="bg-[#D01012] text-white font-black text-xs px-2.5 py-1 rounded tracking-tighter border border-white/20">LEGO</div>
-          <span className="text-white font-semibold text-xs tracking-wider uppercase">education</span>
-        </motion.div>
-
-        {/* AZURE */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, 8, 0] }} 
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute bottom-[10%] left-[26%] w-32 h-32 rounded-3xl border border-sky-500/30 bg-zinc-900/40 backdrop-blur-2xl flex flex-col items-center justify-center p-3 shadow-2xl pointer-events-auto cursor-pointer"
-        >
-          <svg className="w-12 h-12 mb-1 object-contain" viewBox="0 0 96 96" fill="none">
-            <path d="M57.6 12L31.2 55.2L12 84H33.6L57.6 44.4L76.8 84H96L57.6 12Z" fill="#0078D4"/>
-            <path d="M12 84L38.4 44.4L57.6 12H38.4L0 73.2L12 84Z" fill="#50E6FF"/>
-          </svg>
-          <span className="text-sky-400 font-bold text-xs tracking-wider">Azure</span>
-        </motion.div>
-
-        {/* JAMF */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, -12, 0] }} 
-          transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-[30%] right-8 w-36 h-36 rounded-3xl border border-white/20 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center p-5 shadow-2xl pointer-events-auto cursor-pointer"
-        >
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-8 bg-[#7088A8] rounded-[3px]"></div>
-            <span className="text-zinc-200 font-light text-4xl tracking-tight font-sans leading-none pb-1">
-              jamf
-            </span>
-          </div>
-        </motion.div>
-
-        {/* UBTECH */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, 10, 0] }} 
-          transition={{ duration: 6.4, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-[52%] right-[4%] px-6 py-3 rounded-2xl border border-sky-400/30 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center shadow-xl h-14 pointer-events-auto cursor-pointer"
-        >
-          <span className="text-[#00A2E8] font-black text-xl tracking-wider">UBTECH</span>
-        </motion.div>
-
-        {/* SPHERO */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, -9, 0] }} 
-          transition={{ duration: 5.8, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute top-[72%] right-[22%] px-6 py-3 rounded-2xl border border-sky-500/30 bg-zinc-900/40 backdrop-blur-2xl shadow-xl h-14 flex items-center justify-center pointer-events-auto cursor-pointer"
-        >
-          <span className="text-[#00A9E0] font-bold text-lg tracking-wide flex items-center gap-2">
-            <span className="w-3.5 h-3.5 rounded-full border-2 border-[#00A9E0] inline-block"></span> sphero
-          </span>
-        </motion.div>
-
-        {/* HIWONDER */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, 11, 0] }} 
-          transition={{ duration: 7.1, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute bottom-[10%] right-[32%] px-6 py-3 rounded-2xl border border-orange-500/30 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center shadow-xl h-14 pointer-events-auto cursor-pointer"
-        >
-          <span className="text-[#F36C21] font-bold text-lg tracking-wide">Hiwonder</span>
-        </motion.div>
-
-        {/* ACEBOTT */}
-        <motion.div 
-          onMouseEnter={() => playHoverSound(soundEnabled)}
-          animate={{ y: [0, -10, 0] }} 
-          transition={{ duration: 6.7, repeat: Infinity, ease: "easeInOut" }} 
-          className="absolute bottom-[6%] right-[8%] px-6 py-3 rounded-2xl border border-blue-600/30 bg-zinc-900/40 backdrop-blur-2xl flex items-center justify-center shadow-xl h-14 pointer-events-auto cursor-pointer"
-        >
-          <span className="text-[#004B93] font-black text-lg tracking-widest">ACEBOTT</span>
-        </motion.div>
-      </div>
+      {/* Small, factual technology references; not imitation brand marks. */}
+      <TechConstellation scrollProgress={scrollYProgress} />
 
       {/* Scroll Progress Line */}
       <motion.div
@@ -383,8 +207,8 @@ export default function Home() {
       />
 
       {/* Navigation Header */}
-      <nav className="fixed top-0 left-0 w-full z-40 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50 pointer-events-auto">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      <header className="fixed top-0 left-0 w-full z-40 bg-gradient-to-b from-[#02090c]/95 via-[#02090c]/65 to-transparent pointer-events-auto">
+        <div className="mx-auto flex max-w-[1450px] items-center justify-between gap-3 px-3 py-3 sm:px-5 xl:px-8">
           <div className="flex items-center gap-3">
             <button 
               onClick={() => setTerminalOpen(!terminalOpen)}
@@ -393,35 +217,49 @@ export default function Home() {
             >
               <Terminal className="w-5 h-5" />
             </button>
-            <span className="font-bold text-lg tracking-tight text-white">
+            <span className="whitespace-nowrap font-bold text-base tracking-tight text-white sm:text-lg">
               SAMAD-OS <span className="text-xs text-emerald-400 font-mono ml-1">v3.0</span>
             </span>
           </div>
 
-          <div className="hidden md:flex items-center gap-6 text-sm text-zinc-300 font-medium">
-            <a href="#about" className="hover:text-emerald-400 transition-colors">About</a>
-            <a href="#metrics" className="hover:text-emerald-400 transition-colors">Metrics</a>
-            <a href="#suite" className="hover:text-emerald-400 transition-colors">Architecture Suite</a>
-            <a href="#labs" className="hover:text-emerald-400 transition-colors">Labs & Networks</a>
-            <a href="#ecosystem" className="hover:text-emerald-400 transition-colors">Ecosystem</a>
-            <a href="#contact" className="hover:text-emerald-400 transition-colors">Contact</a>
-          </div>
+          <AppleGlassNav />
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <a 
               href="/Abdul_Samad_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-xs font-mono text-amber-400 bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-full hover:bg-amber-500/20 transition-all cursor-pointer"
+              className="flex min-h-10 items-center gap-2 rounded-full border border-amber-400/25 bg-amber-300/[0.07] px-3 py-1.5 font-mono text-xs text-amber-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-2xl transition-all hover:border-amber-300/45 hover:bg-amber-400/[0.13] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-200"
             >
               <Download className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">EXECUTIVE CV</span>
             </a>
 
+            <PortfolioSpotlight
+              immersive={showImmersiveWorld}
+              soundEnabled={soundEnabled}
+              onToggleWorld={() => setShowImmersiveWorld((current) => !current)}
+              onToggleSound={() => setSoundEnabled((current) => !current)}
+              onOpenTerminal={() => setTerminalOpen(true)}
+            />
+
+            {/* Accessible visual-mode toggle with no page reload. */}
+            <button
+              type="button"
+              onClick={() => setShowImmersiveWorld((current) => !current)}
+              aria-label={showImmersiveWorld ? 'Switch to classic fluid background' : 'Switch to immersive 3D background'}
+              aria-pressed={showImmersiveWorld}
+              title={showImmersiveWorld ? '3D Nexus active — switch to classic' : 'Classic background — switch to 3D Nexus'}
+              className="hidden min-h-10 items-center gap-1.5 rounded-full border border-emerald-300/20 bg-white/[0.05] px-3 py-2 text-emerald-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.14)] backdrop-blur-2xl transition-all hover:border-emerald-300/45 hover:bg-emerald-400/[0.11] focus-visible:ring-2 focus-visible:ring-emerald-200 sm:flex"
+            >
+              <Layers className="w-4 h-4" />
+              <span className="hidden lg:inline text-[10px] font-bold tracking-widest">{showImmersiveWorld ? '3D' : 'CLASSIC'}</span>
+            </button>
+
             {/* Sound Toggle Button */}
             <button 
               onClick={() => setSoundEnabled(!soundEnabled)}
-              className="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all"
+              className="hidden min-h-10 min-w-10 items-center justify-center rounded-full border border-white/[0.16] bg-white/[0.05] p-2 text-zinc-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-2xl transition-all hover:border-emerald-300/35 hover:bg-white/[0.1] focus-visible:ring-2 focus-visible:ring-emerald-200 sm:flex"
               title={soundEnabled ? "Mute Sound FX" : "Enable Sound FX"}
             >
               {soundEnabled ? <Volume2 className="w-4 h-4 text-emerald-400" /> : <VolumeX className="w-4 h-4" />}
@@ -429,13 +267,13 @@ export default function Home() {
 
             <a 
               href="#contact" 
-              className="px-4 py-2 text-xs font-semibold rounded-full bg-emerald-500 text-black hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20"
+              className="hidden min-h-10 items-center rounded-full bg-emerald-400 px-4 py-2 text-xs font-semibold text-[#061210] shadow-[0_8px_24px_rgba(52,211,153,0.18)] transition-all hover:bg-emerald-300 focus-visible:ring-2 focus-visible:ring-white xl:inline-flex"
             >
               Connect 
             </a> 
           </div>
         </div>
-      </nav>
+      </header>
 
       {/* --- INTERACTIVE TERMINAL DRAWER --- */}
       <AnimatePresence>
@@ -517,8 +355,18 @@ export default function Home() {
         </motion.div>
       </section>
 
+      {/* CINEMATIC STORY: real portfolio facts appear as the camera travels the 3D world. */}
+      {showImmersiveWorld && <ScrollStory />}
+
       {/* --- LIVE INFRASTRUCTURE METRICS DASHBOARD --- */}
-      <section id="metrics" className="py-12 px-6 relative z-20">
+      <motion.section
+        id="metrics"
+        initial={{ opacity: 0, y: 42 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.08 }}
+        transition={{ duration: 0.85, ease: "easeOut" }}
+        className="py-12 px-6 relative z-20"
+      >
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800/80 backdrop-blur-xl flex items-center gap-3">
@@ -551,26 +399,47 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* --- INTERACTIVE INFRASTRUCTURE SUITE COMPONENT --- */}
-      <section id="suite" className="py-12 px-6 relative z-20">
+      <motion.section
+        id="suite"
+        initial={{ opacity: 0, y: 42 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.08 }}
+        transition={{ duration: 0.85, ease: "easeOut" }}
+        className="py-12 px-6 relative z-20"
+      >
         <div className="max-w-6xl mx-auto space-y-6">
           <InteractiveInfrastructureSuite />
           <InfrastructureMap />
           <RfqDashboard />
         </div>
-      </section>
+      </motion.section>
 
       {/* --- YREF FRAMEWORK MATRIX SECTION --- */}
-      <section id="yref-matrix" className="py-12 px-6 relative z-20">
+      <motion.section
+        id="yref-matrix"
+        initial={{ opacity: 0, y: 42 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.08 }}
+        transition={{ duration: 0.85, ease: "easeOut" }}
+        className="py-12 px-6 relative z-20"
+      >
         <div className="max-w-6xl mx-auto">
            <YrefMatrixViewer />
         </div>
-      </section>
+      </motion.section>
 
       {/* --- LABS & NETWORK INFRASTRUCTURE DETAIL SECTION --- */}
-      <section id="labs" className="py-16 px-6 relative z-20">
+      <motion.section
+        id="labs"
+        initial={{ opacity: 0, y: 42 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.08 }}
+        transition={{ duration: 0.85, ease: "easeOut" }}
+        className="py-16 px-6 relative z-20"
+      >
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold tracking-tight mb-3 text-white">
@@ -641,10 +510,17 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* ECOSYSTEM / TECH STACK SECTION */}
-      <section id="ecosystem" className="py-20 px-6 relative z-20">
+      <motion.section
+        id="ecosystem"
+        initial={{ opacity: 0, y: 42 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.08 }}
+        transition={{ duration: 0.85, ease: "easeOut" }}
+        className="py-20 px-6 relative z-20"
+      >
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-white">
@@ -736,7 +612,7 @@ export default function Home() {
             </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* --- CASE STUDY MODAL --- */}
       <AnimatePresence>
@@ -795,11 +671,14 @@ export default function Home() {
         )}
       </AnimatePresence>
 
+      <CertificateGallery />
+
       {/* FOOTER */}
-      <footer id="contact" className="py-16 px-6 border-t border-zinc-900 bg-zinc-950/90 relative z-20 text-center backdrop-blur-md">
+      <footer id="contact" className="px-6 pt-16 pb-36 lg:pb-16 border-t border-zinc-900 bg-zinc-950/90 relative z-20 text-center backdrop-blur-md scroll-mt-24">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold mb-2 text-white">Let's Connect & Collaborate</h2>
+          <h2 className="text-2xl font-bold mb-2 text-white">Let&apos;s Connect & Collaborate</h2>
           <p className="text-zinc-400 text-sm mb-6">Building resilient enterprise environments and smart digital infrastructure.</p>
+          <a href="mailto:asbabillail@gmail.com" className="mb-8 inline-flex min-h-11 items-center gap-2 rounded-full border border-emerald-300/35 bg-emerald-300/10 px-6 py-3 text-sm text-emerald-100 transition hover:bg-emerald-300/20 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-200"><Mail className="h-4 w-4" aria-hidden="true" />asbabillail@gmail.com</a>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-zinc-400 text-sm">
             <span className="flex items-center gap-2"><Building2 className="w-4 h-4 text-emerald-400" /> Dammam – Khobar, Eastern Province, KSA</span>
             <span className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-emerald-400" /> Transferable Status</span>
