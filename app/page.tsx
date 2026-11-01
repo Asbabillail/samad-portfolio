@@ -1,5 +1,6 @@
 'use client';
 
+import CertificateGallery from '@/components/CertificateGallery';
 import YrefMatrixViewer from '@/components/ui/YrefMatrixViewer';
 import InteractiveInfrastructureSuite from "@/components/InteractiveInfrastructureSuite";
 import InfrastructureMap from '@/components/InfrastructureMap';
@@ -669,6 +670,8 @@ export default function Home() {
           </div>
         )}
       </AnimatePresence>
+
+      <CertificateGallery />
 
       {/* FOOTER */}
       <footer id="contact" className="px-6 pt-16 pb-36 lg:pb-16 border-t border-zinc-900 bg-zinc-950/90 relative z-20 text-center backdrop-blur-md scroll-mt-24">

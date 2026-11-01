@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import {
   Activity,
+  Award,
   Boxes,
   CircuitBoard,
   Compass,
@@ -17,6 +18,7 @@ const destinations = [
   { href: "#suite", label: "Architecture", icon: Boxes },
   { href: "#labs", label: "Labs", icon: CircuitBoard },
   { href: "#ecosystem", label: "Ecosystem", icon: FlaskConical },
+  { href: "#certificates", label: "Certificates", icon: Award },
   { href: "#contact", label: "Contact", icon: Mail },
 ] as const;
 
