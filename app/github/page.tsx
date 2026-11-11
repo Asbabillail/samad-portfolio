@@ -270,7 +270,7 @@ export default async function GithubDashboardPage() {
 
           {data.unavailable && (
             <p className={styles.loadMessage} role="status">
-              GitHub's public API is temporarily unavailable. Live counts are hidden rather than substituted with invented figures.
+              GitHub&apos;s public API is temporarily unavailable. Live counts are hidden rather than substituted with invented figures.
             </p>
           )}
 
@@ -340,7 +340,7 @@ export default async function GithubDashboardPage() {
                     </div>
                   </div>
                 );
-              }) : <p className={styles.mutedText}>Language data will appear when GitHub's public API is accessible.</p>}
+              }) : <p className={styles.mutedText}>Language data will appear when GitHub&apos;s public API is accessible.</p>}
               <p className={styles.mutedText}>Percentage of public, non-fork repositories whose <em>primary</em> language is known. Not a measure of lines of code or expertise.</p>
             </section>
 
