@@ -1,0 +1,91 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length 1321 >>
+stream
+BT
+/F1 10 Tf
+14 TL
+42 790 Td
+(PROJECT SAMAD - PHASE 004 - ENGINEERING QUALITY GATE) Tj
+T*
+(Date: 19 October 2026) Tj
+T*
+(Development branch: project-samad/phase-04-hardening) Tj
+T*
+(Production: unchanged; no merge or live release.) Tj
+T*
+() Tj
+T*
+(IMPLEMENTED) Tj
+T*
+(- Disabled ignoreBuildErrors in next.config.ts.) Tj
+T*
+(- Next.js now checks TypeScript during preview builds.) Tj
+T*
+() Tj
+T*
+(VERIFIED USING VERCEL) Tj
+T*
+(- Preview dpl_4NXx8dxJycQnrRhayCFLqUUD2WX4: READY.) Tj
+T*
+(- Old phase 3 build compiled but skipped TypeScript validation.) Tj
+T*
+(- New preview dpl_ET32yxU4eSTw4YcBvxyu2d7d3ex3: READY.) Tj
+T*
+(- New build compiled successfully and finished TypeScript check.) Tj
+T*
+(- Static homepage generated; build completed in 22 seconds.) Tj
+T*
+() Tj
+T*
+(REMAINING GATES) Tj
+T*
+(- ESLint run, mobile/keyboard browser testing not verified.) Tj
+T*
+(- 3D WebGL shader visual correctness and FPS not verified.) Tj
+T*
+(- Public resume, previous source history and case study details) Tj
+T*
+(  require a separate permissions and privacy audit.) Tj
+T*
+(- No public-release approval has been granted.) Tj
+T*
+() Tj
+T*
+(ROLLBACK) Tj
+T*
+(Leave main at baseline SHA 9002267.) Tj
+T*
+(Changes to this phase are isolated on development branch.) Tj
+T*
+() Tj
+T*
+(Evidence: Vercel deployment logs and GitHub commits.) Tj
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000311 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1683
+%%EOF
