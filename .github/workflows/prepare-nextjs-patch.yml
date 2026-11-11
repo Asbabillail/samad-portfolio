@@ -1,0 +1,44 @@
+name: Prepare Next.js production security patch
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/prepare-nextjs-patch.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.head_ref == 'security/nextjs-patch-2026-11-11' && github.event.pull_request.head.repo.full_name == 'Asbabillail/samad-portfolio'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout security branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: true
+      - name: Set up Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install reviewed Next.js security patch
+        run: npm install next@16.4.6 eslint-config-next@16.4.6 --save-exact --ignore-scripts
+      - name: Apply compatible transitive security patches
+        run: npm audit fix --ignore-scripts
+      - name: Verify application production build
+        run: npm run build
+      - name: Verify no high or critical production advisories
+        run: npm audit --omit=dev --audit-level=high
+      - name: Commit reviewed lockfile changes to security branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git diff --check
+          git add package.json package-lock.json
+          git diff --cached --quiet && { echo 'No dependency changes'; exit 0; }
+          git commit -m 'fix(security): patch Next.js and vulnerable dependencies'
+          git push origin HEAD:security/nextjs-patch-2026-11-11
