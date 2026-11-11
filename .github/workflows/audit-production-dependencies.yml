@@ -1,0 +1,41 @@
+name: Audit production dependencies
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/audit-production-dependencies.yml"
+      - "package.json"
+      - "package-lock.json"
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "22"
+          cache: "npm"
+      - name: Install from lockfile
+        run: npm ci --ignore-scripts
+      - name: Report production dependency advisories (no automatic upgrades)
+        shell: bash
+        run: |
+          npm audit --omit=dev --json > /tmp/prod-audit.json || true
+          node --input-type=module -e '
+            import fs from "node:fs";
+            const a = JSON.parse(fs.readFileSync("/tmp/prod-audit.json", "utf8"));
+            console.log("Production audit totals:", JSON.stringify(a.metadata?.vulnerabilities ?? {}));
+            for (const [name, v] of Object.entries(a.vulnerabilities ?? {})) {
+              const via = (v.via ?? []).map(x => typeof x === "string" ? x : x.title).slice(0, 3);
+              console.log(JSON.stringify({name,severity:v.severity,range:v.range,isDirect:v.isDirect,fixAvailable:v.fixAvailable,via}));
+            }
+          '
