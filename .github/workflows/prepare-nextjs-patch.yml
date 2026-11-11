@@ -28,7 +28,7 @@ jobs:
       - name: Install reviewed Next.js security patch
         run: npm install next@16.4.6 eslint-config-next@16.4.6 --save-exact --ignore-scripts
       - name: Apply compatible transitive security patches
-        run: npm audit fix --ignore-scripts
+        run: npm audit fix --ignore-scripts || true
       - name: Verify application production build
         run: npm run build
       - name: Verify no high or critical production advisories
