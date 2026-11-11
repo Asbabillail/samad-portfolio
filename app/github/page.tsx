@@ -7,7 +7,6 @@ import {
   Code2,
   FolderGit2,
   GitFork,
-  Github,
   Globe2,
   GraduationCap,
   Layers3,
@@ -22,7 +21,7 @@ export const metadata: Metadata = {
   title: "A4.s03 — Abdul Samad Babillail | GitHub Engineering Portfolio",
   description:
     "A premium GitHub-powered showcase of Abdul Samad Babillail's public engineering projects, infrastructure work, automation, and AI tooling.",
-  alternates: { canonical: "/github" },
+  alternates: { canonical: "https://my-samad-portfolio.vercel.app/github" },
 };
 
 const USERNAME = "Asbabillail";
@@ -221,7 +220,7 @@ function ProfileSidebar({ avatar }: { avatar: string }) {
             <Award size={16} aria-hidden="true" /> Certificates <ArrowUpRight size={14} aria-hidden="true" />
           </a>
           <a className={styles.quickLink} href={GITHUB} target="_blank" rel="noopener noreferrer">
-            <Github size={16} aria-hidden="true" /> GitHub profile <ArrowUpRight size={14} aria-hidden="true" />
+            <Code2 size={16} aria-hidden="true" /> GitHub profile <ArrowUpRight size={14} aria-hidden="true" />
           </a>
         </nav>
         <p className={styles.smallBrand}>A4.s03 · ENGINEERING IDENTITY</p>
