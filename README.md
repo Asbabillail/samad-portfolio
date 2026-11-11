@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SAMAD-OS · Professional Portfolio
 
-## Getting Started
+**Abdul Samad Babillail** · A4.s03
 
-First, run the development server:
+A Next.js portfolio that presents selected experience and work across **business development, enterprise IT infrastructure, workflow automation, and AI tooling**.
+
+**[Visit the live portfolio](https://my-samad-portfolio.vercel.app/)** · [GitHub profile and certificates](https://github.com/Asbabillail) · [LinkedIn](https://www.linkedin.com/in/abdul-samad-babillail-3bb342249/)
+
+## Purpose
+
+The portfolio is the **single destination for interactive case studies and professional work**. The GitHub profile is a separate, GitHub-native overview of public repositories, skills and certificates—not another portfolio application.
+
+The interface includes visual ways to explore selected engineering topics and public project work. Some demonstrations are illustrative; they should **not** be treated as real-time infrastructure monitoring or official institutional records.
+
+## Stack
+
+- **Frontend:** Next.js App Router, React, TypeScript, Tailwind CSS
+- **Interaction:** Framer Motion, Lucide icons, WebGL visual effects
+- **Delivery:** GitHub source control and Vercel deployment
+
+## Run locally
+
+Requires Node.js and npm compatible with the project's lockfile.
 
 ```bash
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+For a production build:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+## Repository structure
 
-To learn more about Next.js, take a look at the following resources:
+- `app/page.tsx` — primary portfolio experience
+- `components/` — interactive and reusable interface components
+- `app/github/page.tsx` — permanent redirect for links to the retired duplicate GitHub dashboard
+- `public/` — public media and assets
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Accuracy and privacy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Project examples are presented to communicate scope and approach; they do not imply that every demonstration is production-integrated or that planned features are completed. Do not commit employer-confidential diagrams, real student records, passwords, certificate verification identifiers, or private operational exports to this repository.
 
-## Deploy on Vercel
+## Profile and contact
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+For the current professional summary, links to public work, and the full **20-image certificate gallery**, visit [github.com/Asbabillail](https://github.com/Asbabillail). For more detailed project demonstrations, use the [live portfolio](https://my-samad-portfolio.vercel.app/).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+© Abdul Samad Babillail · A4.s03
